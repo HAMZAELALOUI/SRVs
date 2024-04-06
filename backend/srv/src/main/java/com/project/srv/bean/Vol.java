@@ -12,7 +12,7 @@ public class Vol {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idVol;
 
-    private String compagnieAerienne;
+    private String destination;
     private LocalDateTime heureDepart;
     private LocalDateTime heureArrivee;
     private float prix;
@@ -24,9 +24,9 @@ public class Vol {
 
     }
 
-    public Vol(int idVol, String compagnieAerienne, LocalDateTime heureDepart, LocalDateTime heureArrivee, float prix, int placesDisponibles, Ville ville) {
+    public Vol(int idVol, String destination, LocalDateTime heureDepart, LocalDateTime heureArrivee, float prix, int placesDisponibles, Ville ville) {
         this.idVol = idVol;
-        this.compagnieAerienne = compagnieAerienne;
+        this.destination = destination;
         this.heureDepart = heureDepart;
         this.heureArrivee = heureArrivee;
         this.prix = prix;
@@ -43,12 +43,12 @@ public class Vol {
         this.idVol = idVol;
     }
 
-    public String getCompagnieAerienne() {
-        return compagnieAerienne;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setCompagnieAerienne(String compagnieAerienne) {
-        this.compagnieAerienne = compagnieAerienne;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     public LocalDateTime getHeureDepart() {
