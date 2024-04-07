@@ -1,11 +1,15 @@
 package com.project.srv.bean;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
+
 
 
 @Entity
+@JsonIgnoreProperties
 public class Vol {
 
     @Id
@@ -13,18 +17,19 @@ public class Vol {
     private int idVol;
 
     private String destination;
-    private LocalDateTime heureDepart;
-    private LocalDateTime heureArrivee;
+    private LocalDate heureDepart;
+    private LocalDate heureArrivee;
     private float prix;
     private int placesDisponibles;
-    @ManyToOne
+
+    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Ville ville;
 
     public Vol() {
 
     }
 
-    public Vol(int idVol, String destination, LocalDateTime heureDepart, LocalDateTime heureArrivee, float prix, int placesDisponibles, Ville ville) {
+    public Vol(int idVol, String destination, LocalDate heureDepart, LocalDate heureArrivee, float prix, int placesDisponibles, Ville ville) {
         this.idVol = idVol;
         this.destination = destination;
         this.heureDepart = heureDepart;
@@ -51,19 +56,19 @@ public class Vol {
         this.destination = destination;
     }
 
-    public LocalDateTime getHeureDepart() {
+    public LocalDate getHeureDepart() {
         return heureDepart;
     }
 
-    public void setHeureDepart(LocalDateTime heureDepart) {
+    public void setHeureDepart(LocalDate heureDepart) {
         this.heureDepart = heureDepart;
     }
 
-    public LocalDateTime getHeureArrivee() {
+    public LocalDate getHeureArrivee() {
         return heureArrivee;
     }
 
-    public void setHeureArrivee(LocalDateTime heureArrivee) {
+    public void setHeureArrivee(LocalDate heureArrivee) {
         this.heureArrivee = heureArrivee;
     }
 

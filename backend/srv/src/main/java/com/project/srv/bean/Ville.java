@@ -1,8 +1,12 @@
 package com.project.srv.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
+@JsonIgnoreProperties
 public class Ville {
 
     @Id
@@ -12,8 +16,8 @@ public class Ville {
     private String nom;
 
     private String pays;
-    @ManyToOne
-    private Vol vol;
+    @OneToMany (cascade = CascadeType.ALL)
+    private List<Vol> vol;
     public Ville() {
     }
 
