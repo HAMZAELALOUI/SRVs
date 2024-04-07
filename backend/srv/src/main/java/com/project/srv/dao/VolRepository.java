@@ -21,8 +21,15 @@ public interface VolRepository extends JpaRepository<Vol, Long> {
 
     List<Vol> findByVille(Ville ville);
 
-    List<Vol> findByDepartureDateBetween(LocalDate heureDepart, LocalDate heureArrivee);
 
-    List<Vol> findByDestinationAndDepartureDate(String destination, LocalDate heureDepart);
+    void deleteByDestination(String destination);
+
+    void deleteByHeureDepart(LocalDate heureDepart);
+
+    void deleteByHeureArrivee(LocalDate heureArrivee);
+
+    void deleteByPrix(float prix);
+
+    void deleteByVille(Ville ville);
 
 }

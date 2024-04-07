@@ -17,4 +17,13 @@ public interface VilleRepository extends JpaRepository<Ville, Long> {
 
     List<Ville> findByNomAndPays(String nom, String pays);
 
+
+    void deleteByNom(String nom);
+
+    void deleteByPays(String pays);
+
+    void deleteByNomContainingIgnoreCase(String nom);
+
+    void deleteByNomAndPays(String nom, String pays);
+
 }
