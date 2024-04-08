@@ -33,11 +33,25 @@ public class VolService {
         return volRepository.findByVille(ville);
     }
 
-    public void deleteVolByDestination(String destination) { volRepository.deleteByDestination(destination); }
-    public void deleteVolByHeureDepart(LocalDate heureDepart) { volRepository.deleteByHeureDepart(heureDepart); }
-    public void deleteVolByHeureArrivee(LocalDate heureArrivee) { volRepository.deleteByHeureArrivee(heureArrivee); }
-    public void deleteVolByPrix(float prix) { volRepository.deleteByPrix(prix); }
-    public void deleteAllVols() { volRepository.deleteAll(); }
+    public void deleteVolByDestination(String destination) {
+        volRepository.deleteByDestination(destination);
+    }
+
+    public void deleteVolByHeureDepart(LocalDate heureDepart) {
+        volRepository.deleteByHeureDepart(heureDepart);
+    }
+
+    public void deleteVolByHeureArrivee(LocalDate heureArrivee) {
+        volRepository.deleteByHeureArrivee(heureArrivee);
+    }
+
+    public void deleteVolByPrix(float prix) {
+        volRepository.deleteByPrix(prix);
+    }
+
+    public void deleteAllVols() {
+        volRepository.deleteAll();
+    }
 
     @Autowired
     private VolRepository volRepository;

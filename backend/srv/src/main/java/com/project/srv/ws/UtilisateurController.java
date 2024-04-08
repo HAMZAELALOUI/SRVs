@@ -46,33 +46,28 @@ public class UtilisateurController {
         return utilisateurSevice.findByAge(age);
     }
 
-    @Transactional
     @DeleteMapping("/email/{email}")
     public Utilisateur deleteByEmail(@PathVariable String email) {
         return utilisateurSevice.deleteByEmail(email);
     }
 
-    @Transactional
     @DeleteMapping("/name/{name}")
     public Utilisateur deleteByName(@PathVariable String name) {
         return utilisateurSevice.deleteByName(name);
     }
 
-    @Transactional
     @DeleteMapping("/address/{address}")
     public Utilisateur deleteByAddress(@PathVariable String address) {
         return utilisateurSevice.deleteByAddress(address);
     }
 
-    @Transactional
     @DeleteMapping("/Phone/{Phone}")
-    public Utilisateur deleteByPhone(String Phone) {
+    public Utilisateur deleteByPhone(@PathVariable String Phone) {
         return utilisateurSevice.deleteByPhone(Phone);
     }
 
-    @Transactional
     @DeleteMapping("/age/{age}")
-    public Utilisateur deleteByAge(Integer age) {
+    public Utilisateur deleteByAge(@PathVariable Integer age) {
         return utilisateurSevice.deleteByAge(age);
     }
 
@@ -85,12 +80,10 @@ public class UtilisateurController {
         return utilisateurSevice.count();
     }
 
-    @Transactional
     @DeleteMapping("/id/{id}")
     public void deleteById(@PathVariable("id") Long aLong) {
         utilisateurSevice.deleteById(aLong);
     }
-
 
 
     public void inscrir() {
@@ -106,8 +99,19 @@ public class UtilisateurController {
     }
 
     @GetMapping("/id/{id}")
-    public Optional<Utilisateur> findById(Long aLong) {
+    public Optional<Utilisateur> findById(@PathVariable("id") Long aLong) {
         return utilisateurSevice.findById(aLong);
+    }
+
+//    @GetMapping("/login/email/{email}/password/{password}")
+//    public int loginUser(@PathVariable String email,@PathVariable String password) {
+//        return utilisateurSevice.loginUser(email, password);
+//    }
+
+
+    @PutMapping("/updateUtilisateur")
+    public int update(@RequestBody Utilisateur utilisateur) {
+        return utilisateurSevice.update(utilisateur);
     }
 
     @Autowired

@@ -14,6 +14,7 @@ public class Utilisateur {
     private String password;
     private String address;
     private String profilePicture;
+
     public String getPhone() {
         return phone;
     }
@@ -23,12 +24,6 @@ public class Utilisateur {
     }
 
 
-
-
-
-
-
-
     public Integer getAge() {
         return age;
     }
@@ -36,7 +31,6 @@ public class Utilisateur {
     public void setAge(Integer age) {
         this.age = age;
     }
-
 
 
     public Long getId() {

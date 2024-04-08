@@ -38,6 +38,7 @@ public class VolController {
     public List<Vol> findByDestination(@PathVariable String destination) {
         return volService.findByDestination(destination);
     }
+
     @GetMapping("/{heureDepart}")
     public List<Vol> findByHeureDepart(@PathVariable LocalDate heureDepart) {
         return volService.findByHeureDepart(heureDepart);
@@ -88,19 +89,29 @@ public class VolController {
     }
 
     @DeleteMapping("/{destination}")
-    public void deleteVolByDestination(@PathVariable String destination) { volService.deleteVolByDestination(destination); }
+    public void deleteVolByDestination(@PathVariable String destination) {
+        volService.deleteVolByDestination(destination);
+    }
 
     @DeleteMapping("/{heureDepart}")
-    public void deleteVolByHeureDepart(@PathVariable LocalDate heureDepart) { volService.deleteVolByHeureDepart(heureDepart); }
+    public void deleteVolByHeureDepart(@PathVariable LocalDate heureDepart) {
+        volService.deleteVolByHeureDepart(heureDepart);
+    }
 
 
     @DeleteMapping("/{heureArrivee}")
-    public void deleteVolByArrivee(@PathVariable LocalDate heureArrivee) { volService.deleteVolByHeureArrivee(heureArrivee); }
+    public void deleteVolByArrivee(@PathVariable LocalDate heureArrivee) {
+        volService.deleteVolByHeureArrivee(heureArrivee);
+    }
 
     @DeleteMapping("/{prix}")
-    public void deleteVolByPrix(@PathVariable float prix) { volService.deleteVolByPrix(prix); }
+    public void deleteVolByPrix(@PathVariable float prix) {
+        volService.deleteVolByPrix(prix);
+    }
 
     @DeleteMapping("/")
-    public void deleteAllVols() { volService.deleteAllVols(); }
+    public void deleteAllVols() {
+        volService.deleteAllVols();
+    }
 
 }

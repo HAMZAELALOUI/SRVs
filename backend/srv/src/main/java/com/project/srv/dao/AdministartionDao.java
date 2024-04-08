@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AdministartionDao extends JpaRepository<Administration,Long> {
+public interface AdministartionDao extends JpaRepository<Administration, Long> {
 
     Administration findByName(String name);
 

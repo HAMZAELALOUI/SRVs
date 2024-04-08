@@ -3,6 +3,7 @@ package com.project.srv.bean;
 import jakarta.persistence.*;
 
 import java.util.List;
+
 @Entity
 public class Administration {
 
@@ -11,7 +12,6 @@ public class Administration {
     private Long id;
     private String name;
     private String password;
-    private Integer AccessLevel;
 
     public Long getId() {
         return id;
@@ -35,14 +35,6 @@ public class Administration {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Integer getAccessLevel() {
-        return AccessLevel;
-    }
-
-    public void setAccessLevel(Integer accessLevel) {
-        AccessLevel = accessLevel;
     }
 
 

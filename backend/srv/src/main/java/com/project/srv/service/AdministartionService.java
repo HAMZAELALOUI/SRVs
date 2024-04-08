@@ -1,7 +1,6 @@
 package com.project.srv.service;
 
 
-
 import com.project.srv.bean.Administration;
 import com.project.srv.dao.AdministartionDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +14,31 @@ import java.util.Optional;
 public class AdministartionService {
 
 
-
     //todo
-    public void seConnecter(){}
-    public void gererUtilsateurs(){}
-    public void gererVoyages(){}
-    public void gererReservations(){}
-    public void gererPaiement(){}
-    public void gererActivities(){}
-    public void gererHotels(){}
-    public void gererVols(){}
-     //end todo
+    public void seConnecter() {
+    }
+
+    public void gererUtilsateurs() {
+    }
+
+    public void gererVoyages() {
+    }
+
+    public void gererReservations() {
+    }
+
+    public void gererPaiement() {
+    }
+
+    public void gererActivities() {
+    }
+
+    public void gererHotels() {
+    }
+
+    public void gererVols() {
+    }
+    //end todo
 
 
     public Administration findByName(String name) {
@@ -42,5 +55,5 @@ public class AdministartionService {
     }
 
     @Autowired
-  AdministartionDao administartionDao;
+    AdministartionDao administartionDao;
 }

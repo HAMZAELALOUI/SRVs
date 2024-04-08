@@ -15,9 +15,42 @@ import java.util.Optional;
 public class UtilisateurSevice {
 
     public int save(Utilisateur utilisateur) {
-            utilisateurDao.save(utilisateur);
-            return 1;
-   }
+        utilisateurDao.save(utilisateur);
+        return 1;
+    }
+
+//    public int save(Utilisateur utilisateur) {
+//        // Check if a user with the same email already exists
+//        if (utilisateurDao.findByEmail(utilisateur.getEmail()) != null) {
+//            return -1; // User already exists
+//        } else {
+//            // Encode the password
+//            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//            String encryptedPwd = bCryptPasswordEncoder.encode(utilisateur.getPassword());
+//            utilisateur.setPassword(encryptedPwd);
+//
+//            // Save the user
+//            utilisateurDao.save(utilisateur);
+//            return 1; // User created successfully
+//        }
+//    }
+//
+//
+//    public int loginUser(String email, String password) {
+//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        Utilisateur utilisateur = findByEmail(email);
+//        if (utilisateur == null) {
+//            return -1;
+//        }else if (!bCryptPasswordEncoder.matches(password, utilisateur.getPassword())) {
+//            return -2;
+//        }else {
+//            if (utilisateur.getEmail().equals("admin@gmail.com")){
+//                return 1;
+//            }else {
+//                return 2;
+//            }
+//        }
+//    }
 
     public Utilisateur findByEmail(String email) {
         return utilisateurDao.findByEmail(email);
@@ -59,6 +92,7 @@ public class UtilisateurSevice {
     public Utilisateur deleteByPhone(String Phone) {
         return utilisateurDao.deleteByPhone(Phone);
     }
+
     @Transactional
     public Utilisateur deleteByAge(Integer age) {
         return utilisateurDao.deleteByAge(age);
@@ -71,6 +105,7 @@ public class UtilisateurSevice {
     public long count() {
         return utilisateurDao.count();
     }
+
     @Transactional
     public void deleteById(Long aLong) {
         utilisateurDao.deleteById(aLong);
@@ -81,14 +116,38 @@ public class UtilisateurSevice {
     }
 
     //todo
-    public void inscrir(){}
-    public void seConnecter(){}
-    public void modifierProfile(){}
+    public void inscrir() {
+    }
+
+    public void seConnecter() {
+    }
+
+    public void modifierProfile() {
+    }
     //end todo
 
     public Optional<Utilisateur> findById(Long aLong) {
         return utilisateurDao.findById(aLong);
     }
+
+
+    public int update(Utilisateur utilisateur) {
+        Optional<Utilisateur> userOpt = utilisateurDao.findById(utilisateur.getId());
+        if (userOpt.isPresent()) {
+            Utilisateur user = userOpt.get();
+            user.setName(utilisateur.getName());
+            user.setEmail(utilisateur.getEmail());
+            user.setPhone(utilisateur.getPhone());
+            user.setProfilePicture(utilisateur.getProfilePicture());
+            user.setPassword(utilisateur.getPassword());
+            utilisateurDao.save(user);
+            return 1; // User updated successfully
+        } else {
+            utilisateurDao.save(utilisateur);
+            return 2; // New user created
+        }
+    }
+
 
     @Autowired
     UtilisateurDao utilisateurDao;

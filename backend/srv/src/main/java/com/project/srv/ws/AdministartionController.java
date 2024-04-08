@@ -12,12 +12,12 @@ import java.util.Optional;
 @RequestMapping("/srv/admin")
 public class AdministartionController {
 
-@GetMapping("/name/{name}")
+    @GetMapping("/name/{name}")
     public Administration findByName(@PathVariable String name) {
         return administartionService.findByName(name);
     }
 
-   @GetMapping("/id/{id}")
+    @GetMapping("/id/{id}")
     public Optional<Administration> findById(@PathVariable("id") Long aLong) {
         return administartionService.findById(aLong);
     }
@@ -27,6 +27,7 @@ public class AdministartionController {
     public void deleteById(@PathVariable("id") Long aLong) {
         administartionService.deleteById(aLong);
     }
+
     public void seConnecter() {
         administartionService.seConnecter();
     }
@@ -58,7 +59,6 @@ public class AdministartionController {
     public void gererVols() {
         administartionService.gererVols();
     }
-
 
 
     @Autowired

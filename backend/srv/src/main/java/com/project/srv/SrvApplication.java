@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SrvApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SrvApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SrvApplication.class, args);
+    }
 
 }
