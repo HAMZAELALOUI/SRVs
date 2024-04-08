@@ -1,0 +1,34 @@
+package com.project.srv.dao;
+
+
+import com.project.srv.bean.Hotel;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface HotelRepository extends JpaRepository<Hotel, Long> {
+    // Méthode pour rechercher des hôtels par emplacement
+    List<Hotel> findByEmplacement(String emplacement);
+
+    // Méthode pour rechercher des hôtels par nombre d'étoiles
+    List<Hotel> findByNombreEtoiles(int nombreEtoiles);
+
+    List<Hotel> findHotelByReservationsId(Long reservationId);
+
+
+    // Méthode pour rechercher des hôtels par nom
+    List<Hotel> findByNom(String nom);
+
+    // Méthode pour supprimer des hôtels par emplacement
+    void deleteByEmplacement(String emplacement);
+
+    // Méthode pour supprimer des hôtels par nombre d'étoiles
+    void deleteByNombreEtoiles(int nombreEtoiles);
+
+    // Méthode pour supprimer des hôtels par nom
+    void deleteByNom(String nom);
+    List<Hotel> findByPrixChambresBetween(double prixMin, double prixMax);
+    List<Hotel> findByPrixChambresLessThan(double prixMax);
+}
