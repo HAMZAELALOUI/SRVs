@@ -103,10 +103,10 @@ public class UtilisateurController {
         return utilisateurSevice.findById(aLong);
     }
 
-//    @GetMapping("/login/email/{email}/password/{password}")
-//    public int loginUser(@PathVariable String email,@PathVariable String password) {
-//        return utilisateurSevice.loginUser(email, password);
-//    }
+    @GetMapping("/login/email/{email}/password/{password}")
+    public int loginUser(@PathVariable String email,@PathVariable String password) {
+        return utilisateurSevice.loginUser(email, password);
+    }
 
 
     @PutMapping("/updateUtilisateur")

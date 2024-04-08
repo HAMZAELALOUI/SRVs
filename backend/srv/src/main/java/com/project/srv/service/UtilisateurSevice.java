@@ -6,6 +6,7 @@ import com.project.srv.dao.UtilisateurDao;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,43 +15,51 @@ import java.util.Optional;
 @Service
 public class UtilisateurSevice {
 
+//    public int save(Utilisateur utilisateur) {
+//        utilisateurDao.save(utilisateur);
+//        return 1;
+//    }
+
     public int save(Utilisateur utilisateur) {
-        utilisateurDao.save(utilisateur);
-        return 1;
+        // Check if a user with the same email already exists
+        if (utilisateurDao.findByEmail(utilisateur.getEmail()) != null) {
+            return -1; // User already exists
+        } else {
+            // Encode the password
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String encryptedPwd = bCryptPasswordEncoder.encode(utilisateur.getPassword());
+            utilisateur.setPassword(encryptedPwd);
+
+            // Save the user
+            utilisateurDao.save(utilisateur);
+            return 1; // User created successfully
+        }
     }
 
-//    public int save(Utilisateur utilisateur) {
-//        // Check if a user with the same email already exists
-//        if (utilisateurDao.findByEmail(utilisateur.getEmail()) != null) {
-//            return -1; // User already exists
-//        } else {
-//            // Encode the password
-//            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//            String encryptedPwd = bCryptPasswordEncoder.encode(utilisateur.getPassword());
-//            utilisateur.setPassword(encryptedPwd);
-//
-//            // Save the user
-//            utilisateurDao.save(utilisateur);
-//            return 1; // User created successfully
-//        }
-//    }
-//
-//
-//    public int loginUser(String email, String password) {
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        Utilisateur utilisateur = findByEmail(email);
-//        if (utilisateur == null) {
-//            return -1;
-//        }else if (!bCryptPasswordEncoder.matches(password, utilisateur.getPassword())) {
-//            return -2;
-//        }else {
-//            if (utilisateur.getEmail().equals("admin@gmail.com")){
-//                return 1;
-//            }else {
-//                return 2;
-//            }
-//        }
-//    }
+
+    public int loginUser(String email, String password) {
+
+        Utilisateur utilisateur = findByEmail(email);
+        if (utilisateur == null) {
+            return -1;
+        }else if (!bCryptPasswordEncoder.matches(password, utilisateur.getPassword())) {
+            return -2;
+        }else {
+            if (utilisateur.getEmail().equals("admin@gmail.com")){
+                return 1;
+            }else {
+                return 2;
+            }
+        }
+    }
+
+    public BCryptPasswordEncoder getPasswordEncoder() {
+        return bCryptPasswordEncoder;
+    }
+
+    public void setPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     public Utilisateur findByEmail(String email) {
         return utilisateurDao.findByEmail(email);
@@ -151,4 +160,7 @@ public class UtilisateurSevice {
 
     @Autowired
     UtilisateurDao utilisateurDao;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
 }
