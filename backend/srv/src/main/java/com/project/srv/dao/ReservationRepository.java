@@ -14,4 +14,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // Méthode pour supprimer des réservations par ID de l'hôtel associé
     void deleteByHotelId(Long hotelId);
 
+    Reservation findReservationById(Long id);
+
 }

@@ -14,6 +14,12 @@ public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
 
+
+
+
+    public  Reservation findReservationById(Long id) {
+        return reservationRepository.findReservationById(id);
+    }
     public List<Reservation> findByHotelId(Long hotelId) {
         return reservationRepository.findByHotelId(hotelId);
     }

@@ -2,12 +2,16 @@ package com.project.srv.bean;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class Paiement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String ref;
+    private LocalDateTime datePaiement;
 
     private String modePaiement;
     private double montant;
@@ -15,11 +19,19 @@ public class Paiement {
     private String dateExpiration;
     private String titulaireCarte;
 
-
     @OneToOne
     private Reservation reservation;
 
+    // Getter et setter pour le champ ref
+    public String getRef() {
+        return ref;
+    }
 
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+
+    // Autres getter et setter
     public Long getId() {
         return id;
     }
@@ -74,5 +86,13 @@ public class Paiement {
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
+    }
+
+    public LocalDateTime getDatePaiement() {
+        return datePaiement;
+    }
+
+    public void setDatePaiement(LocalDateTime datePaiement) {
+        this.datePaiement = datePaiement;
     }
 }

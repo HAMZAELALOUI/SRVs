@@ -5,11 +5,18 @@ import com.project.srv.bean.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface PaiementRepository extends JpaRepository<Paiement, Long>{
     List<Paiement> findByModePaiement(String modePaiement);
+    Paiement findByRef(String ref);
+
+    List<Paiement> findByDatePaiement(LocalDateTime datePaiement);
+
+    int deleteByDatePaiement(LocalDateTime datePaiement);
+
 
     // Méthode pour rechercher des paiements par montant
     List<Paiement> findByMontant(double montant);

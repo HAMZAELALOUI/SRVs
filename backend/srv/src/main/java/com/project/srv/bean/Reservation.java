@@ -10,7 +10,8 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
+    @OneToOne
+    private Paiement paiement;
     @ManyToOne
     private Hotel hotel;
 

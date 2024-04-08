@@ -87,6 +87,9 @@ public class HotelService {
     public List<Hotel> findByPrixChambresLessThan(double prixMax) {
         return hotelRepository.findByPrixChambresLessThan(prixMax);
     }
+    public List<Hotel> findByPrixChambresBetween(double prixMin, double prixMax) {
+        return hotelRepository.findByPrixChambresBetween(prixMin, prixMax);
+    }
 
 
 }

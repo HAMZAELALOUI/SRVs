@@ -20,6 +20,10 @@ public class ReservationWs {
         return reservationService.findByHotelId(hotelId);
     }
 
+    @GetMapping("/{id}")
+    public Reservation getReservationById(@PathVariable Long id) {
+        return reservationService.findReservationById(id);
+    }
     @DeleteMapping("/hotel/{hotelId}")
     @Transactional
     public void deleteByHotelId(@PathVariable Long hotelId) {
