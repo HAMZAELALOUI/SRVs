@@ -1,6 +1,5 @@
 package com.project.srv.ws;
 
-
 import com.project.srv.bean.Paiement;
 import com.project.srv.bean.Reservation;
 import com.project.srv.service.PaiementService;
@@ -21,6 +20,7 @@ public class PaiementWs {
     public Paiement findByRef(@PathVariable String ref) {
         return paiementService.findByRef(ref);
     }
+
     @GetMapping("/mode/{modePaiement}")
     public List<Paiement> findByModePaiement(@PathVariable String modePaiement) {
         return paiementService.findByModePaiement(modePaiement);
@@ -80,10 +80,10 @@ public class PaiementWs {
     public void deleteByTitulaireCarte(@PathVariable String titulaireCarte) {
         paiementService.deleteByTitulaireCarte(titulaireCarte);
     }
+
     @PostMapping("/save")
     @Transactional
     public int savePaiement(@RequestBody Paiement paiement) {
         return paiementService.savePaiement(paiement);
     }
-    // Vous pouvez ajouter d'autres méthodes de web service personnalisées ici si nécessaire
 }

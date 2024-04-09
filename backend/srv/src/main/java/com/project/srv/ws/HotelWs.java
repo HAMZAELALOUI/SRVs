@@ -1,6 +1,5 @@
 package com.project.srv.ws;
 
-
 import com.project.srv.bean.Hotel;
 import com.project.srv.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,10 +57,12 @@ public class HotelWs {
     public int saveHotel(@RequestBody Hotel hotel) {
         return hotelService.saveHotel(hotel);
     }
+
     @PutMapping("/update")
     public int updateHotel(@RequestBody Hotel hotel) {
         return hotelService.updateHotel(hotel);
     }
+
     @GetMapping("/prixChambres/lessThan/{prixMax}")
     public List<Hotel> findByPrixChambresLessThan(@PathVariable double prixMax) {
         return hotelService.findByPrixChambresLessThan(prixMax);
@@ -70,5 +71,11 @@ public class HotelWs {
     @GetMapping("/prixChambres/between/{prixMin}/{prixMax}")
     public List<Hotel> findByPrixChambresBetween(@PathVariable double prixMin, @PathVariable double prixMax) {
         return hotelService.findByPrixChambresBetween(prixMin, prixMax);
+    }
+
+    // Endpoint pour rechercher un hôtel par son identifiant
+    @GetMapping("/{id}")
+    public Hotel getHotelById(@PathVariable Long id) {
+        return hotelService.findById(id).orElse(null);
     }
 }

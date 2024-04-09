@@ -1,12 +1,12 @@
 package com.project.srv.service;
 
-
 import com.project.srv.bean.Paiement;
 import com.project.srv.bean.Reservation;
 import com.project.srv.dao.PaiementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,8 +16,10 @@ public class PaiementService {
 
     @Autowired
     private PaiementRepository paiementRepository;
+
     @Autowired
     private ReservationService reservationService;
+
     public Paiement findByRef(String ref) {
         return paiementRepository.findByRef(ref);
     }
@@ -70,7 +72,7 @@ public class PaiementService {
         return paiementRepository.findByDatePaiement(datePaiement);
     }
 
-    @jakarta.transaction.Transactional
+    @Transactional
     public int deleteByDatePaiement(LocalDateTime datePaiement) {
         return paiementRepository.deleteByDatePaiement(datePaiement);
     }
@@ -102,12 +104,10 @@ public class PaiementService {
         }
 
         // Vérifie si le montant du paiement est valide
-        // Vérifie si le montant du paiement est valide
         BigDecimal montant = BigDecimal.valueOf(paiement.getMontant());
         if (montant.compareTo(BigDecimal.ZERO) <= 0) {
             return -3; // Retourne -3 pour indiquer que le montant du paiement est invalide
         }
-
 
         // Sauvegarde le paiement dans la base de données
         paiementRepository.save(paiement);
@@ -120,8 +120,6 @@ public class PaiementService {
 
         return 1; // Retourne 1 pour indiquer que le paiement a été sauvegardé avec succès
     }
-}
-
 
     // Vous pouvez ajouter d'autres méthodes de service personnalisées ici si nécessaire
-
+}

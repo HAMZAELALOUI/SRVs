@@ -7,16 +7,16 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface PaiementRepository extends JpaRepository<Paiement, Long>{
+public interface PaiementRepository extends JpaRepository<Paiement, Long> {
     List<Paiement> findByModePaiement(String modePaiement);
     Paiement findByRef(String ref);
 
     List<Paiement> findByDatePaiement(LocalDateTime datePaiement);
 
     int deleteByDatePaiement(LocalDateTime datePaiement);
-
 
     // Méthode pour rechercher des paiements par montant
     List<Paiement> findByMontant(double montant);
@@ -48,4 +48,9 @@ public interface PaiementRepository extends JpaRepository<Paiement, Long>{
     // Méthode pour supprimer des paiements par titulaire de la carte
     void deleteByTitulaireCarte(String titulaireCarte);
 
+    // Méthode pour trouver un paiement par son identifiant
+    Optional<Paiement> findById(Long id);
+
+    // Méthode pour supprimer un paiement par son identifiant
+    void deleteById(Long id);
 }

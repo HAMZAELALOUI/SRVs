@@ -1,6 +1,5 @@
 package com.project.srv.service;
 
-
 import com.project.srv.bean.Hotel;
 import com.project.srv.dao.HotelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HotelService {
@@ -52,6 +52,7 @@ public class HotelService {
             return -1;
         }
         if (hotel.getNom() == null || hotel.getNom().isEmpty()) {
+            // Gérer les cas où le nom de l'hôtel est vide ou nul
         }
 
         if (hotel.getEmplacement() == null || hotel.getEmplacement().isEmpty()) {
@@ -84,12 +85,17 @@ public class HotelService {
             return 2;
         }
     }
+
     public List<Hotel> findByPrixChambresLessThan(double prixMax) {
         return hotelRepository.findByPrixChambresLessThan(prixMax);
     }
+
     public List<Hotel> findByPrixChambresBetween(double prixMin, double prixMax) {
         return hotelRepository.findByPrixChambresBetween(prixMin, prixMax);
     }
 
-
+    // Méthode pour trouver un hôtel par son identifiant
+    public Optional<Hotel> findById(Long id) {
+        return hotelRepository.findById(id);
+    }
 }
