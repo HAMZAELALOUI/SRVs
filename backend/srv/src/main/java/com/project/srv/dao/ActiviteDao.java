@@ -9,10 +9,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ActiviteDao extends JpaRepository<ActiviteBean, Long> {
     // Méthode pour rechercher des activités par nom
+    Optional<ActiviteBean> findById(Long id);
+    List<ActiviteBean> findByPrixBetween(double minPrix, double maxPrix);
+
     List<ActiviteBean> findByNom(String nom);
 
     // Méthode pour rechercher des activités par lieu
@@ -29,6 +33,10 @@ public interface ActiviteDao extends JpaRepository<ActiviteBean, Long> {
 
     // Méthode pour supprimer des activités par nom
     List<ActiviteBean> findByPrixLessThan(double prix);
+
+
+
+    void deleteById(long id);
 
     void deleteByNom(String nom);
 

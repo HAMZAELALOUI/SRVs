@@ -3,12 +3,15 @@ package com.project.srv.ws;
 import com.project.srv.bean.ActiviteBean;
 import com.project.srv.service.ActiviteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-@RestController
+@RestControllergit
 @RequestMapping("/Gestion-Vol/Activite")
 public class ActiviteWs {
 
@@ -23,6 +26,14 @@ public class ActiviteWs {
      return  activiteService.updateActivite(activite);
     }
 
+    @GetMapping("/prixactivite/between/{prixMin}/{prixMax}")
+    public List<ActiviteBean> findByPrixActiviteBetween(@PathVariable double prixMin, @PathVariable double prixMax) {
+        return activiteService.findByPrixActviteBetween(prixMin,prixMax);
+}
+    @GetMapping("/Id/{id}")
+    public Optional<ActiviteBean> findById(@PathVariable long id) {
+        return activiteService.findById(id);
+    }
 
     @GetMapping("/nom/{nom}")
     public List<ActiviteBean> findByNom(@PathVariable String nom) {
@@ -49,6 +60,11 @@ public class ActiviteWs {
         return activiteService.findByPrix(prix);
     }
 
+    @DeleteMapping("/Id/{id}")
+    @Transactional
+    public void deleteById(@PathVariable long id) {
+        activiteService.deleteById(id);
+    }
     @DeleteMapping("/nom/{nom}")
     @Transactional
     public void deleteByNom(@PathVariable String nom) {

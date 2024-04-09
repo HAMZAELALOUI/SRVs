@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ActiviteService {
@@ -18,6 +19,14 @@ public class ActiviteService {
 
     @Autowired
     private ActiviteDao activiteDao;
+
+    public Optional<ActiviteBean> findById(Long Id) {
+        return activiteDao.findById(Id);
+    }
+
+    public List<ActiviteBean> findByPrixActviteBetween(double prixMin, double prixMax) {
+        return activiteDao.findByPrixBetween(prixMin, prixMax);
+    }
 
     public List<ActiviteBean> findByNom(String nom) {
         return activiteDao.findByNom(nom);
@@ -72,6 +81,10 @@ public class ActiviteService {
         return activiteDao.findByPrix(prix);
     }
 
+    @Transactional
+    public void deleteById(long id) {
+        activiteDao.deleteById(id);
+    }
     @Transactional
     public void deleteByNom(String nom) {
         activiteDao.deleteByNom(nom);
