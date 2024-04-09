@@ -94,7 +94,6 @@ public class HotelService {
         return hotelRepository.findByPrixChambresBetween(prixMin, prixMax);
     }
 
-    // Méthode pour trouver un hôtel par son identifiant
     public Optional<Hotel> findById(Long id) {
         return hotelRepository.findById(id);
     }
