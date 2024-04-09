@@ -30,6 +30,39 @@ public class ActiviteService {
     public List<ActiviteBean> findByDescription(String description) {
         return activiteDao.findByDescription(description);
     }
+    public int saveActivite(ActiviteBean activite) {
+
+        if (activite.getNom() == null || activite.getNom().isEmpty()) {
+            return -2; // Le nom est requis
+        }
+        if (activite.getLieu() == null || activite.getLieu().isEmpty()) {
+            return -3; // Le lieu est requis
+        }
+        if (activite.getPrix() <= 0) {
+            return -4; // Le prix doit être positif
+        }
+        // Sauvegarde de l'activité dans la base de données
+        activiteDao.save(activite);
+        return 1; // Succès
+    }
+    public int updateActivite(ActiviteBean activite) {
+        ActiviteBean existingActivite = activiteDao.findById(activite.getId()).orElse(null);
+        if (existingActivite != null) {
+            existingActivite.setNom(activite.getNom());
+            existingActivite.setLieu(activite.getLieu());
+            existingActivite.setDescription(activite.getDescription());
+            existingActivite.setHoraire(activite.getHoraire());
+            existingActivite.setPrix(activite.getPrix());
+
+            activiteDao.save(existingActivite);
+            return 1; // Mise à jour réussie
+        } else {
+            return -1; // L'activité n'existe pas
+        }
+    }
+    public List<ActiviteBean> findByPrixLessThan(double prixMax) {
+        return activiteDao.findByPrixLessThan(prixMax);
+    }
 
     public List<ActiviteBean> findByHoraire(String horaire) {
         return activiteDao.findByHoraire(horaire);

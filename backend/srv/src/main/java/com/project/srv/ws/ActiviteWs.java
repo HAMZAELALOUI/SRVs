@@ -14,6 +14,15 @@ public class ActiviteWs {
 
     @Autowired
     private ActiviteService activiteService;
+    @PostMapping("/save")
+    public int saveActivite(@RequestBody ActiviteBean activite) {
+       return activiteService.saveActivite(activite);
+    }
+    @PutMapping("/update")
+    public int updateActivite(@RequestBody ActiviteBean activite) {
+     return  activiteService.updateActivite(activite);
+    }
+
 
     @GetMapping("/nom/{nom}")
     public List<ActiviteBean> findByNom(@PathVariable String nom) {
@@ -68,6 +77,10 @@ public class ActiviteWs {
     @Transactional
     public void deleteByPrix(@PathVariable double prix) {
         activiteService.deleteByPrix(prix);
+    }
+    @GetMapping("/prix-inferieur/{prix}")
+    public List<ActiviteBean> findByPrixLessThan(@PathVariable double prix) {
+        return activiteService.findByPrixLessThan(prix);
     }
 
     // Vous pouvez ajouter d'autres méthodes de web service personnalisées ici si nécessaire
