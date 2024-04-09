@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RestControllergit
+@RestController
 @RequestMapping("/Gestion-Vol/Activite")
 public class ActiviteWs {
 
