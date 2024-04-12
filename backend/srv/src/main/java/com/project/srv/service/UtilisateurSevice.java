@@ -83,28 +83,28 @@ public class UtilisateurSevice {
 
 
     @Transactional
-    public Utilisateur deleteByEmail(String email) {
-        return utilisateurDao.deleteByEmail(email);
+    public void deleteByEmail(String email) {
+        utilisateurDao.findByEmail(email);
     }
 
     @Transactional
-    public Utilisateur deleteByName(String name) {
-        return utilisateurDao.deleteByName(name);
+    public void deleteByName(String name) {
+        utilisateurDao.deleteByName(name);
     }
 
     @Transactional
-    public Utilisateur deleteByAddress(String address) {
-        return utilisateurDao.deleteByAddress(address);
+    public void deleteByAddress(String address) {
+        utilisateurDao.deleteByAddress(address);
     }
 
     @Transactional
-    public Utilisateur deleteByPhone(String Phone) {
-        return utilisateurDao.deleteByPhone(Phone);
+    public void deleteByPhone(String Phone) {
+  utilisateurDao.deleteByPhone(Phone);
     }
 
     @Transactional
-    public Utilisateur deleteByAge(Integer age) {
-        return utilisateurDao.deleteByAge(age);
+    public void deleteByAge(Integer age) {
+     utilisateurDao.deleteByAge(age);
     }
 
     public List<Utilisateur> findAll() {

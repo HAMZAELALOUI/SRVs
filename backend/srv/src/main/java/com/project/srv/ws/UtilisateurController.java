@@ -45,30 +45,35 @@ public class UtilisateurController {
     public List<Utilisateur> findByAge(@PathVariable Integer age) {
         return utilisateurSevice.findByAge(age);
     }
-
     @DeleteMapping("/email/{email}")
-    public Utilisateur deleteByEmail(@PathVariable String email) {
-        return utilisateurSevice.deleteByEmail(email);
+    @Transactional
+    public void deleteByEmail(@PathVariable String email) {
+        utilisateurSevice.deleteByEmail(email);
     }
 
     @DeleteMapping("/name/{name}")
-    public Utilisateur deleteByName(@PathVariable String name) {
-        return utilisateurSevice.deleteByName(name);
+    @Transactional
+    public void deleteByName(@PathVariable("name") String name) {
+        utilisateurSevice.deleteByName(name);
     }
 
     @DeleteMapping("/address/{address}")
-    public Utilisateur deleteByAddress(@PathVariable String address) {
-        return utilisateurSevice.deleteByAddress(address);
+    @Transactional
+    public void deleteByAddress(@PathVariable String address) {
+         utilisateurSevice.deleteByAddress(address);
     }
 
+
     @DeleteMapping("/Phone/{Phone}")
-    public Utilisateur deleteByPhone(@PathVariable String Phone) {
-        return utilisateurSevice.deleteByPhone(Phone);
+    @Transactional
+    public void deleteByPhone(@PathVariable String Phone) {
+        utilisateurSevice.deleteByPhone(Phone);
     }
 
     @DeleteMapping("/age/{age}")
-    public Utilisateur deleteByAge(@PathVariable Integer age) {
-        return utilisateurSevice.deleteByAge(age);
+    @Transactional
+    public void deleteByAge(@PathVariable Integer age) {
+        utilisateurSevice.deleteByAge(age);
     }
 
     @GetMapping
@@ -80,23 +85,15 @@ public class UtilisateurController {
         return utilisateurSevice.count();
     }
 
+
     @DeleteMapping("/id/{id}")
+    @Transactional
     public void deleteById(@PathVariable("id") Long aLong) {
         utilisateurSevice.deleteById(aLong);
     }
 
 
-    public void inscrir() {
-        utilisateurSevice.inscrir();
-    }
 
-    public void seConnecter() {
-        utilisateurSevice.seConnecter();
-    }
-
-    public void modifierProfile() {
-        utilisateurSevice.modifierProfile();
-    }
 
     @GetMapping("/id/{id}")
     public Optional<Utilisateur> findById(@PathVariable("id") Long aLong) {

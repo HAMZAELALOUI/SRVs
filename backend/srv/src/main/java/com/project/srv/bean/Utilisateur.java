@@ -82,6 +82,7 @@ public class Utilisateur {
     }
 
 
-    @ManyToOne
-    private Administration administration;
+   @ManyToOne
+   @JoinColumn(name = "administration_id")
+  private Administration administration;
 }

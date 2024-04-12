@@ -19,15 +19,15 @@ public interface UtilisateurDao extends JpaRepository<Utilisateur, Long> {
 
     List<Utilisateur> findByAge(Integer age);
 
-    Utilisateur deleteByEmail(String email);
+    void deleteByEmail(String email);
 
-    Utilisateur deleteByName(String name);
+    void deleteByName(String name);
 
-    Utilisateur deleteByAddress(String address);
+    void deleteByAddress(String address);
 
-    Utilisateur deleteByPhone(String Phone);
+    void deleteByPhone(String Phone);
 
-    Utilisateur deleteByAge(Integer age);
+    void deleteByAge(Integer age);
 
 
 }
