@@ -34,6 +34,27 @@ public class VolService {
         return volRepository.findByVille(ville);
     }
 
+
+    public void deleteVolByDestination(String destination) {
+        volRepository.deleteByDestination(destination);
+    }
+
+    public void deleteVolByHeureDepart(LocalDate heureDepart) {
+        volRepository.deleteByHeureDepart(heureDepart);
+    }
+
+    public void deleteVolByHeureArrivee(LocalDate heureArrivee) {
+        volRepository.deleteByHeureArrivee(heureArrivee);
+    }
+
+    public void deleteVolByPrix(float prix) {
+        volRepository.deleteByPrix(prix);
+    }
+
+    public void deleteAllVols() {
+        volRepository.deleteAll();
+    }
+
     @Transactional
     public void deleteVolByDestination(String destination) { volRepository.deleteByDestination(destination); }
     @Transactional
@@ -44,6 +65,7 @@ public class VolService {
     public void deleteVolByPrix(float prix) { volRepository.deleteByPrix(prix); }
     @Transactional
     public void deleteAllVols() { volRepository.deleteAll(); }
+
 
     public int save(Vol vol) {
 

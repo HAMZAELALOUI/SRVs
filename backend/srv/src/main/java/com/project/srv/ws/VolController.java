@@ -39,7 +39,12 @@ public class VolController {
     public List<Vol> findByDestination(@PathVariable String destination) {
         return volService.findByDestination(destination);
     }
+
+
+    @GetMapping("/{heureDepart}")
+
     @GetMapping("/heureDep/{heureDepart}")
+
     public List<Vol> findByHeureDepart(@PathVariable LocalDate heureDepart) {
         return volService.findByHeureDepart(heureDepart);
     }
@@ -89,6 +94,33 @@ public class VolController {
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
+    @DeleteMapping("/{destination}")
+    public void deleteVolByDestination(@PathVariable String destination) {
+        volService.deleteVolByDestination(destination);
+    }
+
+    @DeleteMapping("/{heureDepart}")
+    public void deleteVolByHeureDepart(@PathVariable LocalDate heureDepart) {
+        volService.deleteVolByHeureDepart(heureDepart);
+    }
+
+
+    @DeleteMapping("/{heureArrivee}")
+    public void deleteVolByArrivee(@PathVariable LocalDate heureArrivee) {
+        volService.deleteVolByHeureArrivee(heureArrivee);
+    }
+
+    @DeleteMapping("/{prix}")
+    public void deleteVolByPrix(@PathVariable float prix) {
+        volService.deleteVolByPrix(prix);
+    }
+
+    @DeleteMapping("/")
+    public void deleteAllVols() {
+        volService.deleteAllVols();
+    }
+
     @Transactional
     public void deleteVolByDestination(@PathVariable String destination) { volService.deleteVolByDestination(destination); }
 
@@ -108,5 +140,6 @@ public class VolController {
     @DeleteMapping("/")
     @Transactional
     public void deleteAllVols() { volService.deleteAllVols(); }
+
 
 }
