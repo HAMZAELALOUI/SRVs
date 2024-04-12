@@ -48,8 +48,8 @@ public class VilleController {
 
     // Create a new city
     @PostMapping
-    public Ville createVille(@RequestBody Ville ville) {
-        return villeRepository.save(ville);
+    public Ville save(@RequestBody Ville ville) {
+        return villeService.save(ville);
     }
 
     // Update a city
