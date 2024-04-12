@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 
-
 @Entity
 @JsonIgnoreProperties
 public class Vol {
@@ -22,7 +21,7 @@ public class Vol {
     private float prix;
     private int placesDisponibles;
 
-    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Ville ville;
 
     public Vol() {

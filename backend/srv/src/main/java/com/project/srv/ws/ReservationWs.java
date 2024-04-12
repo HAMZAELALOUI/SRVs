@@ -1,10 +1,15 @@
 package com.project.srv.ws;
 
+
 import com.project.srv.bean.ReservationBean;
+
+import com.project.srv.bean.Reservation;
+
 import com.project.srv.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.Date;
 import java.util.List;
@@ -15,6 +20,7 @@ public class ReservationWs {
 
     @Autowired
     private ReservationService reservationService;
+
 
     @GetMapping("/date/{dateReservation}")
     public List<ReservationBean> findByDateReservation(@PathVariable Date dateReservation) {
@@ -58,6 +64,20 @@ public class ReservationWs {
     @Transactional
     public void deleteByPrixTotal(@PathVariable double prixTotal) {
         reservationService.deleteByPrixTotal(prixTotal);
+
+    @GetMapping("/hotel/{hotelId}")
+    public List<Reservation> findByHotelId(@PathVariable Long hotelId) {
+        return reservationService.findByHotelId(hotelId);
+    }
+
+    @GetMapping("/{id}")
+    public Reservation getReservationById(@PathVariable Long id) {
+        return reservationService.findReservationById(id);
+    }
+    @DeleteMapping("/hotel/{hotelId}")
+    @Transactional
+    public void deleteByHotelId(@PathVariable Long hotelId) {
+        reservationService.deleteByHotelId(hotelId);
     }
 
     // Vous pouvez ajouter d'autres méthodes de web service personnalisées ici si nécessaire

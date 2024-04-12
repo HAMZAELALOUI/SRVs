@@ -38,18 +38,20 @@ public class VilleController {
     }
 
     @GetMapping("/{pays}")
-    public List<Ville> findByPays(@PathVariable String pays) { return villeService.findByPays(pays); }
+    public List<Ville> findByPays(@PathVariable String pays) {
+        return villeService.findByPays(pays);
+    }
 
     @GetMapping("/nomIg/{nom}")
-    public List<Ville> findByNomContainingIgnoreCase(@PathVariable String nom) { return villeService.findByNomContainingIgnoreCase(nom); }
-
-
+    public List<Ville> findByNomContainingIgnoreCase(@PathVariable String nom) {
+        return villeService.findByNomContainingIgnoreCase(nom);
+    }
 
 
     // Create a new city
     @PostMapping
-    public Ville createVille(@RequestBody Ville ville) {
-        return villeRepository.save(ville);
+    public Ville save(@RequestBody Ville ville) {
+        return villeService.save(ville);
     }
 
     // Update a city
@@ -73,12 +75,18 @@ public class VilleController {
     }
 
     @DeleteMapping("/{nom}")
-    public void deleteVilleByNom(@PathVariable String nom){ villeService.deleteVilleByNom(nom); }
+    public void deleteVilleByNom(@PathVariable String nom) {
+        villeService.deleteVilleByNom(nom);
+    }
 
     @DeleteMapping("/{pays}")
-    public void deleteVilleByPays(@PathVariable String pays){ villeService.deleteVilleByPays(pays); }
+    public void deleteVilleByPays(@PathVariable String pays) {
+        villeService.deleteVilleByPays(pays);
+    }
 
     @DeleteMapping("/")
-    public void deleteAllVilles() { villeService.deleteAllVilles(); }
+    public void deleteAllVilles() {
+        villeService.deleteAllVilles();
+    }
 
 }

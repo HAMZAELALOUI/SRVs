@@ -16,8 +16,9 @@ public class Ville {
     private String nom;
 
     private String pays;
-    @OneToMany (cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Vol> vol;
+
     public Ville() {
     }
 
