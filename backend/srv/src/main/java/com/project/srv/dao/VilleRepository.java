@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface VilleRepository extends JpaRepository<Ville, Long> {
@@ -15,7 +16,7 @@ public interface VilleRepository extends JpaRepository<Ville, Long> {
 
     List<Ville> findByNomContainingIgnoreCase(String nom);
 
-    List<Ville> findByNomAndPays(String nom, String pays);
+    Optional<Ville> findByNomAndPays(String nom, String pays);
 
 
     void deleteByNom(String nom);
