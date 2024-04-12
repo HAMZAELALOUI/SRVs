@@ -3,21 +3,18 @@ package com.project.srv.bean;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.List;
-
 @Entity
-public class DetailsBean {
+public class Details {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    private ReservationBean reservation;
+    private Reservation reservation;
 
     @ManyToOne
-    private ActiviteBean activite;
+    private Activite activite;
 
     private int nombreParticipants;
     private double prixTotalActivite;
@@ -30,19 +27,19 @@ public class DetailsBean {
         this.id = id;
     }
 
-    public ReservationBean getReservation() {
+    public Reservation getReservation() {
         return reservation;
     }
 
-    public void setReservation(ReservationBean reservation) {
+    public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
 
-    public ActiviteBean getActiviteTouristique() {
+    public Activite getActiviteTouristique() {
         return activite;
     }
 
-    public void setActiviteTouristique(ActiviteBean activite) {
+    public void setActiviteTouristique(Activite activite) {
         this.activite = activite;
     }
 

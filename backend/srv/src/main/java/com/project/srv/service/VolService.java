@@ -2,7 +2,7 @@ package com.project.srv.service;
 
 import com.project.srv.bean.Ville;
 import com.project.srv.bean.Vol;
-import com.project.srv.dao.VolRepository;
+import com.project.srv.dao.VolDao;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,56 +15,47 @@ public class VolService {
 
 
     public List<Vol> findByDestination(String destination) {
-        return volRepository.findByDestination(destination);
+        return volDao.findByDestination(destination);
     }
 
     public List<Vol> findByHeureDepart(LocalDate heureDepart) {
-        return volRepository.findByHeureDepart(heureDepart);
+        return volDao.findByHeureDepart(heureDepart);
     }
 
     public List<Vol> findByHeureArrivee(LocalDate heureArrivee) {
-        return volRepository.findByHeureArrivee(heureArrivee);
+        return volDao.findByHeureArrivee(heureArrivee);
     }
 
     public List<Vol> findByPrix(float prix) {
-        return volRepository.findByPrix(prix);
+        return volDao.findByPrix(prix);
     }
 
     public List<Vol> findByVille(Ville ville) {
-        return volRepository.findByVille(ville);
+        return volDao.findByVille(ville);
     }
 
 
     public void deleteVolByDestination(String destination) {
-        volRepository.deleteByDestination(destination);
+        volDao.deleteByDestination(destination);
     }
 
     public void deleteVolByHeureDepart(LocalDate heureDepart) {
-        volRepository.deleteByHeureDepart(heureDepart);
+        volDao.deleteByHeureDepart(heureDepart);
     }
 
     public void deleteVolByHeureArrivee(LocalDate heureArrivee) {
-        volRepository.deleteByHeureArrivee(heureArrivee);
+        volDao.deleteByHeureArrivee(heureArrivee);
     }
 
     public void deleteVolByPrix(float prix) {
-        volRepository.deleteByPrix(prix);
+        volDao.deleteByPrix(prix);
     }
 
     public void deleteAllVols() {
-        volRepository.deleteAll();
+        volDao.deleteAll();
     }
 
-    @Transactional
-    public void deleteVolByDestination(String destination) { volRepository.deleteByDestination(destination); }
-    @Transactional
-    public void deleteVolByHeureDepart(LocalDate heureDepart) { volRepository.deleteByHeureDepart(heureDepart); }
-    @Transactional
-    public void deleteVolByHeureArrivee(LocalDate heureArrivee) { volRepository.deleteByHeureArrivee(heureArrivee); }
-    @Transactional
-    public void deleteVolByPrix(float prix) { volRepository.deleteByPrix(prix); }
-    @Transactional
-    public void deleteAllVols() { volRepository.deleteAll(); }
+
 
 
     public int save(Vol vol) {
@@ -90,11 +81,11 @@ public class VolService {
         }
         // Sauvegarde de l'activité dans la base de données
 
-        volRepository.save(vol);
+        volDao.save(vol);
         return 1;
         }
 
 
     @Autowired
-    private VolRepository volRepository;
+    private VolDao volDao;
 }

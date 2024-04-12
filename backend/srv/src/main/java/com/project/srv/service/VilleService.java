@@ -1,8 +1,7 @@
 package com.project.srv.service;
 
 import com.project.srv.bean.Ville;
-import com.project.srv.bean.Vol;
-import com.project.srv.dao.VilleRepository;
+import com.project.srv.dao.VilleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,55 +12,48 @@ import java.util.Optional;
 public class VilleService {
 
     public List<Ville> findByNom(String nom) {
-        return villeRepository.findByNom(nom);
+        return villeDao.findByNom(nom);
     }
 
 
-
-    public List<Ville> findByNom(String nom) { return villeRepository.findByNom(nom); }
 
 
     public List<Ville> findByPays(String pays) {
-        return villeRepository.findByPays(pays);
+        return villeDao.findByPays(pays);
     }
 
     public List<Ville> findByNomContainingIgnoreCase(String nom) {
-        return villeRepository.findByNomContainingIgnoreCase(nom);
+        return villeDao.findByNomContainingIgnoreCase(nom);
     }
 
 //    public List<Ville> findByNomAndPays(String nom, String pays) { return villeRepository.findByNomAndPays(nom,pays); }
 
 
     public void deleteVilleByNom(String nom) {
-        villeRepository.deleteByNom(nom);
+        villeDao.deleteByNom(nom);
     }
 
     public void deleteVilleByPays(String pays) {
-        villeRepository.deleteByPays(pays);
+        villeDao.deleteByPays(pays);
     }
 
     public void deleteAllVilles() {
-        villeRepository.deleteAll();
+        villeDao.deleteAll();
     }
-
-    public void deleteVilleByNom(String nom){ villeRepository.deleteByNom(nom); }
-    public void deleteVilleByPays(String pays){ villeRepository.deleteByPays(pays); }
-
-    public void deleteAllVilles() { villeRepository.deleteAll(); }
 
 
     public Ville save(Ville ville) {
         // Check if a ville with the same name and country already exists
-        Optional<Ville> existingVille = villeRepository.findByNomAndPays(ville.getNom(), ville.getPays());
+        Optional<Ville> existingVille = villeDao.findByNomAndPays(ville.getNom(), ville.getPays());
         if (existingVille.isPresent()) {
             // If it exists, return the existing ville without saving the new one
             return existingVille.get();
         } else {
             // If it doesn't exist, save the new ville
-            return villeRepository.save(ville);
+            return villeDao.save(ville);
         }
     }
 
     @Autowired
-    VilleRepository villeRepository;
+    VilleDao villeDao;
 }

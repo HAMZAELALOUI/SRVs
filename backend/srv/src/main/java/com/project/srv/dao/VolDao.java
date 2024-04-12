@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface VolRepository extends JpaRepository<Vol, Long> {
+public interface VolDao extends JpaRepository<Vol, Long> {
 
     List<Vol> findByDestination(String destination);
 

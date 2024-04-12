@@ -2,7 +2,7 @@ package com.project.srv.ws;
 
 import com.project.srv.bean.Ville;
 import com.project.srv.bean.Vol;
-import com.project.srv.dao.VolRepository;
+import com.project.srv.dao.VolDao;
 import com.project.srv.service.VolService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +18,20 @@ import java.util.Optional;
 public class VolController {
 
     @Autowired
-    private VolRepository volRepository;
+    private VolDao volDao;
     @Autowired
     private VolService volService;
 
     // Get all vols
     @GetMapping
     public List<Vol> getAllVols() {
-        return volRepository.findAll();
+        return volDao.findAll();
     }
 
     // Get a single vol by id
     @GetMapping("/id/{id}")
     public ResponseEntity<Vol> getVolById(@PathVariable Long id) {
-        Optional<Vol> vol = volRepository.findById(id);
+        Optional<Vol> vol = volDao.findById(id);
         return vol.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -41,7 +41,7 @@ public class VolController {
     }
 
 
-    @GetMapping("/{heureDepart}")
+
 
     @GetMapping("/heureDep/{heureDepart}")
 
@@ -73,13 +73,13 @@ public class VolController {
     // Update a vol
     @PutMapping("id/{id}")
     public ResponseEntity<Vol> updateVol(@PathVariable Long id, @RequestBody Vol volDetails) {
-        return volRepository.findById(id).map(existingVol -> {
+        return volDao.findById(id).map(existingVol -> {
             existingVol.setDestination(volDetails.getDestination());
             existingVol.setPrix(volDetails.getPrix());
             existingVol.setHeureDepart(volDetails.getHeureDepart());
             existingVol.setHeureArrivee(volDetails.getHeureArrivee());
             existingVol.setPlacesDisponibles(volDetails.getPlacesDisponibles());
-            Vol updatedVol = volRepository.save(existingVol);
+            Vol updatedVol = volDao.save(existingVol);
             return ResponseEntity.ok(updatedVol);
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -88,8 +88,8 @@ public class VolController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> deleteVol(@PathVariable Long id) {
-        return volRepository.findById(id).map(vol -> {
-            volRepository.delete(vol);
+        return volDao.findById(id).map(vol -> {
+            volDao.delete(vol);
             return ResponseEntity.ok().build();
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -121,25 +121,13 @@ public class VolController {
         volService.deleteAllVols();
     }
 
-    @Transactional
-    public void deleteVolByDestination(@PathVariable String destination) { volService.deleteVolByDestination(destination); }
-
-    @DeleteMapping("/byHeureDepart/{heureDepart}")
-    @Transactional
-    public void deleteVolByHeureDepart(@PathVariable LocalDate heureDepart) { volService.deleteVolByHeureDepart(heureDepart); }
 
 
-    @DeleteMapping("/byHeureArrivee/{heureArrivee}")
-    @Transactional
-    public void deleteVolByArrivee(@PathVariable LocalDate heureArrivee) { volService.deleteVolByHeureArrivee(heureArrivee); }
 
-    @DeleteMapping("/prix/{prix}")
-    @Transactional
-    public void deleteVolByPrix(@PathVariable float prix) { volService.deleteVolByPrix(prix); }
 
-    @DeleteMapping("/")
-    @Transactional
-    public void deleteAllVols() { volService.deleteAllVols(); }
+
+
+
 
 
 }

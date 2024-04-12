@@ -1,11 +1,10 @@
 package com.project.srv.bean;
 import jakarta.persistence.*;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
-public class ActiviteBean {
+public class Activite {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -16,7 +15,7 @@ public class ActiviteBean {
     private String horaire;
     private double prix;
     @OneToMany(mappedBy = "activite")
-    private List<DetailsBean> details;
+    private List<Details> details;
     public Long getId() {
         return id;
     }

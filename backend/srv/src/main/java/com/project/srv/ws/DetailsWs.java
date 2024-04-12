@@ -1,6 +1,6 @@
 package com.project.srv.ws;
 
-import com.project.srv.bean.DetailsBean;
+import com.project.srv.bean.Details;
 import com.project.srv.service.DetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +16,12 @@ public class DetailsWs {
     private DetailsService detailsService;
 
     @GetMapping("/participants/{nombreParticipants}")
-    public List<DetailsBean> findByNombreParticipants(@PathVariable int nombreParticipants) {
+    public List<Details> findByNombreParticipants(@PathVariable int nombreParticipants) {
         return detailsService.findByNombreParticipants(nombreParticipants);
     }
 
     @GetMapping("/prix/{prixTotalActivite}")
-    public List<DetailsBean> findByPrixTotalActivite(@PathVariable double prixTotalActivite) {
+    public List<Details> findByPrixTotalActivite(@PathVariable double prixTotalActivite) {
         return detailsService.findByPrixTotalActivite(prixTotalActivite);
     }
 

@@ -3,7 +3,7 @@ package com.project.srv.service;
 
 
 
-import com.project.srv.bean.ActiviteBean;
+import com.project.srv.bean.Activite;
 import com.project.srv.dao.ActiviteDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,26 +20,26 @@ public class ActiviteService {
     @Autowired
     private ActiviteDao activiteDao;
 
-    public Optional<ActiviteBean> findById(Long Id) {
+    public Optional<Activite> findById(Long Id) {
         return activiteDao.findById(Id);
     }
 
-    public List<ActiviteBean> findByPrixActviteBetween(double prixMin, double prixMax) {
+    public List<Activite> findByPrixActviteBetween(double prixMin, double prixMax) {
         return activiteDao.findByPrixBetween(prixMin, prixMax);
     }
 
-    public List<ActiviteBean> findByNom(String nom) {
+    public List<Activite> findByNom(String nom) {
         return activiteDao.findByNom(nom);
     }
 
-    public List<ActiviteBean> findByLieu(String lieu) {
+    public List<Activite> findByLieu(String lieu) {
         return activiteDao.findByLieu(lieu);
     }
 
-    public List<ActiviteBean> findByDescription(String description) {
+    public List<Activite> findByDescription(String description) {
         return activiteDao.findByDescription(description);
     }
-    public int saveActivite(ActiviteBean activite) {
+    public int saveActivite(Activite activite) {
 
         if (activite.getNom() == null || activite.getNom().isEmpty()) {
             return -2; // Le nom est requis
@@ -54,8 +54,8 @@ public class ActiviteService {
         activiteDao.save(activite);
         return 1; // Succès
     }
-    public int updateActivite(ActiviteBean activite) {
-        ActiviteBean existingActivite = activiteDao.findById(activite.getId()).orElse(null);
+    public int updateActivite(Activite activite) {
+        Activite existingActivite = activiteDao.findById(activite.getId()).orElse(null);
         if (existingActivite != null) {
             existingActivite.setNom(activite.getNom());
             existingActivite.setLieu(activite.getLieu());
@@ -69,15 +69,15 @@ public class ActiviteService {
             return -1; // L'activité n'existe pas
         }
     }
-    public List<ActiviteBean> findByPrixLessThan(double prixMax) {
+    public List<Activite> findByPrixLessThan(double prixMax) {
         return activiteDao.findByPrixLessThan(prixMax);
     }
 
-    public List<ActiviteBean> findByHoraire(String horaire) {
+    public List<Activite> findByHoraire(String horaire) {
         return activiteDao.findByHoraire(horaire);
     }
 
-    public List<ActiviteBean> findByPrix(double prix) {
+    public List<Activite> findByPrix(double prix) {
         return activiteDao.findByPrix(prix);
     }
 

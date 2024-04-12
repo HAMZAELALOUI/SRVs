@@ -1,7 +1,7 @@
 package com.project.srv.ws;
 
 import com.project.srv.bean.Ville;
-import com.project.srv.dao.VilleRepository;
+import com.project.srv.dao.VilleDao;
 import com.project.srv.service.VilleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,20 +15,20 @@ import java.util.Optional;
 public class VilleController {
 
     @Autowired
-    private VilleRepository villeRepository;
+    private VilleDao villeDao;
     @Autowired
     private VilleService villeService;
 
     // Get all cities
     @GetMapping
     public List<Ville> getAllVilles() {
-        return villeRepository.findAll();
+        return villeDao.findAll();
     }
 
     // Get a single city by id
     @GetMapping("/{id}")
     public ResponseEntity<Ville> getVilleById(@PathVariable Long id) {
-        Optional<Ville> ville = villeRepository.findById(id);
+        Optional<Ville> ville = villeDao.findById(id);
         return ville.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -57,10 +57,10 @@ public class VilleController {
     // Update a city
     @PutMapping("/{id}")
     public ResponseEntity<Ville> updateVille(@PathVariable Long id, @RequestBody Ville villeDetails) {
-        return villeRepository.findById(id).map(existingVille -> {
+        return villeDao.findById(id).map(existingVille -> {
             existingVille.setNom(villeDetails.getNom());
             existingVille.setPays(villeDetails.getPays());
-            Ville updatedVille = villeRepository.save(existingVille);
+            Ville updatedVille = villeDao.save(existingVille);
             return ResponseEntity.ok(updatedVille);
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -68,8 +68,8 @@ public class VilleController {
     // Delete a city
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteVille(@PathVariable Long id) {
-        return villeRepository.findById(id).map(ville -> {
-            villeRepository.delete(ville);
+        return villeDao.findById(id).map(ville -> {
+            villeDao.delete(ville);
             return ResponseEntity.ok().build();
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface VilleRepository extends JpaRepository<Ville, Long> {
+public interface VilleDao extends JpaRepository<Ville, Long> {
 
     List<Ville> findByNom(String nom);
 

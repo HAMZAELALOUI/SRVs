@@ -1,6 +1,6 @@
 package com.project.srv.service;
 
-import com.project.srv.bean.DetailsBean;
+import com.project.srv.bean.Details;
 import com.project.srv.dao.DetailsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,11 @@ public class DetailsService {
     @Autowired
     private DetailsDao detailsDao;
 
-    public List<DetailsBean> findByNombreParticipants(int nombreParticipants) {
+    public List<Details> findByNombreParticipants(int nombreParticipants) {
         return detailsDao.findByNombreParticipants(nombreParticipants);
     }
 
-    public List<DetailsBean> findByPrixTotalActivite(double prixTotalActivite) {
+    public List<Details> findByPrixTotalActivite(double prixTotalActivite) {
         return detailsDao.findByPrixTotalActivite(prixTotalActivite);
     }
 

@@ -4,7 +4,7 @@ package com.project.srv.dao;
 
 
 
-import com.project.srv.bean.ActiviteBean;
+import com.project.srv.bean.Activite;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,27 +12,27 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ActiviteDao extends JpaRepository<ActiviteBean, Long> {
+public interface ActiviteDao extends JpaRepository<Activite, Long> {
     // Méthode pour rechercher des activités par nom
-    Optional<ActiviteBean> findById(Long id);
-    List<ActiviteBean> findByPrixBetween(double minPrix, double maxPrix);
+    Optional<Activite> findById(Long id);
+    List<Activite> findByPrixBetween(double minPrix, double maxPrix);
 
-    List<ActiviteBean> findByNom(String nom);
+    List<Activite> findByNom(String nom);
 
     // Méthode pour rechercher des activités par lieu
-    List<ActiviteBean> findByLieu(String lieu);
+    List<Activite> findByLieu(String lieu);
 
     // Méthode pour rechercher des activités par description
-    List<ActiviteBean> findByDescription(String description);
+    List<Activite> findByDescription(String description);
 
     // Méthode pour rechercher des activités par horaire
-    List<ActiviteBean> findByHoraire(String horaire);
+    List<Activite> findByHoraire(String horaire);
 
     // Méthode pour rechercher des activités par prix
-    List<ActiviteBean> findByPrix(double prix);
+    List<Activite> findByPrix(double prix);
 
     // Méthode pour supprimer des activités par nom
-    List<ActiviteBean> findByPrixLessThan(double prix);
+    List<Activite> findByPrixLessThan(double prix);
 
 
 
