@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PaiementRepository extends JpaRepository<Paiement, Long> {
+public interface PaiementDao extends JpaRepository<Paiement, Long> {
     List<Paiement> findByModePaiement(String modePaiement);
     Paiement findByRef(String ref);
 

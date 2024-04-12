@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/Gestion-Vol/Details")
-public class DetailsWs {
+public class DetailsController {
 
     @Autowired
     private DetailsService detailsService;

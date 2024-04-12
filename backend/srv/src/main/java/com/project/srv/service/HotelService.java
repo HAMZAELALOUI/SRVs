@@ -1,7 +1,7 @@
 package com.project.srv.service;
 
 import com.project.srv.bean.Hotel;
-import com.project.srv.dao.HotelRepository;
+import com.project.srv.dao.HotelDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,42 +13,42 @@ import java.util.Optional;
 public class HotelService {
 
     @Autowired
-    private HotelRepository hotelRepository;
+    private HotelDao hotelDao;
 
     public List<Hotel> findByEmplacement(String emplacement) {
-        return hotelRepository.findByEmplacement(emplacement);
+        return hotelDao.findByEmplacement(emplacement);
     }
 
     public List<Hotel> findByNombreEtoiles(int nombreEtoiles) {
-        return hotelRepository.findByNombreEtoiles(nombreEtoiles);
+        return hotelDao.findByNombreEtoiles(nombreEtoiles);
     }
 
     public List<Hotel> findHotelByReservationId(Long reservationId) {
-        return hotelRepository.findHotelByReservationsId(reservationId);
+        return hotelDao.findHotelByReservationsId(reservationId);
     }
 
     public List<Hotel> findByNom(String nom) {
-        return hotelRepository.findByNom(nom);
+        return hotelDao.findByNom(nom);
     }
 
     @Transactional
     public void deleteByEmplacement(String emplacement) {
-        hotelRepository.deleteByEmplacement(emplacement);
+        hotelDao.deleteByEmplacement(emplacement);
     }
 
     @Transactional
     public void deleteByNombreEtoiles(int nombreEtoiles) {
-        hotelRepository.deleteByNombreEtoiles(nombreEtoiles);
+        hotelDao.deleteByNombreEtoiles(nombreEtoiles);
     }
 
     @Transactional
     public void deleteByNom(String nom) {
-        hotelRepository.deleteByNom(nom);
+        hotelDao.deleteByNom(nom);
     }
 
 
     public int saveHotel(Hotel hotel) {
-        if (hotel.getId() != null && hotelRepository.existsById(hotel.getId())) {
+        if (hotel.getId() != null && hotelDao.existsById(hotel.getId())) {
             return -1;
         }
         if (hotel.getNom() == null || hotel.getNom().isEmpty()) {
@@ -65,12 +65,12 @@ public class HotelService {
         if (hotel.getPrixChambres() <= 0) {
             return -5;
         }
-        hotelRepository.save(hotel);
+        hotelDao.save(hotel);
         return 1;
     }
 
     public int updateHotel(Hotel hotel) {
-        Hotel existingHotel = hotelRepository.findById(hotel.getId()).orElse(null);
+        Hotel existingHotel = hotelDao.findById(hotel.getId()).orElse(null);
         if (existingHotel != null) {
             existingHotel.setNom(hotel.getNom());
             existingHotel.setEmplacement(hotel.getEmplacement());
@@ -78,23 +78,23 @@ public class HotelService {
             existingHotel.setNombreEtoiles(hotel.getNombreEtoiles());
             existingHotel.setPrixChambres(hotel.getPrixChambres());
 
-            hotelRepository.save(existingHotel);
+            hotelDao.save(existingHotel);
             return 1;
         } else {
-            hotelRepository.save(hotel);
+            hotelDao.save(hotel);
             return 2;
         }
     }
 
     public List<Hotel> findByPrixChambresLessThan(double prixMax) {
-        return hotelRepository.findByPrixChambresLessThan(prixMax);
+        return hotelDao.findByPrixChambresLessThan(prixMax);
     }
 
     public List<Hotel> findByPrixChambresBetween(double prixMin, double prixMax) {
-        return hotelRepository.findByPrixChambresBetween(prixMin, prixMax);
+        return hotelDao.findByPrixChambresBetween(prixMin, prixMax);
     }
 
     public Optional<Hotel> findById(Long id) {
-        return hotelRepository.findById(id);
+        return hotelDao.findById(id);
     }
 }

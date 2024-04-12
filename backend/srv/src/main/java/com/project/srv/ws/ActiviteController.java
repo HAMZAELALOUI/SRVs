@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/Gestion-Vol/Activite")
-public class ActiviteWs {
+public class ActiviteController {
 
     @Autowired
     private ActiviteService activiteService;

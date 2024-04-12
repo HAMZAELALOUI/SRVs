@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/Gestion-Vol/Paiement")
-public class PaiementWs {
+public class PaiementController {
 
     @Autowired
     private PaiementService paiementService;

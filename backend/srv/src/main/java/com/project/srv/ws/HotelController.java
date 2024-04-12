@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/Gestion-Vol/Hotel")
-public class HotelWs {
+public class HotelController {
 
     @Autowired
     private HotelService hotelService;

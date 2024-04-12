@@ -2,7 +2,7 @@ package com.project.srv.service;
 
 import com.project.srv.bean.Paiement;
 import com.project.srv.bean.Reservation;
-import com.project.srv.dao.PaiementRepository;
+import com.project.srv.dao.PaiementDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,71 +15,71 @@ import java.util.List;
 public class PaiementService {
 
     @Autowired
-    private PaiementRepository paiementRepository;
+    private PaiementDao paiementDao;
 
     @Autowired
     private ReservationService reservationService;
 
     public Paiement findByRef(String ref) {
-        return paiementRepository.findByRef(ref);
+        return paiementDao.findByRef(ref);
     }
 
     public List<Paiement> findByModePaiement(String modePaiement) {
-        return paiementRepository.findByModePaiement(modePaiement);
+        return paiementDao.findByModePaiement(modePaiement);
     }
 
     public List<Paiement> findByMontant(double montant) {
-        return paiementRepository.findByMontant(montant);
+        return paiementDao.findByMontant(montant);
     }
 
     public List<Paiement> findByNumeroCarte(String numeroCarte) {
-        return paiementRepository.findByNumeroCarte(numeroCarte);
+        return paiementDao.findByNumeroCarte(numeroCarte);
     }
 
     public List<Paiement> findByDateExpiration(String dateExpiration) {
-        return paiementRepository.findByDateExpiration(dateExpiration);
+        return paiementDao.findByDateExpiration(dateExpiration);
     }
 
     public List<Paiement> findByTitulaireCarte(String titulaireCarte) {
-        return paiementRepository.findByTitulaireCarte(titulaireCarte);
+        return paiementDao.findByTitulaireCarte(titulaireCarte);
     }
 
     public Paiement findByReservation(Reservation reservation) {
-        return paiementRepository.findByReservation(reservation);
+        return paiementDao.findByReservation(reservation);
     }
 
     @Transactional
     public void deleteByModePaiement(String modePaiement) {
-        paiementRepository.deleteByModePaiement(modePaiement);
+        paiementDao.deleteByModePaiement(modePaiement);
     }
 
     @Transactional
     public void deleteByMontant(double montant) {
-        paiementRepository.deleteByMontant(montant);
+        paiementDao.deleteByMontant(montant);
     }
 
     @Transactional
     public void deleteByNumeroCarte(String numeroCarte) {
-        paiementRepository.deleteByNumeroCarte(numeroCarte);
+        paiementDao.deleteByNumeroCarte(numeroCarte);
     }
 
     @Transactional
     public void deleteByDateExpiration(String dateExpiration) {
-        paiementRepository.deleteByDateExpiration(dateExpiration);
+        paiementDao.deleteByDateExpiration(dateExpiration);
     }
 
     public List<Paiement> findByDatePaiement(LocalDateTime datePaiement) {
-        return paiementRepository.findByDatePaiement(datePaiement);
+        return paiementDao.findByDatePaiement(datePaiement);
     }
 
     @Transactional
     public int deleteByDatePaiement(LocalDateTime datePaiement) {
-        return paiementRepository.deleteByDatePaiement(datePaiement);
+        return paiementDao.deleteByDatePaiement(datePaiement);
     }
 
     @Transactional
     public void deleteByTitulaireCarte(String titulaireCarte) {
-        paiementRepository.deleteByTitulaireCarte(titulaireCarte);
+        paiementDao.deleteByTitulaireCarte(titulaireCarte);
     }
 
     @Transactional
@@ -98,7 +98,7 @@ public class PaiementService {
         }
 
         // Vérifie si un paiement pour la même réservation existe déjà
-        Paiement existingPaiement = paiementRepository.findByReservation(reservation);
+        Paiement existingPaiement = paiementDao.findByReservation(reservation);
         if (existingPaiement != null) {
             return -1; // Retourne -1 pour indiquer qu'un paiement pour la même réservation existe déjà
         }
@@ -110,13 +110,13 @@ public class PaiementService {
         }
 
         // Sauvegarde le paiement dans la base de données
-        paiementRepository.save(paiement);
+        paiementDao.save(paiement);
 
         // Attribution d'une référence unique au paiement
         paiement.setRef("p-" + paiement.getId());
 
         // Sauvegarde à nouveau pour mettre à jour la référence
-        paiementRepository.save(paiement);
+        paiementDao.save(paiement);
 
         return 1; // Retourne 1 pour indiquer que le paiement a été sauvegardé avec succès
     }

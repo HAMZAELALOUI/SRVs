@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/Gestion-Vol/Reservation")
-public class ReservationWs {
+public class ReservationController {
 
     @Autowired
     private ReservationService reservationService;

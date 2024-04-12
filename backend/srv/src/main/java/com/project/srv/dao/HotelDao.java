@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface HotelRepository extends JpaRepository<Hotel, Long> {
+public interface HotelDao extends JpaRepository<Hotel, Long> {
     // Méthode pour rechercher des hôtels par emplacement
     List<Hotel> findByEmplacement(String emplacement);
 

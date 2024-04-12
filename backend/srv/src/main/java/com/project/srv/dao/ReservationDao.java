@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+public interface ReservationDao extends JpaRepository<Reservation, Long> {
     // Méthode pour rechercher des réservations par ID de l'hôtel associé
     List<Reservation> findByHotelId(Long hotelId);
 
