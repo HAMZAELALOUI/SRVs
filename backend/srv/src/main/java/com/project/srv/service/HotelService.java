@@ -30,6 +30,10 @@ public class HotelService {
     public List<Hotel> findByNom(String nom) {
         return hotelDao.findByNom(nom);
     }
+    public List<Hotel> findAll() {
+        return hotelDao.findAll();
+    }
+
 
     @Transactional
     public void deleteByEmplacement(String emplacement) {

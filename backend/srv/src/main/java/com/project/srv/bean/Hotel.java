@@ -12,6 +12,7 @@ public class Hotel {
     private Long id;
 
     private String nom;
+
     private String emplacement;
     private String description;
     private int nombreEtoiles;
