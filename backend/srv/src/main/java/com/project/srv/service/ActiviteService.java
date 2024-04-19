@@ -36,6 +36,10 @@ public class ActiviteService {
         return activiteDao.findByLieu(lieu);
     }
 
+    public List<Activite> findByVille(String ville) {
+        return activiteDao.findByVille(ville);
+    }
+
     public List<Activite> findByDescription(String description) {
         return activiteDao.findByDescription(description);
     }
@@ -59,6 +63,7 @@ public class ActiviteService {
         if (existingActivite != null) {
             existingActivite.setNom(activite.getNom());
             existingActivite.setLieu(activite.getLieu());
+            existingActivite.setLieu(activite.getVille());
             existingActivite.setDescription(activite.getDescription());
             existingActivite.setHoraire(activite.getHoraire());
             existingActivite.setPrix(activite.getPrix());
@@ -88,6 +93,9 @@ public class ActiviteService {
     @Transactional
     public void deleteByNom(String nom) {
         activiteDao.deleteByNom(nom);
+    }
+    public void deleteByVille(String ville) {
+        activiteDao.deleteByVille(ville);
     }
 
     @Transactional

@@ -10,6 +10,8 @@ public class Activite {
     private Long id;
 
     private String nom;
+    private String ville;
+
     private String lieu;
     private String description;
     private String horaire;
@@ -62,6 +64,13 @@ public class Activite {
 
     public void setPrix(double prix) {
         this.prix = prix;
+    }
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
     }
 
 

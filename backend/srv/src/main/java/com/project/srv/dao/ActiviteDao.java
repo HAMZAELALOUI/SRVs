@@ -18,6 +18,7 @@ public interface ActiviteDao extends JpaRepository<Activite, Long> {
     List<Activite> findByPrixBetween(double minPrix, double maxPrix);
 
     List<Activite> findByNom(String nom);
+    List<Activite> findByVille(String ville);
 
     // Méthode pour rechercher des activités par lieu
     List<Activite> findByLieu(String lieu);
@@ -39,6 +40,7 @@ public interface ActiviteDao extends JpaRepository<Activite, Long> {
     void deleteById(long id);
 
     void deleteByNom(String nom);
+    void deleteByVille(String ville);
 
     // Méthode pour supprimer des activités par lieu
     void deleteByLieu(String lieu);

@@ -68,6 +68,10 @@ public class ActiviteController {
     public void deleteByNom(@PathVariable String nom) {
         activiteService.deleteByNom(nom);
     }
+    @GetMapping("/ville/{ville}")
+    public List<Activite> findByVille(@PathVariable String ville) {
+        return activiteService.findByVille(ville);
+    }
 
     @DeleteMapping("/lieu/{lieu}")
     @Transactional
@@ -79,6 +83,11 @@ public class ActiviteController {
     @Transactional
     public void deleteByDescription(@PathVariable String description) {
         activiteService.deleteByDescription(description);
+    }
+    @DeleteMapping("/ville/{ville}")
+    @Transactional
+    public void deleteByVille(@PathVariable String ville) {
+        activiteService.deleteByVille(ville);
     }
 
     @DeleteMapping("/horaire/{horaire}")
