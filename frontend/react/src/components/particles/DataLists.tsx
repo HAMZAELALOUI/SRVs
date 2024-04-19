@@ -14,8 +14,11 @@ export const NavLinks = [
     {
         name: "Bookings",
         url: "/"
+    },
+    {
+        name: "activities",
+        url: "/Activite"
     }
-
 ];
 
 export const NavButtons = [

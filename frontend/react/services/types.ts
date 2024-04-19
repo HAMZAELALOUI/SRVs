@@ -12,3 +12,19 @@ export interface Ville {
     nom: string;
     pays: string;
 }
+export interface Activite {
+    id?: number;
+    nom: string;
+    ville: string;
+    lieu: string;
+    description: string;
+    horaire: string;
+    prix: number;
+
+}
+export interface Details {
+    id?: number;
+    activite: Activite;
+/*reservation:Reservation*/
+}
+

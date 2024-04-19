@@ -4,11 +4,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { animateScroll } from "react-scroll";
+import Activite from "./components/pages/Activite";
 
-import NavBar from "./components/organs/NavBar"
-import Home from "./components/pages/Home";
 import { useEffect } from "react";
-import Footer from "./components/organs/Footer";
+import MainLayout from "./components/layouts/MainLayout";
+import Home from "./components/pages/Home";
 
 function App() {
   const directory = useLocation();
@@ -20,11 +20,25 @@ function App() {
 
   return (
     <div className="w-full bg-white text-gray-950 font-poppins">
-      <NavBar />
+     
       <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-      <Footer />
+      <Route
+          path="/"
+          element={
+            <MainLayout>
+              <Home />
+            </MainLayout>
+          }
+        />
+             <Route
+          path="/Activite"
+          element={
+            <MainLayout>
+              <Activite />
+            </MainLayout>
+          }
+        />      </Routes>
+     
     </div>
   )
 }
