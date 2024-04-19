@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/Gestion-Vol/Activite")
+@RequestMapping("/GestionVol/Activite")
 public class ActiviteController {
 
     @Autowired
@@ -24,6 +24,10 @@ public class ActiviteController {
      return  activiteService.updateActivite(activite);
     }
 
+    @GetMapping("/")
+    public List<Activite> findAll() {
+        return activiteService.findAll();
+    }
     @GetMapping("/prixactivite/between/{prixMin}/{prixMax}")
     public List<Activite> findByPrixActiviteBetween(@PathVariable double prixMin, @PathVariable double prixMax) {
         return activiteService.findByPrixActviteBetween(prixMin,prixMax);

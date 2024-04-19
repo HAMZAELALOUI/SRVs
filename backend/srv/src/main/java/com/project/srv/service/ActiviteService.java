@@ -74,6 +74,9 @@ public class ActiviteService {
             return -1; // L'activité n'existe pas
         }
     }
+    public List<Activite> findAll() {
+        return activiteDao.findAll();
+    }
     public List<Activite> findByPrixLessThan(double prixMax) {
         return activiteDao.findByPrixLessThan(prixMax);
     }
@@ -117,6 +120,8 @@ public class ActiviteService {
     public void deleteByPrix(double prix) {
         activiteDao.deleteByPrix(prix);
     }
+
+
 
     // Vous pouvez ajouter d'autres méthodes de service personnalisées ici si nécessaire
 }
