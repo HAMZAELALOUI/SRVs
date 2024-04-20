@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
@@ -14,7 +15,7 @@ public class Vol {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idVol;
-
+    private String origin;
     private String destination;
     private LocalDate heureDepart;
     private LocalDate heureArrivee;
@@ -24,18 +25,20 @@ public class Vol {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Ville ville;
 
-    public Vol() {
 
-    }
-
-    public Vol(int idVol, String destination, LocalDate heureDepart, LocalDate heureArrivee, float prix, int placesDisponibles, Ville ville) {
+    public Vol(int idVol,String origin, String destination, LocalDate heureDepart, LocalDate heureArrivee, float prix, int placesDisponibles, Ville ville) {
         this.idVol = idVol;
+        this.origin = origin;
         this.destination = destination;
         this.heureDepart = heureDepart;
         this.heureArrivee = heureArrivee;
         this.prix = prix;
         this.placesDisponibles = placesDisponibles;
         this.ville = ville;
+    }
+
+    public Vol() {
+
     }
 
 
@@ -45,6 +48,14 @@ public class Vol {
 
     public void setIdVol(int idVol) {
         this.idVol = idVol;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 
     public String getDestination() {

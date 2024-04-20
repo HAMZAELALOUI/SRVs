@@ -14,10 +14,6 @@ public class VilleService {
     public List<Ville> findByNom(String nom) {
         return villeDao.findByNom(nom);
     }
-
-
-
-
     public List<Ville> findByPays(String pays) {
         return villeDao.findByPays(pays);
     }

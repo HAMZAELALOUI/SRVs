@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/srv/vols")
 public class VolController {
@@ -39,9 +39,6 @@ public class VolController {
     public List<Vol> findByDestination(@PathVariable String destination) {
         return volService.findByDestination(destination);
     }
-
-
-
 
     @GetMapping("/heureDep/{heureDepart}")
 

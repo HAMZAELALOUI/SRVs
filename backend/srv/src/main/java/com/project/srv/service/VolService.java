@@ -13,7 +13,9 @@ import java.util.List;
 @Service
 public class VolService {
 
-
+    public List<Vol> findByOrigin(String origin) {
+        return volDao.findByOrigin(origin);
+    }
     public List<Vol> findByDestination(String destination) {
         return volDao.findByDestination(destination);
     }
@@ -33,6 +35,9 @@ public class VolService {
     public List<Vol> findByVille(Ville ville) {
         return volDao.findByVille(ville);
     }
+
+    public List<Vol> findByOriginAndDestination(String origin, String destination) {return volDao.findVolByOriginAndDestination(origin,destination);}
+    public List<Vol> findByHeureDepartAndHeureArrivee(LocalDate heureDepart, LocalDate heureArrivee) {return volDao.findByHeureDepartAndHeureArrivee(heureDepart,heureArrivee);}
 
 
     public void deleteVolByDestination(String destination) {

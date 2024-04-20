@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface VolDao extends JpaRepository<Vol, Long> {
 
+    List<Vol> findByOrigin(String origin);
     List<Vol> findByDestination(String destination);
 
     List<Vol> findByHeureDepart(LocalDate heureDepart);
@@ -21,9 +22,10 @@ public interface VolDao extends JpaRepository<Vol, Long> {
 
     List<Vol> findByVille(Ville ville);
 
+    List<Vol> findVolByOriginAndDestination(String origin, String destination);
     List<Vol> findByHeureDepartAndHeureArrivee(LocalDate heureDepart, LocalDate heureArrivee);
 
-
+    void deleteByOrigin(String origin);
     void deleteByDestination(String destination);
 
     void deleteByHeureDepart(LocalDate heureDepart);
