@@ -21,6 +21,8 @@ public class Ville {
 
     public Ville() {
     }
+    @OneToMany
+    private List<Hotel> hotel;
 
     public Ville(Long id, String nom, String pays) {
         this.id = id;

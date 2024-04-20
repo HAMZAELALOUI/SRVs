@@ -24,6 +24,10 @@ public class HotelController {
     public List<Hotel> findByNombreEtoiles(@PathVariable int nombreEtoiles) {
         return hotelService.findByNombreEtoiles(nombreEtoiles);
     }
+    @GetMapping("/ville/{ville}")
+    public List<Hotel> findByVille(@PathVariable String ville) {
+        return hotelService.findByVille(ville);
+    }
     @GetMapping
     public List<Hotel> getAllHotels() {
         return hotelService.findAll();

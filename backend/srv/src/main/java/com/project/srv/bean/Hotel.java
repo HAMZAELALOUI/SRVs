@@ -12,6 +12,8 @@ public class Hotel {
     private Long id;
 
     private String nom;
+    private String image;
+
 
     private String emplacement;
     private String description;
@@ -23,6 +25,9 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel")
     private List<Reservation> reservations;
 
+    @ManyToOne
+    @JoinColumn(name = "Ville")
+    private Ville ville;
     public Long getId() {
         return id;
     }
@@ -69,5 +74,13 @@ public class Hotel {
 
     public void setPrixChambres(double prixChambres) {
         this.prixChambres = prixChambres;
+    }
+
+    public Ville getVille() {
+        return ville;
+    }
+
+    public void setVille(Ville ville) {
+        this.ville = ville;
     }
 }
