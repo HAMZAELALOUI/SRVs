@@ -1,91 +1,77 @@
 import axios from 'axios';
-import { Vol } from './types'; 
+import {Ville, Vol} from './types';
 
-const API_URL = 'http://localhost:8080/api/vols';
+const api = axios.create({
+    baseURL: 'http://localhost:8080/srv/vols',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
 
-const getAllVols = async (): Promise<Vol[]> => {
-    const response = await axios.get<Vol[]>(`${API_URL}`);
-    return response.data;
+const volService = {
+    getAllVols: async () => {
+        return api.get<Vol[]>('/');
+    },
+
+    getVolById: async (id: number) => {
+        return api.get<Vol>(`/id/${id}`);
+    },
+
+    findByDestination: async (destination: string) => {
+        return api.get<Vol[]>(`/destination/${destination}`);
+    },
+
+    findByHeureDepart: async (heureDepart: Date) => {
+        const heureDepartStr = heureDepart.toISOString().split('T')[0];
+        return api.get<Vol[]>(`/heureDep/${heureDepartStr}`);
+    },
+
+    findByHeureArrivee: async (heureArrivee: Date) => {
+        const heureArriveeStr = heureArrivee.toISOString().split('T')[0];
+        return api.get<Vol[]>(`/heureArr/${heureArriveeStr}`);
+    },
+
+    findByPrix: async (prix: number) => {
+        return api.get<Vol[]>(`/prix/${prix}`);
+    },
+
+    findByVille: async (ville: Ville) => {
+        return api.get<Vol[]>(`/ville/${ville.id}`); // Assuming ville has an id property
+    },
+
+    save: async (vol: Vol) => {
+        return api.post<number>('/', vol);
+    },
+
+    updateVol: async (id: number, volDetails: Vol) => {
+        return api.put<Vol>(`id/${id}`, volDetails);
+    },
+
+    deleteVol: async (id: number) => {
+        return api.delete(`/id/${id}`);
+    },
+
+    deleteVolByDestination: async (destination: string) => {
+        return api.delete(`/${destination}`);
+    },
+
+    deleteVolByHeureDepart: async (heureDepart: Date) => {
+        const heureDepartStr = heureDepart.toISOString().split('T')[0];
+        return api.delete(`/${heureDepartStr}`);
+    },
+
+    deleteVolByArrivee: async (heureArrivee: Date) => {
+        const heureArriveeStr = heureArrivee.toISOString().split('T')[0];
+        return api.delete(`/${heureArriveeStr}`);
+    },
+
+    deleteVolByPrix: async (prix: number) => {
+        return api.delete(`/${prix}`);
+    },
+
+    deleteAllVols: async () => {
+        return api.delete('/');
+    }
 };
 
-const getVolById = async (id: number): Promise<Vol> => {
-    const response = await axios.get<Vol>(`${API_URL}/id/${id}`);
-    return response.data;
-};
-
-const findByDestination = async (destination: string): Promise<Vol[]> => {
-    const response = await axios.get<Vol[]>(`${API_URL}/destination/${destination}`);
-    return response.data;
-};
-
-const findByHeureDepart = async (heureDepart: string): Promise<Vol[]> => {
-    const response = await axios.get<Vol[]>(`${API_URL}/heureDep/${heureDepart}`);
-    return response.data;
-};
-
-const findByHeureArrivee = async (heureArrivee: string): Promise<Vol[]> => {
-    const response = await axios.get<Vol[]>(`${API_URL}/heureArr/${heureArrivee}`);
-    return response.data;
-};
-
-const findByPrix = async (prix: number): Promise<Vol[]> => {
-    const response = await axios.get<Vol[]>(`${API_URL}/prix/${prix}`);
-    return response.data;
-};
-
-const findByVille = async (ville: string): Promise<Vol[]> => {
-    const response = await axios.get<Vol[]>(`${API_URL}/ville/${ville}`);
-    return response.data;
-};
-
-const saveVol = async (vol: Vol): Promise<number> => {
-    const response = await axios.post<number>(`${API_URL}`, vol);
-    return response.data;
-};
-
-const updateVol = async (id: number, volDetails: Vol): Promise<Vol> => {
-    const response = await axios.put<Vol>(`${API_URL}/id/${id}`, volDetails);
-    return response.data;
-};
-
-const deleteVol = async (id: number): Promise<void> => {
-    await axios.delete(`${API_URL}/${id}`);
-};
-
-const deleteVolByDestination = async (destination: string): Promise<void> => {
-    await axios.delete(`${API_URL}/destination/${destination}`);
-};
-
-const deleteVolByHeureDepart = async (heureDepart: string): Promise<void> => {
-    await axios.delete(`${API_URL}/byHeureDepart/${heureDepart}`);
-};
-
-const deleteVolByHeureArrivee = async (heureArrivee: string): Promise<void> => {
-    await axios.delete(`${API_URL}/byHeureArrivee/${heureArrivee}`);
-};
-
-const deleteVolByPrix = async (prix: number): Promise<void> => {
-    await axios.delete(`${API_URL}/prix/${prix}`);
-};
-
-const deleteAllVols = async (): Promise<void> => {
-    await axios.delete(`${API_URL}/`);
-}; 
-
-export const volService = {
-    getAllVols,
-    getVolById,
-    findByDestination,
-    findByHeureDepart,
-    findByHeureArrivee,
-    findByPrix,
-    findByVille,
-    saveVol,
-    updateVol,
-    deleteVol,
-    deleteVolByDestination,
-    deleteVolByHeureDepart,
-    deleteVolByHeureArrivee,
-    deleteVolByPrix,
-    deleteAllVols,
-};
+export default volService;

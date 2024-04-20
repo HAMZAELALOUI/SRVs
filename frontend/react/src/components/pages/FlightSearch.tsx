@@ -1,0 +1,98 @@
+import React, { useState } from 'react';
+import VolService from '../../../services/VolService.ts';
+import { useNavigate } from 'react-router-dom';
+
+
+
+interface FlightSearchProps {
+    onSearch: (origin: string, destination: string, departureDate: Date, returnDate: Date) => void;
+}
+
+const FlightSearch: React.FC<FlightSearchProps> = () => {
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
+  const [departDate, setDepartDate] = useState(new Date());
+  const [returnDate, setReturnDate] = useState(new Date());
+
+
+  // Function to handle search (you'll need to implement this)
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    VolService.findByDestination(origin)
+        .then(response => {
+          navigate('/results', { state: { searchResults: response.data } });
+        })
+        .catch(error => {
+          console.error('Error fetching flights:', error);
+        });
+  };
+
+  return (
+    <div className="bg-white p-4 m-80 rounded-lg shadow-md " >
+      <h2 className="text-2xl font-bold mb-4">Where do you want to go?</h2>
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex-1">
+          <label htmlFor="origin" className="block text-gray-700 font-bold mb-2">
+            From
+          </label>
+          <input
+            type="text"
+            id="origin"
+            value={origin}
+            onChange={(e) => setOrigin(e.target.value)}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <div className="flex-1">
+          <label htmlFor="destination" className="block text-gray-700 font-bold mb-2">
+            To
+          </label>
+          <input
+            type="text"
+            id="destination"
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+      </div>
+      <div className="flex flex-col md:flex-row gap-4 mt-4">
+        <div className="flex-1">
+          <label htmlFor="departDate" className="block text-gray-700 font-bold mb-2">
+            Depart Date
+          </label>
+          <input
+            type="date"
+            id="departDate"
+            value={departDate.toISOString().split('T')[0]} // Format date for input
+            onChange={(e) => setDepartDate(new Date(e.target.value))}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <div className="flex-1">
+          <label htmlFor="returnDate" className="block text-gray-700 font-bold mb-2">
+            Return Date
+          </label>
+          <input
+            type="date"
+            id="returnDate"
+            value={returnDate.toISOString().split('T')[0]} // Format date for input
+            onChange={(e) => setReturnDate(new Date(e.target.value))}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+      </div>
+      <div className="mt-4">
+        <button 
+          onClick={handleSearch}
+          className="bg-color2 hover:bg-color1 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default FlightSearch;

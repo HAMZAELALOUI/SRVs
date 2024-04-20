@@ -1,7 +1,7 @@
 export const NavLinks = [
     {
         name: "Destination",
-        url: "/"
+        url: "/flight"
     },
     {
         name: "Hotels",

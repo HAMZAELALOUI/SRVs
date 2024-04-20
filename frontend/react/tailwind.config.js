@@ -9,6 +9,12 @@ export default {
         color3: "#152F37",
         color4: "#35528B",
       },
+      margin: {
+        sm: '8px',
+        md: '16px',
+        lg: '24px',
+        xl: '48px',
+      },
       fontFamily: {
         poppins: ["Poppins"],
       },
