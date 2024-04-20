@@ -35,7 +35,7 @@ public class HotelService {
         return hotelDao.findAll();
     }
 
-    public List<Hotel> findByVille(String ville) {
+    public List<Hotel> findByVille(Ville ville) {
         return hotelDao.findByVille(ville);
     }
 

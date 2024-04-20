@@ -1,6 +1,7 @@
 package com.project.srv.dao;
 
 import com.project.srv.bean.Hotel;
+import com.project.srv.bean.Ville;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ public interface HotelDao extends JpaRepository<Hotel, Long> {
 
     // Méthode pour rechercher des hôtels par nombre d'étoiles
     List<Hotel> findByNombreEtoiles(int nombreEtoiles);
-    List<Hotel> findByVille(String ville);
+    List<Hotel> findByVille(Ville ville);
 
 
     List<Hotel> findHotelByReservationsId(Long reservationId);

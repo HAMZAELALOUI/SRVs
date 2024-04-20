@@ -1,6 +1,7 @@
 package com.project.srv.ws;
 
 import com.project.srv.bean.Hotel;
+import com.project.srv.bean.Ville;
 import com.project.srv.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,7 @@ public class HotelController {
         return hotelService.findByNombreEtoiles(nombreEtoiles);
     }
     @GetMapping("/ville/{ville}")
-    public List<Hotel> findByVille(@PathVariable String ville) {
+    public List<Hotel> findByVille(@PathVariable Ville ville) {
         return hotelService.findByVille(ville);
     }
     @GetMapping
