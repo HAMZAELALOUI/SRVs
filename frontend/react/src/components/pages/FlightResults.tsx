@@ -19,9 +19,9 @@ const FlightResults: React.FC = () => {
                             alt="Flight"
                             className="w-full h-48 object-cover rounded-t-lg"
                         />
-                        <h2 className="text-xl font-semibold my-2">Flight to {vol.origin.nom}</h2>
-                        <p className="mb-1">Departure Time: {new Date(vol.heureDepart).toLocaleTimeString()}</p>
-                        <p className="mb-1">Arrival Time: {new Date(vol.heureArrivee).toLocaleTimeString()}</p>
+                        <h2 className="text-xl font-semibold my-2">Flight from {vol.origin.nom} to {vol.destination.nom}</h2>
+                        <p className="mb-1">Departure Time: {new Date(vol.heureDepart).toISOString().split('T')[0]}</p>
+                        <p className="mb-1">Arrival Time: {new Date(vol.heureArrivee).toISOString().split('T')[0]}</p>
                         <p className="mb-1">Price: <span className="text-green-500">${vol.prix}</span></p>
                         <p className="mb-1">Available Seats: {vol.placesDisponibles}</p>
                         <Button

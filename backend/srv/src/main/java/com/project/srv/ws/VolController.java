@@ -136,14 +136,27 @@ public class VolController {
         List<Ville> origins = villeService.findByNom(origin);
         List<Ville> destinations = villeService.findByNom(destination);
 
-        if (origins.isEmpty() || destinations.isEmpty()) {
+        List<Vol> vols = new ArrayList<>();
+        if (!origins.isEmpty() && !destinations.isEmpty()) {
+            Ville originVille = origins.get(0);
+            Ville destinationVille = destinations.get(0);
+            vols = volService.searchByAll(originVille, destinationVille, departDate, arriveeDate);
+        }
+
+        if( !origins.isEmpty()) {
+            Ville originVille = origins.get(0);
+            vols = volService.findByOrigin(originVille);
+        }
+
+        // If no results found by name, fall back to date search
+        if (vols.isEmpty()) {
+            vols = volService.findByHeureDepartAndHeureArrivee(departDate, arriveeDate);
+        }
+
+        if (vols.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        Ville originVille = origins.get(0);
-        Ville destinationVille = destinations.get(0);
-
-        List<Vol> vols = volService.searchByAll(originVille, destinationVille, departDate, arriveeDate);
         return ResponseEntity.ok(vols);
     }
 
