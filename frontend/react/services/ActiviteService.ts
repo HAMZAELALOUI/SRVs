@@ -52,6 +52,10 @@ const findByHoraire = async (horaire: string): Promise<Activite[]> => {
     const response = await axios.get<Activite[]>(`${API_URL}/horaire/${horaire}`);
     return response.data;
 };
+const findByNomVille = async (nomVille: string): Promise<Activite[]> => {
+    const response = await axios.get<Activite[]>(`${API_URL}/ville/${nomVille}`);
+    return response.data;
+};
 export const activiteService = {
     saveActivite,
     updateActivite,
@@ -64,4 +68,5 @@ export const activiteService = {
     deleteByNom,
     deleteByVille,
     findByHoraire,
+    findByNomVille,
 };

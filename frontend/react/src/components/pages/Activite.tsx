@@ -43,19 +43,18 @@ const App: React.FC = () => {
   const handleSearch = async () => {
     console.log("Searching for:", selectedVille, selectedDate);
     try {
-      if (selectedVille && selectedDate) {
-        // Formate la date sélectionnée au format "yyyy-MM-dd"
-        const formattedDate = selectedDate.toISOString().split('T')[0];
-        const activitesData = await activiteService.findByVilleAndHoraireString(selectedVille, formattedDate); // Appel de la méthode avec la ville et l'heure sélectionnées
+      if (selectedVille) {
+        // Si seulement la ville est sélectionnée
+        const activitesData = await activiteService.findByNomVille(selectedVille);
         setActivites(activitesData);
-      } else if (!selectedVille && selectedDate) {
-        // Si la ville n'est pas sélectionnée mais la date l'est, rechercher uniquement par la date
+      } else if (selectedDate) {
+        // Si seulement la date est sélectionnée
         const formattedDate = selectedDate.toISOString().split('T')[0];
         const activitesData = await activiteService.findByHoraire(formattedDate);
         setActivites(activitesData);
       } else {
         // Gérer le cas où l'un des champs est vide
-        console.log("City and date are required");
+        console.log("City or date is required");
       }
     } catch (error) {
       console.error("Error searching for activites:", error);
