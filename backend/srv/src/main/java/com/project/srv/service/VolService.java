@@ -3,21 +3,35 @@ package com.project.srv.service;
 import com.project.srv.bean.Ville;
 import com.project.srv.bean.Vol;
 import com.project.srv.dao.VolDao;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VolService {
 
-    public List<Vol> findByOrigin(String origin) {
+    public List<Vol> findByOrigin(Ville origin) {
         return volDao.findByOrigin(origin);
     }
-    public List<Vol> findByDestination(String destination) {
+
+    public List<Vol> findByOriginName(Ville origin){
+        return volDao.findByOrigin(origin);
+    }
+    public List<Vol> findByOriginPays(Ville origin){
+        return volDao.findByOrigin(origin);
+    }
+    public List<Vol> findByDestination(Ville destination) {
         return volDao.findByDestination(destination);
+    }
+
+    public List<Vol> findByDestinatiomName(Ville origin){
+        return volDao.findByOrigin(origin);
+    }
+    public List<Vol> findByDestinatiomPays(Ville origin){
+        return volDao.findByOrigin(origin);
     }
 
     public List<Vol> findByHeureDepart(LocalDate heureDepart) {
@@ -32,15 +46,14 @@ public class VolService {
         return volDao.findByPrix(prix);
     }
 
-    public List<Vol> findByVille(Ville ville) {
-        return volDao.findByVille(ville);
-    }
-
-    public List<Vol> findByOriginAndDestination(String origin, String destination) {return volDao.findVolByOriginAndDestination(origin,destination);}
+    public List<Vol> findByOriginAndDestination(Ville origin, Ville destination) {return volDao.findVolByOriginAndDestination(origin,destination);}
     public List<Vol> findByHeureDepartAndHeureArrivee(LocalDate heureDepart, LocalDate heureArrivee) {return volDao.findByHeureDepartAndHeureArrivee(heureDepart,heureArrivee);}
 
-
-    public void deleteVolByDestination(String destination) {
+    public List<Vol> searchByAll(Ville origin, Ville destination, LocalDate heureDepart, LocalDate heureArrivee) {return volDao.searchByAll(origin,destination,heureDepart,heureArrivee);}
+    public void deleteVolByOrigin(Ville origin) {
+        volDao.deleteByDestination(origin);
+    }
+    public void deleteVolByDestination(Ville destination) {
         volDao.deleteByDestination(destination);
     }
 
@@ -65,7 +78,11 @@ public class VolService {
 
     public int save(Vol vol) {
 
-        if (vol.getDestination() == null || vol.getDestination().isEmpty()) {
+        if (vol.getOrigin() == null ) {
+            return -2; // Le nom est requis
+        }
+
+        if (vol.getDestination() == null ) {
             return -2; // Le nom est requis
         }
 
@@ -93,4 +110,7 @@ public class VolService {
 
     @Autowired
     private VolDao volDao;
+
+
+
 }

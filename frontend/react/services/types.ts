@@ -1,12 +1,13 @@
+
 export interface Vol {
-    id?: number;
-    destination: string;
+    idVol?: number;
+    origin: Ville;
+    destination: Ville;
+    heureDepart: Date; // Use string to represent ISO 8601 date format in TypeScript
+    heureArrivee: Date; // Use string for dates in TypeScript as well
     prix: number;
-    heureDepart: Date; 
-    heureArrivee: Date;
     placesDisponibles: number;
-    villeDepart: Ville;
-    VilleArrivee: Ville;
+    imageUrl: string;
 }
 
 export interface Ville {

@@ -9,24 +9,24 @@ interface FlightSearchProps {
 }
 
 const FlightSearch: React.FC<FlightSearchProps> = () => {
-  const [origin, setOrigin] = useState('');
-  const [destination, setDestination] = useState('');
-  const [departDate, setDepartDate] = useState(new Date());
-  const [returnDate, setReturnDate] = useState(new Date());
+    const [origin, setOrigin] = useState('');
+    const [destination, setDestination] = useState('');
+    const [departDate, setDepartDate] = useState(new Date());
+    const [arriveeDate, setReturnDate] = useState(new Date());
+    const navigate = useNavigate();
 
+    const handleSearch = () => {
+        const formattedDepartDate = departDate.toISOString().split('T')[0];
+        const formattedReturnDate = arriveeDate.toISOString().split('T')[0];
 
-  // Function to handle search (you'll need to implement this)
-  const navigate = useNavigate();
-
-  const handleSearch = () => {
-    VolService.findByDestination(origin)
-        .then(response => {
-          navigate('/results', { state: { searchResults: response.data } });
-        })
-        .catch(error => {
-          console.error('Error fetching flights:', error);
-        });
-  };
+        VolService.searchByAll(origin, destination, formattedDepartDate, formattedReturnDate)
+            .then(response => {
+                navigate('/results', { state: { searchResults: response.data } });
+            })
+            .catch(error => {
+                console.error('Error fetching flights:', error);
+            });
+    };
 
   return (
     <div className="bg-white p-4 m-80 rounded-lg shadow-md " >
@@ -77,7 +77,7 @@ const FlightSearch: React.FC<FlightSearchProps> = () => {
           <input
             type="date"
             id="returnDate"
-            value={returnDate.toISOString().split('T')[0]} // Format date for input
+            value={arriveeDate.toISOString().split('T')[0]} // Format date for input
             onChange={(e) => setReturnDate(new Date(e.target.value))}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />

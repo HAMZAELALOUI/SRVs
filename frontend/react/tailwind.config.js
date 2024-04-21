@@ -8,6 +8,7 @@ export default {
         color2: "#FA9C0F",
         color3: "#152F37",
         color4: "#35528B",
+        color5: "#2B3A3E"
       },
       margin: {
         sm: '8px',

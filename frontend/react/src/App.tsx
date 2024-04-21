@@ -5,11 +5,17 @@ import "slick-carousel/slick/slick-theme.css";
 
 import { animateScroll } from "react-scroll";
 
+
+
 import Home from "./components/pages/Home";
 import { useEffect } from "react";
-import FlightSearch from "./components/pages/FlightSearch";
-import MainLayout from "./components/layouts/MainLayout.tsx";
+import SignUp from "./components/organs/SignUp";
+import SignIn from "./components/organs/SignIn";
+import MainLayout from "./components/layouts/MainLayout";
+import UserProfileForm from "./components/pages/UserProfileForm";
 import FlightResults from "./components/pages/FlightResults.tsx";
+import FlightSearch from "./components/pages/FlightSearch.tsx";
+
 
 function App() {
   const directory = useLocation();
@@ -25,15 +31,21 @@ function App() {
     // You can use these values to make API calls, redirect, etc.
   };
 
+
   return (
     <div className="w-full bg-white text-gray-950 font-poppins">
       <Routes>
+
           <Route path="/" element={<MainLayout> <Home /> </MainLayout> } />
           <Route path="/flight" element={<MainLayout> <FlightSearch onSearch={handleFlightSearch} /> </MainLayout>} />
-          <Route path="/results" element={<FlightResults />} />
+          <Route path="/results" element={<MainLayout> <FlightResults /> </MainLayout> } />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/user-profile" element={<UserProfileForm />} />
+
       </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

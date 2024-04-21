@@ -1,12 +1,9 @@
 package com.project.srv.bean;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
-
 
 @Entity
 @JsonIgnoreProperties
@@ -15,18 +12,17 @@ public class Vol {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idVol;
-    private String origin;
-    private String destination;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Ville origin;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Ville destination;
     private LocalDate heureDepart;
     private LocalDate heureArrivee;
     private float prix;
     private int placesDisponibles;
+    private String imageUrl;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Ville ville;
-
-
-    public Vol(int idVol,String origin, String destination, LocalDate heureDepart, LocalDate heureArrivee, float prix, int placesDisponibles, Ville ville) {
+    public Vol(int idVol, Ville origin, Ville destination, LocalDate heureDepart, LocalDate heureArrivee, float prix, int placesDisponibles, String imageUrl) {
         this.idVol = idVol;
         this.origin = origin;
         this.destination = destination;
@@ -34,13 +30,12 @@ public class Vol {
         this.heureArrivee = heureArrivee;
         this.prix = prix;
         this.placesDisponibles = placesDisponibles;
-        this.ville = ville;
+        this.imageUrl = imageUrl;
     }
 
     public Vol() {
 
     }
-
 
     public int getIdVol() {
         return idVol;
@@ -50,19 +45,19 @@ public class Vol {
         this.idVol = idVol;
     }
 
-    public String getOrigin() {
+    public Ville getOrigin() {
         return origin;
     }
 
-    public void setOrigin(String origin) {
+    public void setOrigin(Ville origin) {
         this.origin = origin;
     }
 
-    public String getDestination() {
+    public Ville getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(Ville destination) {
         this.destination = destination;
     }
 
@@ -96,5 +91,13 @@ public class Vol {
 
     public void setPlacesDisponibles(int placesDisponibles) {
         this.placesDisponibles = placesDisponibles;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

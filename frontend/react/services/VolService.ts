@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Ville, Vol} from './types';
+import { Vol } from './types';
 
 const api = axios.create({
     baseURL: 'http://localhost:8080/srv/vols',
@@ -13,12 +13,43 @@ const volService = {
         return api.get<Vol[]>('/');
     },
 
+    searchFlights: async (originId: number, destinationId: number, departDate: string, returnDate: string) => {
+        return api.get<Vol[]>('/search', {
+            params: { originId, destinationId, departDate, returnDate }
+        });
+    },
+    searchByAll: async (origin: string, destination: string, departDate: string, arriveeDate: string) => {
+        return api.get<Vol[]>('/searchByAll', {
+            params: { origin, destination, departDate, arriveeDate }
+        });
+    },
+
     getVolById: async (id: number) => {
         return api.get<Vol>(`/id/${id}`);
     },
 
-    findByDestination: async (destination: string) => {
-        return api.get<Vol[]>(`/destination/${destination}`);
+    findByOriginId: async (originId: number) => {
+        return api.get<Vol[]>(`/origin/id/${originId}`);
+    },
+
+    findByOriginNom: async (nom: string) => {
+        return api.get<Vol[]>(`/origin/nom/${nom}`);
+    },
+
+    findByOriginPays: async (pays: string) => {
+        return api.get<Vol[]>(`/origin/pays/${pays}`);
+    },
+
+    findByDestinationId: async (destinationId: number) => {
+        return api.get<Vol[]>(`/destination/${destinationId}`);
+    },
+
+    findByDestinationNom: async (nom: string) => {
+        return api.get<Vol[]>(`/destination/nom/${nom}`);
+    },
+
+    findByDestinationPays: async (pays: string) => {
+        return api.get<Vol[]>(`/destination/pays/${pays}`);
     },
 
     findByHeureDepart: async (heureDepart: Date) => {
@@ -35,38 +66,21 @@ const volService = {
         return api.get<Vol[]>(`/prix/${prix}`);
     },
 
-    findByVille: async (ville: Ville) => {
-        return api.get<Vol[]>(`/ville/${ville.id}`); // Assuming ville has an id property
-    },
-
     save: async (vol: Vol) => {
         return api.post<number>('/', vol);
     },
 
     updateVol: async (id: number, volDetails: Vol) => {
-        return api.put<Vol>(`id/${id}`, volDetails);
+        return api.put<Vol>(`/id/${id}`, volDetails);
     },
 
     deleteVol: async (id: number) => {
         return api.delete(`/id/${id}`);
     },
 
-    deleteVolByDestination: async (destination: string) => {
-        return api.delete(`/${destination}`);
-    },
-
-    deleteVolByHeureDepart: async (heureDepart: Date) => {
-        const heureDepartStr = heureDepart.toISOString().split('T')[0];
-        return api.delete(`/${heureDepartStr}`);
-    },
-
-    deleteVolByArrivee: async (heureArrivee: Date) => {
-        const heureArriveeStr = heureArrivee.toISOString().split('T')[0];
-        return api.delete(`/${heureArriveeStr}`);
-    },
-
-    deleteVolByPrix: async (prix: number) => {
-        return api.delete(`/${prix}`);
+    // Assume delete by Ville involves deleting by ville id
+    deleteVolByVille: async (villeId: number) => {
+        return api.delete(`/ville/${villeId}`);
     },
 
     deleteAllVols: async () => {
