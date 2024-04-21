@@ -121,7 +121,9 @@ public class ActiviteService {
     public List<Activite>  findByVilleAndHoraire(Ville ville,String horaire) {
         return activiteDao.findByVilleAndHoraire(ville,horaire);
     }
-
+    public List<Activite> findByNomVille(String nomVille) {
+        return activiteDao.findByVilleNom(nomVille);
+    }
     @Transactional
     public void deleteById(long id) {
         activiteDao.deleteById(id);

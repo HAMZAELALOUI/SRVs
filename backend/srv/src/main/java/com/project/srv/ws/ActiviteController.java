@@ -25,6 +25,10 @@ public class ActiviteController {
      return  activiteService.updateActivite(activite);
     }
 
+    @GetMapping("/ville/{nomVille}")
+    public List<Activite> findByNomVille(@PathVariable String nomVille) {
+        return activiteService.findByNomVille(nomVille);
+    }
     @GetMapping("/")
     public List<Activite> findAll() {
         return activiteService.findAll();
@@ -74,7 +78,7 @@ public class ActiviteController {
     public void deleteByNom(@PathVariable String nom) {
         activiteService.deleteByNom(nom);
     }
-    @GetMapping("/ville/{ville}")
+    @GetMapping("/jj/{ville}")
     public List<Activite> findByVille(@PathVariable Ville ville) {
         return activiteService.findByVille(ville);
     }

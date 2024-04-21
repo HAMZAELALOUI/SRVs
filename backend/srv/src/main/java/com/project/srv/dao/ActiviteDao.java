@@ -38,7 +38,7 @@ public interface ActiviteDao extends JpaRepository<Activite, Long> {
 
     // Méthode pour supprimer des activités par nom
     List<Activite> findByPrixLessThan(double prix);
-
+    List<Activite> findByVilleNom(String nomVille);
 
 
     void deleteById(long id);
