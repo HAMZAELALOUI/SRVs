@@ -12,6 +12,12 @@ const updateActivite = async (activite: Activite): Promise<number> => {
     const response = await axios.put<number>(`${API_URL}/update`, activite);
     return response.data;
 };
+
+const findByVilleAndHoraireString = async (ville: string, horaire: string): Promise<Activite[]> => {
+    const response = await axios.get<Activite[]>(`${API_URL}/villeString/${ville}/horaire/${horaire}`);
+    return response.data;
+};
+
 const findAll = async (): Promise<Activite[]> => {
     const response = await axios.get<Activite[]>(`${API_URL}/`);
     return response.data;
@@ -42,12 +48,14 @@ const deleteByNom = async (nom: string): Promise<void> => {
 const deleteByVille = async (ville: string): Promise<void> => {
     await axios.delete(`${API_URL}/ville/${ville}`);
 };
-
-// Ajoutez d'autres méthodes de service web ici si nécessaire
-
+const findByHoraire = async (horaire: string): Promise<Activite[]> => {
+    const response = await axios.get<Activite[]>(`${API_URL}/horaire/${horaire}`);
+    return response.data;
+};
 export const activiteService = {
     saveActivite,
     updateActivite,
+    findByVilleAndHoraireString,
     findAll,
     findById,
     findByNom,
@@ -55,4 +63,5 @@ export const activiteService = {
     deleteById,
     deleteByNom,
     deleteByVille,
+    findByHoraire,
 };

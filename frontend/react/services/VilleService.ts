@@ -28,6 +28,11 @@ const findByNomContainingIgnoreCase = async (nom: string): Promise<Ville[]> => {
     return response.data;
 };
 
+const getAllVilleNames = async (): Promise<string[]> => {
+    const response = await axios.get<string[]>(`${API_URL}/noms`);
+    return response.data;
+};
+
 const saveVille = async (ville: Ville): Promise<Ville> => {
     const response = await axios.post<Ville>(`${API_URL}`, ville);
     return response.data;
@@ -60,6 +65,7 @@ export const villeService = {
     getByNom,
     findByPays,
     findByNomContainingIgnoreCase,
+    getAllVilleNames,
     saveVille,
     updateVille,
     deleteVille,

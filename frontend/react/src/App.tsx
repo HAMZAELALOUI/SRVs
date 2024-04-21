@@ -9,6 +9,7 @@ import Activite from "./components/pages/Activite";
 import { useEffect } from "react";
 import MainLayout from "./components/layouts/MainLayout";
 import Home from "./components/pages/Home";
+import ActiviteDetails from "./components/layouts/ActiviteDetails";
 
 function App() {
   const directory = useLocation();
@@ -30,6 +31,9 @@ function App() {
             </MainLayout>
           }
         />
+       <Route path="/activity/ActiviteDetails/:id" element={<ActiviteDetails />} />
+
+
              <Route
           path="/Activite"
           element={

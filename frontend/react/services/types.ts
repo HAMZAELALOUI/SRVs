@@ -27,4 +27,3 @@ export interface Details {
     activite: Activite;
 /*reservation:Reservation*/
 }
-

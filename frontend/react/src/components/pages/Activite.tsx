@@ -4,31 +4,62 @@ import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { activiteService } from "../../../services/ActiviteService"; // Importez votre service
 import { Activite } from "../../../services/types";
+import axios from 'axios'; // Importez axios pour les appels API
+
+const API_URL = 'http://localhost:8080/srv/villes';
 
 const App: React.FC = () => {
   const location = useLocation();
 
-  const [destination, setDestination] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [villes, setVilles] = useState<string[]>([]); // State pour stocker les noms des villes
+  const [selectedVille, setSelectedVille] = useState<string>(""); // State pour stocker la ville sélectionnée
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [activites, setActivites] = useState<Activite[]>([]); // State pour stocker les activités
 
   useEffect(() => {
-    // Utilisez useEffect pour charger les activités une fois que le composant est monté
-    fetchActivites();
+    // Utilise useEffect pour charger les noms des villes une fois que le composant est monté
+    fetchVilleNames();
+    fetchActivites(); // Appeler la fonction pour charger les activités au chargement initial
   }, []); // Utilisez une dépendance vide pour s'assurer que cette fonction ne s'exécute qu'une fois
+
+  const fetchVilleNames = async () => {
+    try {
+      const response = await axios.get<string[]>(`${API_URL}/noms`);
+      setVilles(response.data);
+    } catch (error) {
+      console.error("Error fetching ville names:", error);
+    }
+  };
 
   const fetchActivites = async () => {
     try {
-      const activitesData = await activiteService.findAll(); // Modifiez selon vos besoins
+      const activitesData = await activiteService.findAll(); // Charger toutes les activités
       setActivites(activitesData);
     } catch (error) {
       console.error("Error fetching activites:", error);
     }
   };
 
-  const handleSearch = () => {
-    console.log("Searching for:", destination, selectedDate);
-    // Vous pouvez implémenter votre logique de recherche ici si nécessaire
+  const handleSearch = async () => {
+    console.log("Searching for:", selectedVille, selectedDate);
+    try {
+      if (selectedVille && selectedDate) {
+        // Formate la date sélectionnée au format "yyyy-MM-dd"
+        const formattedDate = selectedDate.toISOString().split('T')[0];
+        const activitesData = await activiteService.findByVilleAndHoraireString(selectedVille, formattedDate); // Appel de la méthode avec la ville et l'heure sélectionnées
+        setActivites(activitesData);
+      } else if (!selectedVille && selectedDate) {
+        // Si la ville n'est pas sélectionnée mais la date l'est, rechercher uniquement par la date
+        const formattedDate = selectedDate.toISOString().split('T')[0];
+        const activitesData = await activiteService.findByHoraire(formattedDate);
+        setActivites(activitesData);
+      } else {
+        // Gérer le cas où l'un des champs est vide
+        console.log("City and date are required");
+      }
+    } catch (error) {
+      console.error("Error searching for activites:", error);
+    }
   };
 
   return (
@@ -40,13 +71,16 @@ const App: React.FC = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
-        <input
-          type="text"
-          placeholder="Where are you going?"
-          value={destination}
-          onChange={(e) => setDestination(e.target.value)}
+        <select
+          value={selectedVille}
+          onChange={(e) => setSelectedVille(e.target.value)}
           className="flex-grow bg-transparent border-0 focus:outline-none w-1/2"
-        />
+        >
+          <option value="">Select a city</option>
+          {villes.map((ville) => (
+            <option key={ville} value={ville}>{ville}</option>
+          ))}
+        </select>
         <div className="ml-4 mr-2">
           <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             {/* Replace with your desired SVG icon */}
@@ -58,6 +92,7 @@ const App: React.FC = () => {
           onChange={(date) => setSelectedDate(date)}
           className="flex-grow bg-transparent border-0 focus:outline-none"
           placeholderText="Select your dates"
+          dateFormat="yyyy-MM-dd" // Format de date souhaité
         />
         <button
           onClick={handleSearch}
@@ -66,13 +101,13 @@ const App: React.FC = () => {
           Search
         </button>
       </div>
-      {/* Affichez la liste des activités */}
+      {/* Affiche la liste des activités */}
       <div className="mt-4 mx-60">
         <h2 className="text-xl font-semibold">List of Activities:</h2>
         <ul>
           {activites.map((activite) => (
-            <li key={activite.id}>
-              {activite.nom} - {activite.ville} - {activite.description}
+            <li key={activite.id}>{activite.nom} {activite.prix}  
+             <a href={`/activity/ActiviteDetails/${activite.id}`}className="text-blue-600 hover:underline"> Details </a>
             </li>
           ))}
         </ul>
