@@ -17,6 +17,9 @@ public class HotelController {
     @Autowired
     private HotelService hotelService;
 
+    @Autowired
+    private VilleService villeService;
+
     @GetMapping("/emplacement/{emplacement}")
     public List<Hotel> findByEmplacement(@PathVariable String emplacement) {
         return hotelService.findByEmplacement(emplacement);
@@ -96,7 +99,7 @@ public class HotelController {
 
     @GetMapping("/horaireAndVille/{horaire}/{villeId}")
     public List<Hotel> findByHoraireAndVille(@PathVariable String horaire, @PathVariable Long villeId) {
-        Ville ville = VilleService.findById(villeId).orElse(null);
+        Ville ville = villeService.findById(villeId).orElse(null);
         if (ville == null) {
             // Gérer le cas où la ville n'est pas trouvée
             return null;
