@@ -1,6 +1,7 @@
 package com.project.srv.ws;
 
 import com.project.srv.bean.Activite;
+import com.project.srv.bean.Ville;
 import com.project.srv.service.ActiviteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +53,7 @@ public class ActiviteController {
         return activiteService.findByDescription(description);
     }
 
+
     @GetMapping("/horaire/{horaire}")
     public List<Activite> findByHoraire(@PathVariable String horaire) {
         return activiteService.findByHoraire(horaire);
@@ -73,10 +75,19 @@ public class ActiviteController {
         activiteService.deleteByNom(nom);
     }
     @GetMapping("/ville/{ville}")
-    public List<Activite> findByVille(@PathVariable String ville) {
+    public List<Activite> findByVille(@PathVariable Ville ville) {
         return activiteService.findByVille(ville);
     }
+    @GetMapping("/villeString/{nomVille}/horaire/{horaire}")
+    public List<Activite> findByVilleAndHoraireString(@PathVariable String nomVille, @PathVariable String horaire) {
+        return activiteService.rechercherParNomVilleEtHoraire(nomVille, horaire);
+    }
 
+
+    @GetMapping("/ville/{nomVille}/horaire/{horaire}")
+    public List<Activite> findByVilleAndHoraire(@PathVariable String nomVille, @PathVariable String horaire) {
+        return activiteService.rechercherParNomVilleEtHoraire(nomVille, horaire);
+    }
     @DeleteMapping("/lieu/{lieu}")
     @Transactional
     public void deleteByLieu(@PathVariable String lieu) {
@@ -90,7 +101,7 @@ public class ActiviteController {
     }
     @DeleteMapping("/ville/{ville}")
     @Transactional
-    public void deleteByVille(@PathVariable String ville) {
+    public void deleteByVille(@PathVariable Ville ville) {
         activiteService.deleteByVille(ville);
     }
 

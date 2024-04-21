@@ -10,13 +10,16 @@ public class Activite {
     private Long id;
 
     private String nom;
-    private String ville;
+
 
     private String lieu;
     private String description;
     private String horaire;
     private double prix;
+    @ManyToOne (fetch = FetchType.EAGER)
+    private Ville ville;
     @OneToMany(mappedBy = "activite")
+
     private List<Details> details;
     public Long getId() {
         return id;
@@ -45,6 +48,9 @@ public class Activite {
     public String getDescription() {
         return description;
     }
+    public Ville getVille() {
+        return ville;
+    }
 
     public void setDescription(String description) {
         this.description = description;
@@ -65,11 +71,7 @@ public class Activite {
     public void setPrix(double prix) {
         this.prix = prix;
     }
-    public String getVille() {
-        return ville;
-    }
-
-    public void setVille(String ville) {
+    public void setVille(Ville ville) {
         this.ville = ville;
     }
 

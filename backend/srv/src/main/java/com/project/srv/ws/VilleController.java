@@ -1,5 +1,6 @@
 package com.project.srv.ws;
 
+import com.project.srv.bean.Activite;
 import com.project.srv.bean.Ville;
 import com.project.srv.dao.VilleDao;
 import com.project.srv.service.VilleService;
@@ -23,6 +24,14 @@ public class VilleController {
     @GetMapping
     public List<Ville> getAllVilles() {
         return villeDao.findAll();
+    }
+    @GetMapping("/noms")
+    public List<String> getAllVilleNames() {
+        return villeService.getAllVilleNames();
+    }
+    @GetMapping("/villes/{nom}")
+    public List<Ville> findIdByNom(@PathVariable String nom) {
+        return villeService.findIdByNom(nom);
     }
 
     // Get a single city by id
@@ -90,3 +99,5 @@ public class VilleController {
     }
 
 }
+
+
