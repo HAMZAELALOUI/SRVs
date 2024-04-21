@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -93,12 +94,12 @@ public class HotelController {
         return hotelService.findById(id).orElse(null);
     }
     @GetMapping("/horaire/{horaire}")
-    public List<Hotel> findByHoraire(@PathVariable String horaire) {
+    public List<Hotel> findByHoraire(@PathVariable Date horaire) {
         return hotelService.findByHoraire(horaire);
     }
 
     @GetMapping("/horaireAndVille/{horaire}/{villeId}")
-    public List<Hotel> findByHoraireAndVille(@PathVariable String horaire, @PathVariable Long villeId) {
+    public List<Hotel> findByHoraireAndVille(@PathVariable Date horaire, @PathVariable Long villeId) {
         Ville ville = villeService.findById(villeId).orElse(null);
         if (ville == null) {
             // Gérer le cas où la ville n'est pas trouvée

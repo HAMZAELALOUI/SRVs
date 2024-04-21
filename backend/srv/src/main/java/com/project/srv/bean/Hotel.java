@@ -3,6 +3,7 @@ package com.project.srv.bean;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,12 +21,12 @@ public class Hotel {
     private double prixChambres;
 
 
-    private String horaire;
-    public String getHoraire() {
+    private Date horaire;
+    public Date getHoraire() {
         return horaire;
     }
 
-    public void setHoraire(String horaire) {
+    public void setHoraire(Date horaire) {
         this.horaire = horaire;
     }
 

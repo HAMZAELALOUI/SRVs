@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,11 +122,11 @@ public class HotelService {
     public Optional<Hotel> findById(Long id) {
         return hotelDao.findById(id);
     }
-    public List<Hotel> findByHoraire(String horaire) {
+    public List<Hotel> findByHoraire(Date horaire) {
         return hotelDao.findByHoraire(horaire);
     }
 
-    public List<Hotel> findByHoraireAndVille(String horaire, Ville ville) {
+    public List<Hotel> findByHoraireAndVille(Date horaire, Ville ville) {
         return hotelDao.findByHoraireAndVille(horaire, ville);
     }
 
