@@ -1,22 +1,44 @@
 import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../../services/UtilisateurServices"; // Adjust the path according to your file structure
 
 interface SignUpProps {}
 
 const SignUp: FC<SignUpProps> = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [age, setAge] = useState("");
+  const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle form submission (e.g., send data to API)
-    console.log("First Name:", firstName);
-    console.log("Last Name:", lastName);
-    console.log("Email:", email);
-    console.log("Password:", password);
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("age", age);
+    formData.append("address", address);
+    formData.append("password", password);
+    if (profilePicture) {
+      formData.append("profilePicture", profilePicture);
+    }
+
+    try {
+      await registerUser(formData);
+      navigate("/sign-in"); // Redirect after successful registration
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    setProfilePicture(file);
   };
 
   return (
@@ -25,7 +47,7 @@ const SignUp: FC<SignUpProps> = () => {
         <h1 className="text-3xl font-semibold text-center text-purple-700 underline">
           Sign Up
         </h1>
-        <form className="mt-6">
+        <form className="mt-6" onSubmit={handleSubmit}>
           <div className="mb-2">
             <label
               htmlFor="name"
@@ -35,6 +57,8 @@ const SignUp: FC<SignUpProps> = () => {
             </label>
             <input
               type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
@@ -47,18 +71,22 @@ const SignUp: FC<SignUpProps> = () => {
             </label>
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mb-2">
             <label
-              htmlFor="phonr-number"
+              htmlFor="phone-number"
               className="block text-sm font-semibold text-gray-800"
             >
               Phone Number
             </label>
             <input
               type="number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
@@ -71,6 +99,8 @@ const SignUp: FC<SignUpProps> = () => {
             </label>
             <input
               type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
@@ -82,7 +112,9 @@ const SignUp: FC<SignUpProps> = () => {
               Address
             </label>
             <input
-              type="address"
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
@@ -95,6 +127,7 @@ const SignUp: FC<SignUpProps> = () => {
             </label>
             <input
               type="file"
+              onChange={handleFileChange}
               className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
@@ -107,31 +140,21 @@ const SignUp: FC<SignUpProps> = () => {
             </label>
             <input
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
-          <div className="mb-2">
-            <label
-              htmlFor="confirm-password"
-              className="block text-sm font-semibold text-gray-800"
-            >
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-          </div>
-
           <div className="mt-6">
-            <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-color1 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
+            <button
+              type="submit"
+              className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-500 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
+            >
               Register
             </button>
           </div>
         </form>
-
         <p className="mt-8 text-xs font-light text-center text-gray-700">
-          {" "}
           Do you have an account?{" "}
           <a
             href="#"
