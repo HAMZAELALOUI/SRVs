@@ -16,7 +16,9 @@ public class VilleService {
     }
 
 
-
+    public static Optional<Ville> findById(Long id) {
+        return villeDao.findById(id);
+    }
 
     public List<Ville> findByPays(String pays) {
         return villeDao.findByPays(pays);

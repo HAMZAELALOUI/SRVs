@@ -14,13 +14,20 @@ public class Hotel {
     private String nom;
     private String image;
 
-
     private String emplacement;
     private String description;
     private int nombreEtoiles;
     private double prixChambres;
 
 
+    private String horaire;
+    public String getHoraire() {
+        return horaire;
+    }
+
+    public void setHoraire(String horaire) {
+        this.horaire = horaire;
+    }
 
     @OneToMany(mappedBy = "hotel")
     private List<Reservation> reservations;
@@ -83,4 +90,13 @@ public class Hotel {
     public void setVille(Ville ville) {
         this.ville = ville;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image=image;
+    }
+
 }

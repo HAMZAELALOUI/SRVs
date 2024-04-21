@@ -16,6 +16,8 @@ public interface HotelDao extends JpaRepository<Hotel, Long> {
     // Méthode pour rechercher des hôtels par nombre d'étoiles
     List<Hotel> findByNombreEtoiles(int nombreEtoiles);
     List<Hotel> findByVille(Ville ville);
+    List<Hotel> findByHoraire(String horaire);
+    List<Hotel> findByHoraireAndVille(String horaire, Ville ville);
 
 
     List<Hotel> findHotelByReservationsId(Long reservationId);

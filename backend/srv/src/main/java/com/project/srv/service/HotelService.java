@@ -16,6 +16,11 @@ public class HotelService {
     @Autowired
     private HotelDao hotelDao;
 
+    public String getImagePath() {
+        // Implémentez cette méthode pour récupérer le chemin de l'image depuis la base de données
+        // Par exemple, utilisez hotelRepository.findBy...() pour récupérer le chemin
+        return "src/images/image1.png"; // Retourne le chemin de l'image
+    }
     public List<Hotel> findByEmplacement(String emplacement) {
         return hotelDao.findByEmplacement(emplacement);
     }
@@ -116,4 +121,12 @@ public class HotelService {
     public Optional<Hotel> findById(Long id) {
         return hotelDao.findById(id);
     }
+    public List<Hotel> findByHoraire(String horaire) {
+        return hotelDao.findByHoraire(horaire);
+    }
+
+    public List<Hotel> findByHoraireAndVille(String horaire, Ville ville) {
+        return hotelDao.findByHoraireAndVille(horaire, ville);
+    }
+
 }

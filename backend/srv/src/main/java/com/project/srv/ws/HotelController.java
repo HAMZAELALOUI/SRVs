@@ -3,6 +3,7 @@ package com.project.srv.ws;
 import com.project.srv.bean.Hotel;
 import com.project.srv.bean.Ville;
 import com.project.srv.service.HotelService;
+import com.project.srv.service.VilleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -88,4 +89,19 @@ public class HotelController {
     public Hotel getHotelById(@PathVariable Long id) {
         return hotelService.findById(id).orElse(null);
     }
+    @GetMapping("/horaire/{horaire}")
+    public List<Hotel> findByHoraire(@PathVariable String horaire) {
+        return hotelService.findByHoraire(horaire);
+    }
+
+    @GetMapping("/horaireAndVille/{horaire}/{villeId}")
+    public List<Hotel> findByHoraireAndVille(@PathVariable String horaire, @PathVariable Long villeId) {
+        Ville ville = VilleService.findById(villeId).orElse(null);
+        if (ville == null) {
+            // Gérer le cas où la ville n'est pas trouvée
+            return null;
+        }
+        return hotelService.findByHoraireAndVille(horaire, ville);
+    }
+
 }
