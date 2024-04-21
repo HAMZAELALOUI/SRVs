@@ -17,6 +17,7 @@ public interface VilleDao extends JpaRepository<Ville, Long> {
     List<Ville> findByNomContainingIgnoreCase(String nom);
 
     Optional<Ville> findByNomAndPays(String nom, String pays);
+    Optional<Ville> findById(Long id);
 
 
     void deleteByNom(String nom);
