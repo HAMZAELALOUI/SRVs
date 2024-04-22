@@ -14,8 +14,10 @@ import MainLayout from "./components/layouts/MainLayout";
 import UserProfileForm from "./components/pages/UserProfileForm";
 import FlightResults from "./components/pages/FlightResults.tsx";
 import FlightSearch from "./components/pages/FlightSearch.tsx";
-import Dashboard from "./components/pages/Dashboard";
 import RegistrationForm from "./components/pages/RegistrationForm";
+import AdminFlight from "./components/pages/AdminFlights.tsx";
+import DashboardLayout from "./components/layouts/DashboardLayout.tsx";
+import Overview from "./components/organs/Overview.tsx";
 
 
 function App() {
@@ -46,7 +48,8 @@ function App() {
           <Route path="/user-profile" element={<UserProfileForm />} />
 
         {/* ------------------------------ADMIN------------------ */}
-        <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<DashboardLayout > <Overview/> </DashboardLayout>} />
+          <Route path={"/dashboard/flights-crud"} element={<DashboardLayout> <AdminFlight /> </DashboardLayout> } />
         <Route path="/dashboard/add-user-form" element={<RegistrationForm />} />
 
       </Routes>

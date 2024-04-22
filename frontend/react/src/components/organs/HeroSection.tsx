@@ -43,6 +43,7 @@ const HeroSection = () => {
               onClick={handleClick}
               type="button"
               className="outline-none border-none lg:px-7 px-5 py-3 bg-color2 text-white font-extralight rounded-lg"
+              url="/dashboard"
             >
               {HeroTexts.firstButton}
             </Button>

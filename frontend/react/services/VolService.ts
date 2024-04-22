@@ -75,7 +75,7 @@ const volService = {
     },
 
     deleteVol: async (id: number) => {
-        return api.delete(`/id/${id}`);
+        return api.delete(`/${id}`);
     },
 
     // Assume delete by Ville involves deleting by ville id

@@ -3,11 +3,14 @@ package com.project.srv.ws;
 import com.project.srv.bean.Ville;
 import com.project.srv.bean.Vol;
 import com.project.srv.dao.VolDao;
+import com.project.srv.exeption.InvalidDataException;
 import com.project.srv.service.VilleService;
 import com.project.srv.service.VolService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -166,10 +169,16 @@ public class VolController {
     }
 
     // Create a new vol
-    @PostMapping
-    public int save(@RequestBody Vol vol) {
-        return volService.save(vol);
+    @PostMapping("/")
+    public ResponseEntity<?> save(@RequestBody Vol vol) {
+        try {
+            Vol savedVol = volService.save(vol);
+            return new ResponseEntity<>(savedVol, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
+
 
     // Update a vol
     @PutMapping("id/{id}")
@@ -189,11 +198,13 @@ public class VolController {
     // Delete a vol
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> deleteVol(@PathVariable Long id) {
-        return volDao.findById(id).map(vol -> {
-            volDao.delete(vol);
+    public ResponseEntity<Void> deleteVol(@PathVariable Long id) {
+        try {
+            volService.deleteVolById(id);
             return ResponseEntity.ok().build();
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 

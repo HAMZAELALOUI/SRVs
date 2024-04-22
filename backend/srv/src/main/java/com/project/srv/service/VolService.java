@@ -3,15 +3,21 @@ package com.project.srv.service;
 import com.project.srv.bean.Ville;
 import com.project.srv.bean.Vol;
 import com.project.srv.dao.VolDao;
+import com.project.srv.exeption.InvalidDataException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VolService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public List<Vol> findByOrigin(Ville origin) {
         return volDao.findByOrigin(origin);
@@ -50,6 +56,7 @@ public class VolService {
     public List<Vol> findByHeureDepartAndHeureArrivee(LocalDate heureDepart, LocalDate heureArrivee) {return volDao.findByHeureDepartAndHeureArrivee(heureDepart,heureArrivee);}
 
     public List<Vol> searchByAll(Ville origin, Ville destination, LocalDate heureDepart, LocalDate heureArrivee) {return volDao.searchByAll(origin,destination,heureDepart,heureArrivee);}
+    public void deleteVolById(Long id){volDao.deleteById(id);}
     public void deleteVolByOrigin(Ville origin) {
         volDao.deleteByDestination(origin);
     }
@@ -75,37 +82,39 @@ public class VolService {
 
 
 
-
-    public int save(Vol vol) {
-
-        if (vol.getOrigin() == null ) {
-            return -2; // Le nom est requis
+    @Transactional
+    public Vol save(Vol vol) throws InvalidDataException {
+        Ville origin = vol.getOrigin();
+        if (origin != null && origin.getId() != null) {
+            vol.setOrigin(entityManager.merge(origin));
         }
 
-        if (vol.getDestination() == null ) {
-            return -2; // Le nom est requis
+        // Merge destination
+        Ville destination = vol.getDestination();
+        if (destination != null && destination.getId() != null) {
+            vol.setDestination(entityManager.merge(destination));
         }
+
 
         if (vol.getHeureDepart() == null || vol.getHeureDepart().isBefore(LocalDate.now())) {
-            return -3; // Le lieu est requis et ne doit pas être dans le passé
+            throw new InvalidDataException("Departure date is required and must not be in the past.");
         }
 
         if (vol.getHeureArrivee() == null || vol.getHeureArrivee().isBefore(LocalDate.now())) {
-            return -3; // Le lieu est requis et ne doit pas être dans le passé
+            throw new InvalidDataException("Arrival date is required and must not be in the past.");
         }
 
         if (vol.getPrix() <= 0) {
-            return -3; // Le prix doit être positif
+            throw new InvalidDataException("Price must be positive.");
         }
 
         if (vol.getPlacesDisponibles() <= 0) {
-            return -4;
+            throw new InvalidDataException("Number of available places must be positive.");
         }
-        // Sauvegarde de l'activité dans la base de données
 
-        volDao.save(vol);
-        return 1;
-        }
+        return volDao.save(vol);
+    }
+
 
 
     @Autowired

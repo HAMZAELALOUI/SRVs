@@ -1,17 +1,7 @@
 import React from "react";
 
-type Option = {
-  value: string;
-  label: string;
-};
 
-const countries: Option[] = [
-  { value: "Belgium", label: "Belgium" },
-  { value: "Canada", label: "Canada" },
-  { value: "Denmark", label: "Denmark" },
-  { value: "Estonia", label: "Estonia" },
-  { value: "France", label: "France" },
-];
+
 
 const UserProfileForm: React.FC = () => {
   return (
