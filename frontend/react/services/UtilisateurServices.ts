@@ -20,7 +20,7 @@ export const registerUser = async (userData: FormData): Promise<any> => {
 
 export type LoginResponse = {
   success: boolean;
-  token?: string; // If you use token-based authentication
+  token?: string;
   message?: string;
 };
 
@@ -29,23 +29,41 @@ export const loginUser = async (
   password: string
 ): Promise<LoginResponse> => {
   try {
-    const response = await axios.get(
-      `http://localhost:8080/srv/utilisateur/login/email/${email}/password/${password}`,
+    const response = await axios.post(
+      `http://localhost:8080/srv/utilisateur/login?email=${encodeURIComponent(
+        email
+      )}&password=${encodeURIComponent(password)}`,
+      null, // No body is needed for this request
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       }
     );
 
     if (response.status === 200) {
       console.log("Login successful", response.data);
-      return { success: true, token: response.data.token }; // Adjust depending on response structure
+
+      sessionStorage.setItem("authToken", response.data.jwt);
+      sessionStorage.setItem("email", email);
+
+      return { success: true, token: response.data.jwt };
     } else {
-      return { success: false, message: "Failed to login" };
+      return { success: false, message: "Login failed" };
     }
-  } catch (error) {
+  } catch (error: any) {
+    // Note the `any` type assertion here, or better yet, handle the error more safely
     console.error("Login error:", error);
-    return { success: false, message: "errror" };
+    // Check if the error structure is what we expect from axios
+    if (axios.isAxiosError(error)) {
+      return {
+        success: false,
+        message: error.response?.data?.message || "Login failed",
+      };
+    }
+    return {
+      success: false,
+      message: "An unexpected error occurred",
+    };
   }
 };

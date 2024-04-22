@@ -188,6 +188,9 @@ public class UtilisateurSevice {
     }
 
 
+    public boolean checkPassword(String rawPassword, String encodedPassword) {
+        return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
+    }
     @Autowired
     UtilisateurDao utilisateurDao;
     @Autowired

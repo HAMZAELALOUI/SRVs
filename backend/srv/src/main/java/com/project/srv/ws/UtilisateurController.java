@@ -2,6 +2,7 @@ package com.project.srv.ws;
 
 
 import com.project.srv.bean.Utilisateur;
+import com.project.srv.jwt.JwtUtil;
 import com.project.srv.service.UtilisateurSevice;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,18 @@ import java.util.Optional;
 @RequestMapping("/srv/utilisateur")
 public class UtilisateurController {
 
+
+
 //    @PostMapping
 //    public int save(@RequestBody Utilisateur utilisateur) {
 //        return utilisateurSevice.save(utilisateur);
 //    }
 @Autowired
 private UtilisateurSevice utilisateurService;
+    @Autowired
+    private JwtUtil jwtUtil;
+
+
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestParam("name") String name,
                                                @RequestParam("email") String email,
@@ -136,10 +143,41 @@ private UtilisateurSevice utilisateurService;
         return utilisateurSevice.findById(aLong);
     }
 
-    @GetMapping("/login/email/{email}/password/{password}")
-    public int loginUser(@PathVariable String email,@PathVariable String password) {
-        return utilisateurSevice.loginUser(email, password);
+//    @GetMapping("/login/email/{email}/password/{password}")
+//    public int loginUser(@PathVariable String email,@PathVariable String password) {
+//        return utilisateurSevice.loginUser(email, password);
+//    }
+    // In your UtilisateurController
+
+
+
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestParam String email, @RequestParam String password) {
+        Utilisateur user = utilisateurService.findByEmail(email);
+        if (user != null && utilisateurService.getPasswordEncoder().matches(password, user.getPassword())) {
+            // Generate token
+            String token = jwtUtil.generateToken(user.getEmail());
+            return ResponseEntity.ok(new AuthenticationResponse(token));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
+        }
     }
+
+
+    // Add this class to represent the JWT response
+    public class AuthenticationResponse {
+        private final String jwt;
+
+        public AuthenticationResponse(String jwt) {
+            this.jwt = jwt;
+        }
+
+        public String getJwt() {
+            return jwt;
+        }
+    }
+
 
 
     @PutMapping("/updateUtilisateur")

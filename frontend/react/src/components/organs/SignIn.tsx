@@ -1,11 +1,10 @@
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  loginUser,
-  LoginResponse,
-} from "../../../services/UtilisateurServices"; // Ensure correct import path
+import { loginUser } from "../../../services/UtilisateurServices";
 
-const SignIn: FC = () => {
+interface SignInProps {}
+
+const SignIn: FC<SignInProps> = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -20,21 +19,14 @@ const SignIn: FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      const response: LoginResponse = await loginUser(email, password);
-      if (response.success) {
-        console.log("Login successful, redirecting to home...");
-        navigate("/"); // Adjust this to your actual homepage route
-      } else {
-        console.error("Login failed:", response.message);
-        alert(response.message || "Login failed, please try again."); // Providing feedback to the user
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("An error occurred during login.");
+    const response = await loginUser(email, password);
+    if (response.success) {
+      console.log("Redirecting to home...");
+      navigate("/"); // Adjust this to your actual homepage route
+    } else {
+      console.error("Login failed:", response.message);
     }
   };
-
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
