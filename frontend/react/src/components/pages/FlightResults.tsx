@@ -1,12 +1,17 @@
-import { useLocation } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import { Vol } from "../../../services/types.ts";
 import React from "react";
 import {Button} from "../atoms/Button.tsx";
 
 
 const FlightResults: React.FC = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const { searchResults } = location.state as { searchResults: Vol[] };
+
+    const handleDetailsClick = (vol: Vol) => {
+        navigate('/flight-details', { state: { vol } });
+    };
 
     return (
         <div className="px-4 m-60 py-2">
@@ -24,12 +29,12 @@ const FlightResults: React.FC = () => {
                         <p className="mb-1">Arrival Time: {new Date(vol.heureArrivee).toISOString().split('T')[0]}</p>
                         <p className="mb-1">Price: <span className="text-green-500">${vol.prix}</span></p>
                         <p className="mb-1">Available Seats: {vol.placesDisponibles}</p>
-                        <Button
-                            type="button"
-                            className="outline-none border-none lg:px-7 px-5 py-3 bg-color2 text-white font-extralight rounded-lg"
+                        <button
+                            onClick={() => handleDetailsClick(vol)}
+                            className="mt-4 bg-color1 hover:bg-color2 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         >
                             Details
-                        </Button>
+                        </button>
 
                     </div>
                 ))}

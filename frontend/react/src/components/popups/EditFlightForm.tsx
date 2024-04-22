@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Vol } from "../../../services/types";
+import Swal from 'sweetalert2';
+
 
 const EditFlightForm: React.FC<{
     vol: Vol;
@@ -16,17 +18,33 @@ const EditFlightForm: React.FC<{
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const updatedVolDetails = {
-            ...vol,
-            origin: { ...vol.origin, nom: origin },
-            destination: { ...vol.destination, nom: destination },
-            heureDepart,
-            heureArrivee,
-            prix: price,
-            placesDisponibles,
-            imageUrl
-        };
-        await onSave(vol.idVol, updatedVolDetails);
+
+        // SweetAlert confirmation dialog for editing
+        Swal.fire({
+            title: "Do you want to save the changes?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Save",
+            denyButtonText: "Don't save",
+            icon: 'question'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const updatedVolDetails = {
+                    ...vol,
+                    origin: { ...vol.origin, nom: origin },
+                    destination: { ...vol.destination, nom: destination },
+                    heureDepart,
+                    heureArrivee,
+                    prix: price,
+                    placesDisponibles,
+                    imageUrl
+                };
+                await onSave(vol.idVol, updatedVolDetails);
+                Swal.fire("Saved!", "", "success");
+            } else if (result.isDenied) {
+                Swal.fire("Changes are not saved", "", "info");
+            }
+        });
     };
 
     return (

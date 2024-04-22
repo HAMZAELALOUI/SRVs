@@ -1,7 +1,9 @@
 // src/components/FlightsTable.tsx
-import React, {ReactNode, useState} from "react";
+import React, {ReactNode} from "react";
 import { Vol } from "../../../services/types.ts";
 import volService from "../../../services/VolService.ts";
+import Swal from 'sweetalert2';
+
 
 interface FlightsTableProps {
   vols: Vol[];
@@ -50,12 +52,35 @@ const FlightsTable: React.FC<FlightsTableProps> = ({ vols, addButton, onEditClic
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      volService.deleteVol(vol.idVol)
-                          .then(() => window.location.reload())
-                          .catch((error) => {
-                            console.error("Failed to delete vol:", error);
-                            alert("Failed to delete the flight.");
-                          });
+                      Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          volService.deleteVol(vol.idVol)
+                              .then(() => {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your flight has been deleted.',
+                                    'success'
+                                );
+                                window.location.reload();
+                              })
+                              .catch((error) => {
+                                console.error("Failed to delete vol:", error);
+                                Swal.fire(
+                                    'Failed!',
+                                    'There was a problem deleting your flight.',
+                                    'error'
+                                );
+                              });
+                        }
+                      });
                     }}
                     className="text-red-600 hover:text-red-900 ml-10"
                 >

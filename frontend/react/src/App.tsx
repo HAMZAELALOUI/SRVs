@@ -18,6 +18,7 @@ import RegistrationForm from "./components/pages/RegistrationForm";
 import AdminFlight from "./components/pages/AdminFlights.tsx";
 import DashboardLayout from "./components/layouts/DashboardLayout.tsx";
 import Overview from "./components/organs/Overview.tsx";
+import FlightDetails from "./components/pages/FlightDetails.tsx";
 
 
 function App() {
@@ -42,7 +43,8 @@ function App() {
 
           <Route path="/" element={<MainLayout> <Home /> </MainLayout> } />
           <Route path="/flight" element={<MainLayout> <FlightSearch onSearch={handleFlightSearch} /> </MainLayout>} />
-          <Route path="/results" element={<MainLayout> <FlightResults /> </MainLayout> } />
+          <Route path="/flight-results" element={<MainLayout> <FlightResults /> </MainLayout> } />
+          <Route path="/flight-details" element={<MainLayout> <FlightDetails /> </MainLayout> } />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/user-profile" element={<UserProfileForm />} />

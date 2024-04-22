@@ -32,7 +32,7 @@ const FlightSearch: React.FC<FlightSearchProps> = () => {
 
         VolService.searchByAll(origin, destination, formattedDepartDate, formattedReturnDate)
             .then(response => {
-                navigate('/results', { state: { searchResults: response.data } });
+                navigate('/flight-results', { state: { searchResults: response.data } });
             })
             .catch(error => {
                 console.error('Error fetching flights:', error);
@@ -110,14 +110,16 @@ const FlightSearch: React.FC<FlightSearchProps> = () => {
         </div>
       </div>
       <div className="mt-4">
-        <button 
+        <button
           onClick={handleSearch}
           className="bg-color2 hover:bg-color1 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Search
         </button>
       </div>
+
     </div>
+
   );
 };
 
