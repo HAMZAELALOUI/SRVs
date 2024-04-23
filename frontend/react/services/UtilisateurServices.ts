@@ -1,3 +1,4 @@
+import { Utilisateur } from "./types";
 import axios from "axios";
 
 const BASE_URL = "http://localhost:8080/srv/utilisateur"; // Adjust if your API base URL differs
@@ -65,5 +66,19 @@ export const loginUser = async (
       success: false,
       message: "An unexpected error occurred",
     };
+  }
+};
+
+export const getUserByEmail = async (
+  email: string
+): Promise<Utilisateur | null> => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/email/${encodeURIComponent(email)}`
+    );
+    return response.data; // Assuming the data returned is the user object
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return null;
   }
 };
