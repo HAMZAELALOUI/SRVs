@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 //importing react slick slider
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
