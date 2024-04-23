@@ -15,6 +15,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     navigate("/dashboard/flights-crud");
   }
 
+  function HandleUserClick() {
+    navigate("/dashboard/user-crud");
+  }
+  function HandleBookingClick() {}
+  function HandleReservationsClick() {}
+  function HandleActivitiesClick() {}
+
   function handleLogout() {
     sessionStorage.removeItem("isAuthenticated"); // Remove the authentication flag
     navigate("/dashboard/login"); // Redirect to the login page
@@ -28,7 +35,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           Admin Dashboard
         </div>
         <ul className="flex flex-col p-2">
-          <li>
+          <li className="p-2 hover:bg-gray-700 cursor-pointer">
             <button
               onClick={HandleHomeClick}
               className="p-2 hover:bg-gray-700 cursor-pointer"
@@ -37,9 +44,26 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               Home
             </button>
           </li>
-          <li className="p-2 hover:bg-gray-700 cursor-pointer">Users</li>
-          <li className="p-2 hover:bg-gray-700 cursor-pointer">Bookings</li>
-          <li>
+          <li className="p-2 hover:bg-gray-700 cursor-pointer">
+            {" "}
+            <button
+              onClick={HandleUserClick}
+              className="p-2 hover:bg-gray-700 cursor-pointer"
+            >
+              {" "}
+              user
+            </button>
+          </li>
+          <li className="p-2 hover:bg-gray-700 cursor-pointer">
+            <button
+              onClick={HandleBookingClick}
+              className="p-2 hover:bg-gray-700 cursor-pointer"
+            >
+              {" "}
+              Booking
+            </button>
+          </li>
+          <li className="p-2 hover:bg-gray-700 cursor-pointer">
             <button
               onClick={HandleFlightClick}
               className="p-2 hover:bg-gray-700 cursor-pointer"
@@ -48,13 +72,29 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               Flights
             </button>
           </li>
-          <li className="p-2 hover:bg-gray-700 cursor-pointer">Activities</li>
-          <li className="p-2 hover:bg-gray-700 cursor-pointer">Reservations</li>
+          <li className="p-2 hover:bg-gray-700 cursor-pointer">
+            <button
+              onClick={HandleActivitiesClick}
+              className="p-2 hover:bg-gray-700 cursor-pointer"
+            >
+              {" "}
+              Activities
+            </button>
+          </li>
+          <li className="p-2 hover:bg-gray-700 cursor-pointer">
+            <button
+              onClick={HandleReservationsClick}
+              className="p-2 hover:bg-gray-700 cursor-pointer"
+            >
+              {" "}
+              Reservations
+            </button>
+          </li>
 
           {/* Add more menu items here */}
         </ul>
         {/* This div is now outside the ul but inside the sidebar div */}
-        <div className="mt-auto border-t border-gray-700">
+        <div className="mt-auto border-t border-gray-700 p-2 hover:bg-gray-700 cursor-pointer">
           <div className="mt-auto w-full">
             {" "}
             {/* This pushes the logout to the bottom */}
