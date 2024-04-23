@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface VilleDao extends JpaRepository<Ville, Long> {
 
+    Optional<Ville> findById(Long Id);
     List<Ville> findByNom(String nom);
 
     List<Ville> findByPays(String pays);

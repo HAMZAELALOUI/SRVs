@@ -11,13 +11,10 @@ import java.util.Optional;
 @Service
 public class VilleService {
 
+    public Optional<Ville> findById(Long Id) { return villeDao.findById(Id);}
     public List<Ville> findByNom(String nom) {
         return villeDao.findByNom(nom);
     }
-
-
-
-
     public List<Ville> findByPays(String pays) {
         return villeDao.findByPays(pays);
     }

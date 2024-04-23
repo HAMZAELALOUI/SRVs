@@ -4,10 +4,11 @@ import Footer from "../organs/Footer";
 import { AuthProvider } from "../AuthContext";
 
 interface MainLayoutProps {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+
   return (
     <div className="flex flex-col min-h-screen">
       <AuthProvider>
@@ -22,6 +23,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       <Footer />
     </div>
   );
+
 };
 
 export default MainLayout;
+

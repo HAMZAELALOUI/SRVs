@@ -1,20 +1,21 @@
 export const NavLinks = [
-  {
-    name: "Destination",
-    url: "/",
-  },
-  {
-    name: "Hotels",
-    url: "/",
-  },
-  {
-    name: "Flights",
-    url: "/",
-  },
-  {
-    name: "Bookings",
-    url: "/",
-  },
+
+    {
+        name: "Destination",
+        url: "/flight"
+    },
+    {
+        name: "Hotels",
+        url: "/"
+    },
+    {
+        name: "Flights",
+        url: "/"
+    },
+    {
+        name: "Bookings",
+        url: "/"
+    }
 ];
 
 export const NavButtons = [

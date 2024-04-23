@@ -110,7 +110,6 @@ const RegistrationForm: React.FC = () => {
               required
             >
               <option value="">Select...</option>
-              {/* Replace with your classes */}
               <option value="class1">Class 1</option>
               <option value="class2">Class 2</option>
             </select>
