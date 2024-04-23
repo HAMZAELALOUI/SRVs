@@ -20,6 +20,7 @@ import Overview from "./components/organs/Overview.tsx";
 import FlightDetails from "./components/pages/FlightDetails.tsx";
 import AdminLogin from "./components/pages/AdminLogin.tsx";
 import PrivateRoute from "./components/atoms/PrivateRoute.tsx";
+import AdminUsers from "./components/pages/AdminUsers.tsx";
 
 function App() {
   const directory = useLocation();
@@ -106,6 +107,16 @@ function App() {
             <PrivateRoute>
               <DashboardLayout>
                 <AdminFlight />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dashboard/user-crud"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <AdminUsers />
               </DashboardLayout>
             </PrivateRoute>
           }
