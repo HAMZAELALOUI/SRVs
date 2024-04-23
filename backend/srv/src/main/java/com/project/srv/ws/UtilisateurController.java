@@ -194,7 +194,7 @@ private UtilisateurSevice utilisateurService;
                                                @RequestParam("age") Integer age,
                                                @RequestParam("address") String address,
                                                @RequestParam("currentPassword") String currentPassword,
-                                               @RequestParam("newPassword") String newPassword,
+                                               @RequestParam(value = "newPassword", required = false) String newPassword,
                                                @RequestParam(value = "profilePicture", required = false) MultipartFile file) {
         Utilisateur existingUser = utilisateurService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
@@ -211,9 +211,8 @@ private UtilisateurSevice utilisateurService;
         existingUser.setAge(age);
         existingUser.setAddress(address);
 
-        // Update password if new password is provided
+        // Update password if new password is provided and is not blank
         if (newPassword != null && !newPassword.isBlank()) {
-//            existingUser.setPassword(utilisateurService.getPasswordEncoder().encode(newPassword));
             existingUser.setPassword(newPassword);
         }
 
@@ -221,6 +220,9 @@ private UtilisateurSevice utilisateurService;
         if (file != null && !file.isEmpty()) {
             String imageUrl = utilisateurService.storeFile(file);
             existingUser.setProfilePicture(imageUrl);
+        } else {
+            // If no new file, keep the old image
+            existingUser.setProfilePicture(existingUser.getProfilePicture());
         }
 
         utilisateurService.update(existingUser);

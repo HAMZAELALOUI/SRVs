@@ -60,7 +60,10 @@ const UserProfileForm: React.FC = () => {
     formData.append("email", userData.email);
     formData.append("address", userData.address || "");
     formData.append("currentPassword", userData.currentPassword || "");
-    formData.append("newPassword", userData.newPassword || "");
+    formData.append(
+      "newPassword",
+      userData.newPassword || userData.currentPassword
+    );
     if (userData.profilePictureFile) {
       formData.append("profilePicture", userData.profilePictureFile);
     }
