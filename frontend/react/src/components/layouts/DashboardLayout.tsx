@@ -53,13 +53,18 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
           {/* Add more menu items here */}
         </ul>
-        <div className="mt-auto">
-          <button
-            onClick={handleLogout}
-            className="block p-2 w-full text-left hover:bg-gray-700"
-          >
-            Logout
-          </button>
+        {/* This div is now outside the ul but inside the sidebar div */}
+        <div className="mt-auto border-t border-gray-700">
+          <div className="mt-auto w-full">
+            {" "}
+            {/* This pushes the logout to the bottom */}
+            <button
+              onClick={handleLogout}
+              className="w-full text-left p-2 hover:bg-gray-600 text-gray-300"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </div>
 
