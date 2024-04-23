@@ -16,6 +16,7 @@ export interface Activite {
     id?: number;
     nom: string;
     ville: string;
+    image:string;
     lieu: string;
     description: string;
     horaire: string;

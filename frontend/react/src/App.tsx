@@ -31,7 +31,8 @@ function App() {
             </MainLayout>
           }
         />
-       <Route path="/activity/ActiviteDetails/:id" element={<ActiviteDetails />} />
+  <Route path="/activity/ActiviteDetails/:id" element={<ActiviteDetails />} />
+
 
 
              <Route

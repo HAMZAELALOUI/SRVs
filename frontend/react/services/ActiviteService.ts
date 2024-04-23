@@ -13,6 +13,20 @@ const updateActivite = async (activite: Activite): Promise<number> => {
     return response.data;
 };
 
+const findActiviteWithVilleById = async (activiteId: number): Promise<Activite> => {
+    try {
+        // Form the correct URL with activiteId
+        const response = await axios.get<Activite>(`${API_URL}/activity/ActiviteDetails/${activiteId}`);
+        return response.data;
+    } catch (error) {
+        // Handle any errors that occur during the request
+        console.error('Error fetching activite with ville:', error);
+        throw error; // Rethrow the error to handle it further upstream
+    }
+};
+
+
+
 const findByVilleAndHoraireString = async (ville: string, horaire: string): Promise<Activite[]> => {
     const response = await axios.get<Activite[]>(`${API_URL}/villeString/${ville}/horaire/${horaire}`);
     return response.data;
@@ -59,6 +73,7 @@ const findByNomVille = async (nomVille: string): Promise<Activite[]> => {
 export const activiteService = {
     saveActivite,
     updateActivite,
+    findActiviteWithVilleById,
     findByVilleAndHoraireString,
     findAll,
     findById,

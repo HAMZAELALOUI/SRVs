@@ -1,51 +1,52 @@
-// Importez React et les hooks nécessaires
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; 
-import { Activite } from "../../../services/types";
-// Importez useParams pour récupérer les paramètres d'URL
+import { useParams } from 'react-router-dom';
+import { activiteService } from "../../../services/ActiviteService";
+import { Activite, Ville } from "../../../services/types";
 
-// Définissez votre composant pour afficher les détails de l'activité
 const ActiviteDetails: React.FC = () => {
-  // Utilisez useParams pour récupérer l'identifiant de l'activité depuis l'URL
-  const { id } = useParams<{ id: string }>();
-
-  // Utilisez useState pour stocker les détails de l'activité
+  const { id } = useParams<{ id: string }>(); // Récupérer l'ID de l'activité depuis l'URL
   const [activite, setActivite] = useState<Activite | null>(null);
+  const [ville, setVille] = useState<Ville | null>(null);
 
   useEffect(() => {
-    // Utilisez une fonction pour récupérer les détails de l'activité en fonction de son identifiant
-    const fetchActiviteDetails = async () => {
+    const fetchData = async () => {
       try {
-        // Effectuez une requête API pour récupérer les détails de l'activité
-        // Remplacez cet exemple par votre propre logique pour récupérer les détails de l'activité en fonction de son identifiant
-        const response = await fetch(`http://example.com/api/activites/${id}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch activite details');
+        const activiteData = await activiteService.findActiviteWithVilleById(Number(id));
+        console.log('activiteData:', activiteData);
+        setActivite(activiteData);
+
+        // Vérifie si activiteData.ville est un objet avec les propriétés 'nom' et 'pays'
+        if (activiteData.ville && typeof activiteData.ville === 'object') {
+          const { nom, pays } = activiteData.ville;
+          console.log('nom:', nom);
+          console.log('pays:', pays);
+          setVille({ nom, pays });
+        } else {
+          console.error('Ville data is not an object or is undefined:', activiteData.ville);
         }
-        const data = await response.json();
-        // Mettez à jour l'état avec les détails de l'activité récupérés
-        setActivite(data);
       } catch (error) {
-        console.error('Error fetching activite details:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    // Appelez la fonction pour récupérer les détails de l'activité lorsque le composant est monté
-    fetchActiviteDetails();
-  }, [id]); // Utilisez l'identifiant de l'activité comme dépendance
+    fetchData();
+  }, [id]); // Utilisez l'ID extrait comme dépendance
 
-  // Si les détails de l'activité ne sont pas encore chargés, affichez un message de chargement
-  if (!activite) {
+  if (!activite || !ville) {
     return <div>Loading...</div>;
   }
 
-  // Une fois les détails de l'activité chargés, affichez-les
   return (
     <div>
-      <h1>Activite Details</h1>
-      <p>Nom: {activite.nom}</p>
+      <h2>{activite.nom}</h2>
+      <img src={activite.image} alt={activite.nom} />
+      <p>Lieu: {activite.lieu}</p>
       <p>Description: {activite.description}</p>
-      {/* Ajoutez d'autres détails de l'activité selon vos besoins */}
+      <p>Horaire: {activite.horaire}</p>
+      <p>Prix: {activite.prix}</p>
+
+      <h3>Ville: {ville.nom}</h3>
+      <p>Pays: {ville.pays}</p>
     </div>
   );
 };
