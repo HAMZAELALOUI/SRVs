@@ -8,7 +8,7 @@ import { List } from "../atoms/List";
 import { ArrowCircleRight, CirclesFour } from "@phosphor-icons/react";
 import { Slide } from "react-awesome-reveal";
 import { useAuth } from "../AuthContext";
-import Dropdown from "../Dropdown";
+import Dropdown from "../atoms/Dropdown.tsx";
 
 const NavBar = () => {
   const { user, logout } = useAuth();
@@ -29,7 +29,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <header className="w-full h-auto bg-transparent overflow-x-hidden fixed  top-0 left-0  z-40">
+    <header className="w-full h-auto bg-transparent overflow-visible fixed top-0 left-0 z-40">
       <Slide direction="down">
         <nav
           className={`w-full md:h-24 h-20 ${
@@ -54,7 +54,7 @@ const NavBar = () => {
               ))}
             </ul>
             {user ? (
-              <Dropdown userName={email} logout={logout} />
+              <Dropdown className="z-50" userName={email} logout={logout} />
             ) : (
               <ul className="flex items-center justify-center gap-6">
                 {NavButtons.map((navbutton, index) => (
