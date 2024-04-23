@@ -30,6 +30,11 @@ public class ActiviteService {
         this.villeDao = villeDao;
     }
 
+    public Optional<Activite> findActiviteWithVilleById(Long activiteId) {
+        return activiteDao.findActiviteWithVilleById(activiteId);
+    }
+
+
     public List<Activite> rechercherParNomVilleEtHoraire(String nomVille, String horaire) {
         Ville ville = trouverVilleParNom(nomVille);
         if (ville != null) {

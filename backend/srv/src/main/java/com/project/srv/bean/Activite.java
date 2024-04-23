@@ -10,7 +10,7 @@ public class Activite {
     private Long id;
 
     private String nom;
-
+    private String image;
 
     private String lieu;
     private String description;
@@ -40,6 +40,7 @@ public class Activite {
     public String getLieu() {
         return lieu;
     }
+    public String getImage(){return image;}
 
     public void setLieu(String lieu) {
         this.lieu = lieu;
@@ -73,6 +74,9 @@ public class Activite {
     }
     public void setVille(Ville ville) {
         this.ville = ville;
+    }
+    public void setImage(String image) {
+        this.image = image;
     }
 
 

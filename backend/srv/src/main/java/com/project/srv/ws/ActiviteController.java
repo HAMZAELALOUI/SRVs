@@ -16,6 +16,11 @@ public class ActiviteController {
 
     @Autowired
     private ActiviteService activiteService;
+
+    @GetMapping("/activity/ActiviteDetails/{activiteId}")
+    public Optional<Activite> findActiviteWithVilleById(@PathVariable Long activiteId) {
+        return activiteService.findActiviteWithVilleById(activiteId);
+    }
     @PostMapping("/save")
     public int saveActivite(@RequestBody Activite activite) {
        return activiteService.saveActivite(activite);
