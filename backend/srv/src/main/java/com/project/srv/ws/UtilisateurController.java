@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +46,7 @@ private UtilisateurSevice utilisateurService;
         utilisateur.setPhone(phone);
         utilisateur.setAge(age);
         utilisateur.setAddress(address);
-        utilisateur.setPassword(password); // Ensure this password is encoded in your service
+        utilisateur.setPassword(password);
 
         if (file != null && !file.isEmpty()) {
             String imageUrl = utilisateurService.storeFile(file);
@@ -180,10 +181,53 @@ private UtilisateurSevice utilisateurService;
 
 
 
+//    @PutMapping("/updateUtilisateur")
+//    public int update(@RequestBody Utilisateur utilisateur) {
+//        return utilisateurSevice.update(utilisateur);
+//    }
+
     @PutMapping("/updateUtilisateur")
-    public int update(@RequestBody Utilisateur utilisateur) {
-        return utilisateurSevice.update(utilisateur);
+    public ResponseEntity<?> updateUtilisateur(@RequestParam("id") Long id,
+                                               @RequestParam("name") String name,
+                                               @RequestParam("email") String email,
+                                               @RequestParam("phone") String phone,
+                                               @RequestParam("age") Integer age,
+                                               @RequestParam("address") String address,
+                                               @RequestParam("currentPassword") String currentPassword,
+                                               @RequestParam("newPassword") String newPassword,
+                                               @RequestParam(value = "profilePicture", required = false) MultipartFile file) {
+        Utilisateur existingUser = utilisateurService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        // Verify current password
+        if (!utilisateurService.getPasswordEncoder().matches(currentPassword, existingUser.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid current password");
+        }
+
+        // Update user details
+        existingUser.setName(name);
+        existingUser.setEmail(email);
+        existingUser.setPhone(phone);
+        existingUser.setAge(age);
+        existingUser.setAddress(address);
+
+        // Update password if new password is provided
+        if (newPassword != null && !newPassword.isBlank()) {
+//            existingUser.setPassword(utilisateurService.getPasswordEncoder().encode(newPassword));
+            existingUser.setPassword(newPassword);
+        }
+
+        // Handle profile picture update
+        if (file != null && !file.isEmpty()) {
+            String imageUrl = utilisateurService.storeFile(file);
+            existingUser.setProfilePicture(imageUrl);
+        }
+
+        utilisateurService.update(existingUser);
+        return ResponseEntity.ok("Profile updated successfully.");
     }
+
+
 
     @Autowired
     private UtilisateurSevice utilisateurSevice;
