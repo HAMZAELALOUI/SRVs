@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VilleService {
@@ -16,6 +17,9 @@ public class VilleService {
     }
 
 
+    public  Optional<Ville> findById(Long id) {
+        return villeDao.findById(id);
+    }
 
 
     public List<Ville> findByPays(String pays) {
@@ -53,7 +57,16 @@ public class VilleService {
             return villeDao.save(ville);
         }
     }
+    public List<String> getAllVilleNames() {
+        List<Ville> villes = villeDao.findAll();
+        // Utilisez Stream API pour mapper les noms des villes
+        return villes.stream()
+                .map(Ville::getNom)
+                .collect(Collectors.toList());
+    }
 
     @Autowired
     VilleDao villeDao;
+
+
 }

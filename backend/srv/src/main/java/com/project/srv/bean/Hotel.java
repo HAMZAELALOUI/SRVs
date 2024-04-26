@@ -3,6 +3,7 @@ package com.project.srv.bean;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,16 +13,49 @@ public class Hotel {
     private Long id;
 
     private String nom;
+    private String image;
+
     private String emplacement;
     private String description;
     private int nombreEtoiles;
     private double prixChambres;
 
 
+    private String dateD;
+    private String dateA;
+
+    public String getDateD() {
+        return dateD;
+    }
+
+    public void setDateD(String dateD) {
+        dateD = dateD;
+    }
+
+    public String getDateA() {
+        return dateA;
+    }
+
+    public void setDateA(String dateA) {
+        dateA = dateA;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+
 
     @OneToMany(mappedBy = "hotel")
     private List<Reservation> reservations;
 
+    @ManyToOne
+    @JoinColumn(name = "Ville")
+    private Ville ville;
     public Long getId() {
         return id;
     }
@@ -69,4 +103,21 @@ public class Hotel {
     public void setPrixChambres(double prixChambres) {
         this.prixChambres = prixChambres;
     }
+
+    public Ville getVille() {
+        return ville;
+    }
+
+    public void setVille(Ville ville) {
+        this.ville = ville;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image=image;
+    }
+
 }
