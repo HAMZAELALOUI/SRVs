@@ -1,11 +1,20 @@
 import axios from 'axios';
-import { Ville } from './types'; 
+import { Ville } from './types';
 
 const API_URL = 'http://localhost:8080/srv/villes';
 
 const getAllVilles = async (): Promise<Ville[]> => {
     const response = await axios.get<Ville[]>(`${API_URL}`);
     return response.data;
+};
+const getAllVilleNames = async (): Promise<string[]> => {
+    try {
+        const response = await axios.get<string[]>(`${API_URL}/noms`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching ville names:", error);
+        throw error; // Renvoyer l'erreur pour la gérer à un niveau supérieur si nécessaire
+    }
 };
 
 const getVilleById = async (id: number): Promise<Ville> => {
@@ -66,4 +75,5 @@ export const villeService = {
     deleteVilleByNom,
     deleteVilleByPays,
     deleteAllVilles,
+    getAllVilleNames,
 };

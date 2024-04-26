@@ -4,8 +4,8 @@ export const NavLinks = [
         url: "/"
     },
     {
-        name: "Hotels",
-        url: "/"
+        name: "Hotel",
+        url: "/Hotel"
     },
     {
         name: "Flights",
