@@ -18,9 +18,7 @@ public class VilleService {
         return villeDao.findByNom(nom);
     }
 
-    public  Optional<Ville> findById(Long id) {
-        return villeDao.findById(id);
-    }
+
 
 
     public List<Ville> findAll() {
@@ -71,9 +69,13 @@ public class VilleService {
                 .map(Ville::getNom)
                 .collect(Collectors.toList());
     }
+    public List<Ville> findIdByNom(String nom) {
+        return villeDao.findIdByNom(nom);
+    }
 
     @Autowired
     VilleDao villeDao;
+
 
 
 }

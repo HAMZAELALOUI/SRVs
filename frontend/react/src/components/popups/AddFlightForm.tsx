@@ -23,8 +23,17 @@ const AddFlightForm: React.FC<AddFlightFormProps> = ({ onSubmit, onCancel }) => 
 
     useEffect(() => {
         villeService.getAllVilles()
-            .then(response => setVilles(response.data))
-            .catch(error => console.error('Error fetching cities:', error));
+            .then(data => {
+                if (data) {
+                    setVilles(data);
+                } else {
+                    throw new Error('No data returned');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching cities:', error);
+                setVilles([]); // Maintain an empty array if there's an error
+            });
     }, []);
 
 

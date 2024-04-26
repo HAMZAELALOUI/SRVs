@@ -19,7 +19,7 @@ public class Ville {
 
     @OneToMany
     private List<Activite> activite;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Vol> vol;
 
     public Ville() {

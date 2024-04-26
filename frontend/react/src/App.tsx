@@ -63,8 +63,8 @@ function App() {
 
       <Routes>
 
-          <Route path="/Hotel" element={<Hotel />}/>
-          <Route path="/hotel/HotelDetails/:id" element={<HotelDetails/>} />
+          <Route path="/Hotel" element={<MainLayout> <Hotel /> </MainLayout>}/>
+          <Route path="/hotel/HotelDetails/:id" element={<MainLayout> <HotelDetails/> </MainLayout>} />
           {/* Nouvelle route pour afficher les détails de l'hôtel */}
 
         <Route
@@ -76,7 +76,7 @@ function App() {
             </MainLayout>
           }
         />
-         <Route path="/activity/ActiviteDetails/:id" element={<ActiviteDetails />} />
+          <Route path="/activity/ActiviteDetails/:id" element={<MainLayout> <ActiviteDetails /> </MainLayout>} />
 
 
 

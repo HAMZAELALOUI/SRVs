@@ -25,10 +25,7 @@ public class VilleController {
     public List<Ville> getAllVilles() {
         return villeDao.findAll();
     }
-    @GetMapping("/noms")
-    public List<String> getAllVilleNames() {
-        return villeService.getAllVilleNames();
-    }
+
     @GetMapping("/villes/{nom}")
     public List<Ville> findIdByNom(@PathVariable String nom) {
         return villeService.findIdByNom(nom);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Ville } from './types';
 
-
+// Setup axios instance with base URL and default headers
 const api = axios.create({
     baseURL: 'http://localhost:8080/srv/villes',
     headers: {
@@ -9,96 +9,60 @@ const api = axios.create({
     }
 });
 
-
-const getAllVilles = async (): Promise<Ville[]> => {
-    const response = await axios.get<Ville[]>(`${API_URL}`);
-    return response.data;
-};
-const getAllVilleNames = async (): Promise<string[]> => {
-    try {
-        const response = await axios.get<string[]>(`${API_URL}/noms`);
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching ville names:", error);
-        throw error; // Renvoyer l'erreur pour la gérer à un niveau supérieur si nécessaire
-    }
-};
-
+// Service object to handle API calls related to 'Ville' entities
 const villeService = {
-    getAllVilles: async () => {
-        return api.get<Ville[]>('/');
+    getAllVilles: async (): Promise<Ville[]> => {
+        const response = await api.get<Ville[]>('/');
+        return response.data;
     },
 
-
-    getVilleById: async (id: number) => {
-        return api.get<Ville>(`/${id}`);
+    getVilleById: async (id: number): Promise<Ville> => {
+        const response = await api.get<Ville>(`/${id}`);
+        return response.data;
     },
 
-    getByNom: async (nom: string) => {
-        return api.get<Ville[]>(`/${nom}`);
+    getByNom: async (nom: string): Promise<Ville[]> => {
+        return api.get<Ville[]>(`/nom/${nom}`);
     },
 
-    findByPays: async (pays: string) => {
-        return api.get<Ville[]>(`/${pays}`);
+    findByPays: async (pays: string): Promise<Ville[]> => {
+        return api.get<Ville[]>(`/pays/${pays}`);
     },
 
-    findByNomContainingIgnoreCase: async (nom: string) => {
+    findByNomContainingIgnoreCase: async (nom: string): Promise<Ville[]> => {
         return api.get<Ville[]>(`/nomIg/${nom}`);
     },
 
-
-const getAllVilleNames = async (): Promise<string[]> => {
-    const response = await axios.get<string[]>(`${API_URL}/noms`);
-    return response.data;
-};
-
-const saveVille = async (ville: Ville): Promise<Ville> => {
-    const response = await axios.post<Ville>(`${API_URL}`, ville);
-    return response.data;
-};
-
-    save: async (ville: Ville) => {
-        return api.post<Ville>('/', ville);
+    getAllVilleNames: async (): Promise<string[]> => {
+        const response = await api.get<string[]>(`/noms`);
+        return response.data;
     },
 
-
-    updateVille: async (id: number, villeDetails: Ville) => {
-        return api.put<Ville>(`/${id}`, villeDetails);
+    saveVille: async (ville: Ville): Promise<Ville> => {
+        const response = await api.post<Ville>('/', ville);
+        return response.data;
     },
 
-    deleteVille: async (id: number) => {
-        return api.delete(`/${id}`);
+    updateVille: async (id: number, villeDetails: Ville): Promise<Ville> => {
+        const response = await api.put<Ville>(`/${id}`, villeDetails);
+        return response.data;
     },
 
-    deleteVilleByNom: async (nom: string) => {
-        return api.delete(`/${nom}`);
+    deleteVille: async (id: number): Promise<void> => {
+        await api.delete(`/${id}`);
     },
 
-    deleteVilleByPays: async (pays: string) => {
-        return api.delete(`/${pays}`);
+    deleteVilleByNom: async (nom: string): Promise<void> => {
+        await api.delete(`/nom/${nom}`);
     },
 
-    deleteAllVilles: async () => {
-        return api.delete('/');
+    deleteVilleByPays: async (pays: string): Promise<void> => {
+        await api.delete(`/pays/${pays}`);
+    },
+
+    deleteAllVilles: async (): Promise<void> => {
+        await api.delete('/');
     }
 };
 
-
-export const villeService = {
-    getAllVilles,
-    getVilleById,
-    getByNom,
-    findByPays,
-    findByNomContainingIgnoreCase,
-    getAllVilleNames,
-    saveVille,
-    updateVille,
-    deleteVille,
-    deleteVilleByNom,
-    deleteVilleByPays,
-    deleteAllVilles,
-    getAllVilleNames,
-};
-
 export default villeService;
-

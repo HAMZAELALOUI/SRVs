@@ -19,11 +19,19 @@ const FlightSearch: React.FC<FlightSearchProps> = () => {
 
     useEffect(() => {
         villeService.getAllVilles()
-            .then(response => {
-                setVilles(response.data);
+            .then(data => {
+                if (data) {
+                    setVilles(data);
+                } else {
+                    throw new Error('No data returned');
+                }
             })
-            .catch(error => console.error('Error fetching cities:', error));
+            .catch(error => {
+                console.error('Error fetching cities:', error);
+                setVilles([]); // Maintain an empty array if there's an error
+            });
     }, []);
+
     const navigate = useNavigate();
 
     const handleSearch = () => {

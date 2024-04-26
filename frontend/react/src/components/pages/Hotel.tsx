@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { hotelService } from "../../../services/HotelService";
 import { Hotel } from "../../../services/types";
-import { villeService } from "../../../services/VilleService";
+import villeService  from "../../../services/VilleService";
 
 const HotelList: React.FC = () => {
     const [villes, setVilles] = useState<string[]>([]);
