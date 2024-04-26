@@ -17,11 +17,11 @@ export interface Ville {
 }
 
 export interface Utilisateur {
-  id?: number;
-  name: string;
-  email: string;
-  phone?: string;
-  age?: number;
-  address?: string;
-  profilePicture?: string;
-}
+    id?: number;
+    name: string;
+    email: string;
+    phone?: string;
+    age?: number;
+    address?: string;
+    profilePicture?: string;
+  }
