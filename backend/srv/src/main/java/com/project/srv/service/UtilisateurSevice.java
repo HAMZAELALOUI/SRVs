@@ -8,6 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.IOException;
+
+
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +26,30 @@ public class UtilisateurSevice {
 //        utilisateurDao.save(utilisateur);
 //        return 1;
 //    }
+
+
+//handle image storage
+    private final Path rootLocation = Paths.get("src/main/resources/static/images");
+
+    public String storeFile(MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                throw new RuntimeException("Failed to store empty file.");
+            }
+            Path destinationFile = rootLocation.resolve(
+                            Paths.get(file.getOriginalFilename()))
+                    .normalize().toAbsolutePath();
+            if (!destinationFile.getParent().equals(rootLocation.toAbsolutePath())) {
+                throw new RuntimeException("Cannot store file outside current directory.");
+            }
+            file.transferTo(destinationFile);
+            // Return a URL that can be accessed from the frontend
+            return "/images/" + file.getOriginalFilename();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to store file.", e);
+        }
+    }
+
 
     public int save(Utilisateur utilisateur) {
         // Check if a user with the same email already exists
@@ -36,7 +67,30 @@ public class UtilisateurSevice {
         }
     }
 
+    public int update(Utilisateur utilisateur) {
+        Optional<Utilisateur> userOpt = utilisateurDao.findById(utilisateur.getId());
+        if (userOpt.isPresent()) {
+            Utilisateur existingUser = userOpt.get();
+            existingUser.setName(utilisateur.getName());
+            existingUser.setEmail(utilisateur.getEmail());
+            existingUser.setPhone(utilisateur.getPhone());
+            existingUser.setAge(utilisateur.getAge());
+            existingUser.setAddress(utilisateur.getAddress());
+            if (utilisateur.getProfilePicture() != null) {
+                existingUser.setProfilePicture(utilisateur.getProfilePicture());
+            }
+            if (!utilisateur.getPassword().isEmpty() && !bCryptPasswordEncoder.matches(utilisateur.getPassword(), existingUser.getPassword())) {
 
+                existingUser.setPassword(bCryptPasswordEncoder.encode(utilisateur.getPassword()));
+
+            }
+
+            utilisateurDao.save(existingUser);
+            return 1;
+        } else {
+            return -1; // User not found
+        }
+    }
     public int loginUser(String email, String password) {
 
         Utilisateur utilisateur = findByEmail(email);
@@ -140,24 +194,14 @@ public class UtilisateurSevice {
     }
 
 
-    public int update(Utilisateur utilisateur) {
-        Optional<Utilisateur> userOpt = utilisateurDao.findById(utilisateur.getId());
-        if (userOpt.isPresent()) {
-            Utilisateur user = userOpt.get();
-            user.setName(utilisateur.getName());
-            user.setEmail(utilisateur.getEmail());
-            user.setPhone(utilisateur.getPhone());
-            user.setProfilePicture(utilisateur.getProfilePicture());
-            user.setPassword(utilisateur.getPassword());
-            utilisateurDao.save(user);
-            return 1; // User updated successfully
-        } else {
-            utilisateurDao.save(utilisateur);
-            return 2; // New user created
-        }
+
+
+
+
+
+    public boolean checkPassword(String rawPassword, String encodedPassword) {
+        return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
     }
-
-
     @Autowired
     UtilisateurDao utilisateurDao;
     @Autowired

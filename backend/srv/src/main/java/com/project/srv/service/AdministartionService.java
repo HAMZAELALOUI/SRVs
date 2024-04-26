@@ -14,31 +14,16 @@ import java.util.Optional;
 public class AdministartionService {
 
 
-    //todo
-    public void seConnecter() {
-    }
+    @Autowired
+    private AdministartionDao administrationDao;
 
-    public void gererUtilsateurs() {
+    public boolean authenticate(String name, String password) {
+        Administration admin = administrationDao.findByName(name);
+        if (admin != null && admin.getPassword().equals(password)) {
+            return true;
+        }
+        return false;
     }
-
-    public void gererVoyages() {
-    }
-
-    public void gererReservations() {
-    }
-
-    public void gererPaiement() {
-    }
-
-    public void gererActivities() {
-    }
-
-    public void gererHotels() {
-    }
-
-    public void gererVols() {
-    }
-    //end todo
 
 
     public Administration findByName(String name) {
