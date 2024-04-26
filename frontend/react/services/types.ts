@@ -17,11 +17,29 @@ export interface Ville {
 }
 
 export interface Utilisateur {
-    id?: number;
-    name: string;
+    id?: number;name: string;
     email: string;
     phone?: string;
     age?: number;
     address?: string;
     profilePicture?: string;
+}
+export interface Activite {
+    id?: number;
+    nom: string;
+    ville: string;
+    image:string;
+    lieu: string;
+    description: string;
+    horaire: string;
+    prix: number;
+
+}
+export interface Details {
+    id?: number;
+    activite: Activite;
+/*reservation:Reservation*/
+}
+
   }
+

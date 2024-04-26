@@ -3,9 +3,11 @@ import NavBar from "../organs/NavBar";
 import Footer from "../organs/Footer";
 import { AuthProvider } from "../AuthContext";
 
+
 interface MainLayoutProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
+
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
@@ -14,7 +16,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       <AuthProvider>
         <NavBar />
       </AuthProvider>
-
       <main className="flex-grow">
         {" "}
         {/* Ensure main content takes available space */}
@@ -23,8 +24,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       <Footer />
     </div>
   );
-
 };
 
 export default MainLayout;
+
+
 

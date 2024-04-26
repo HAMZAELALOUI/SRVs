@@ -29,9 +29,21 @@ const villeService = {
         return api.get<Ville[]>(`/nomIg/${nom}`);
     },
 
+
+const getAllVilleNames = async (): Promise<string[]> => {
+    const response = await axios.get<string[]>(`${API_URL}/noms`);
+    return response.data;
+};
+
+const saveVille = async (ville: Ville): Promise<Ville> => {
+    const response = await axios.post<Ville>(`${API_URL}`, ville);
+    return response.data;
+};
+
     save: async (ville: Ville) => {
         return api.post<Ville>('/', ville);
     },
+
 
     updateVille: async (id: number, villeDetails: Ville) => {
         return api.put<Ville>(`/${id}`, villeDetails);
@@ -54,4 +66,21 @@ const villeService = {
     }
 };
 
+
+export const villeService = {
+    getAllVilles,
+    getVilleById,
+    getByNom,
+    findByPays,
+    findByNomContainingIgnoreCase,
+    getAllVilleNames,
+    saveVille,
+    updateVille,
+    deleteVille,
+    deleteVilleByNom,
+    deleteVilleByPays,
+    deleteAllVilles,
+};
+
 export default villeService;
+

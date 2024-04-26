@@ -4,7 +4,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { animateScroll } from "react-scroll";
+import Activite from "./components/pages/Activite";
 
+
+
+import ActiviteDetails from "./components/layouts/ActiviteDetails";
 import Home from "./components/pages/Home";
 import { useEffect } from "react";
 import SignUp from "./components/organs/SignUp";
@@ -21,6 +25,7 @@ import FlightDetails from "./components/pages/FlightDetails.tsx";
 import AdminLogin from "./components/pages/AdminLogin.tsx";
 import PrivateRoute from "./components/atoms/PrivateRoute.tsx";
 import AdminUsers from "./components/pages/AdminUsers.tsx";
+
 
 function App() {
   const directory = useLocation();
@@ -49,6 +54,7 @@ function App() {
 
   return (
     <div className="w-full bg-white text-gray-950 font-poppins">
+
       <Routes>
         <Route
           path="/"
@@ -59,6 +65,18 @@ function App() {
             </MainLayout>
           }
         />
+         <Route path="/activity/ActiviteDetails/:id" element={<ActiviteDetails />} />
+
+
+
+             <Route
+          path="/Activite"
+          element={
+            <MainLayout>
+              <Activite />
+            </MainLayout>
+          }
+        /> 
         <Route
           path="/flight"
           element={

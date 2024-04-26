@@ -1,5 +1,6 @@
 package com.project.srv.service;
 
+import com.project.srv.bean.Activite;
 import com.project.srv.bean.Ville;
 import com.project.srv.dao.VilleDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VilleService {
@@ -15,6 +17,18 @@ public class VilleService {
     public List<Ville> findByNom(String nom) {
         return villeDao.findByNom(nom);
     }
+
+    public List<Ville> findAll() {
+        return villeDao.findAll();
+    }
+    public List<String> getAllVilleNames() {
+        List<Ville> villes = villeDao.findAll();
+        // Utilisez Stream API pour mapper les noms des villes
+        return villes.stream()
+                .map(Ville::getNom)
+                .collect(Collectors.toList());
+    }
+
     public List<Ville> findByPays(String pays) {
         return villeDao.findByPays(pays);
     }

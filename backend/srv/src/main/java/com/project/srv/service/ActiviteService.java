@@ -4,7 +4,9 @@ package com.project.srv.service;
 
 
 import com.project.srv.bean.Activite;
+import com.project.srv.bean.Ville;
 import com.project.srv.dao.ActiviteDao;
+import com.project.srv.dao.VilleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,39 @@ public class ActiviteService {
 
     @Autowired
     private ActiviteDao activiteDao;
+    @Autowired
+    private final VilleDao villeDao;
 
+    @Autowired
+    public ActiviteService(ActiviteDao activiteDao, VilleDao villeDao) {
+        this.activiteDao = activiteDao;
+        this.villeDao = villeDao;
+    }
+
+    public Optional<Activite> findActiviteWithVilleById(Long activiteId) {
+        return activiteDao.findActiviteWithVilleById(activiteId);
+    }
+
+
+    public List<Activite> rechercherParNomVilleEtHoraire(String nomVille, String horaire) {
+        Ville ville = trouverVilleParNom(nomVille);
+        if (ville != null) {
+            return activiteDao.findByVilleAndHoraire(ville, horaire);
+        } else {
+            // Gérer le cas où la ville n'est pas trouvée
+            return null;
+        }
+    }
+
+    private Ville trouverVilleParNom(String nomVille) {
+        List<Ville> villes = villeDao.findByNom(nomVille);
+        if (!villes.isEmpty()) {
+            return villes.get(0);
+        } else {
+            // Gérer le cas où la ville n'est pas trouvée
+            return null;
+        }
+    }
     public Optional<Activite> findById(Long Id) {
         return activiteDao.findById(Id);
     }
@@ -28,12 +62,17 @@ public class ActiviteService {
         return activiteDao.findByPrixBetween(prixMin, prixMax);
     }
 
+
     public List<Activite> findByNom(String nom) {
         return activiteDao.findByNom(nom);
     }
 
     public List<Activite> findByLieu(String lieu) {
         return activiteDao.findByLieu(lieu);
+    }
+
+    public List<Activite> findByVille(Ville ville) {
+        return activiteDao.findByVille(ville);
     }
 
     public List<Activite> findByDescription(String description) {
@@ -59,6 +98,7 @@ public class ActiviteService {
         if (existingActivite != null) {
             existingActivite.setNom(activite.getNom());
             existingActivite.setLieu(activite.getLieu());
+            existingActivite.setVille(activite.getVille());
             existingActivite.setDescription(activite.getDescription());
             existingActivite.setHoraire(activite.getHoraire());
             existingActivite.setPrix(activite.getPrix());
@@ -68,6 +108,9 @@ public class ActiviteService {
         } else {
             return -1; // L'activité n'existe pas
         }
+    }
+    public List<Activite> findAll() {
+        return activiteDao.findAll();
     }
     public List<Activite> findByPrixLessThan(double prixMax) {
         return activiteDao.findByPrixLessThan(prixMax);
@@ -80,7 +123,12 @@ public class ActiviteService {
     public List<Activite> findByPrix(double prix) {
         return activiteDao.findByPrix(prix);
     }
-
+    public List<Activite>  findByVilleAndHoraire(Ville ville,String horaire) {
+        return activiteDao.findByVilleAndHoraire(ville,horaire);
+    }
+    public List<Activite> findByNomVille(String nomVille) {
+        return activiteDao.findByVilleNom(nomVille);
+    }
     @Transactional
     public void deleteById(long id) {
         activiteDao.deleteById(id);
@@ -88,6 +136,9 @@ public class ActiviteService {
     @Transactional
     public void deleteByNom(String nom) {
         activiteDao.deleteByNom(nom);
+    }
+    public void deleteByVille(Ville ville) {
+        activiteDao.deleteByVille(ville);
     }
 
     @Transactional
@@ -109,6 +160,8 @@ public class ActiviteService {
     public void deleteByPrix(double prix) {
         activiteDao.deleteByPrix(prix);
     }
+
+
 
     // Vous pouvez ajouter d'autres méthodes de service personnalisées ici si nécessaire
 }

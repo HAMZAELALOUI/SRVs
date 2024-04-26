@@ -15,6 +15,10 @@ export const NavLinks = [
     {
         name: "Bookings",
         url: "/"
+    },
+    {
+        name: "activities",
+        url: "/Activite"
     }
 ];
 
