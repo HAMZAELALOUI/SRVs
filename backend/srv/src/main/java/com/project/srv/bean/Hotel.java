@@ -21,14 +21,34 @@ public class Hotel {
     private double prixChambres;
 
 
-    private Date horaire;
-    public Date getHoraire() {
-        return horaire;
+    private String dateD;
+    private String dateA;
+
+    public String getDateD() {
+        return dateD;
     }
 
-    public void setHoraire(Date horaire) {
-        this.horaire = horaire;
+    public void setDateD(String dateD) {
+        dateD = dateD;
     }
+
+    public String getDateA() {
+        return dateA;
+    }
+
+    public void setDateA(String dateA) {
+        dateA = dateA;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+
 
     @OneToMany(mappedBy = "hotel")
     private List<Reservation> reservations;

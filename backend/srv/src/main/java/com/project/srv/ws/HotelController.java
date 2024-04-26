@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/Gestion-Vol/Hotel")
@@ -25,10 +26,13 @@ public class HotelController {
     public List<Hotel> findByEmplacement(@PathVariable String emplacement) {
         return hotelService.findByEmplacement(emplacement);
     }
-
     @GetMapping("/etoiles/{nombreEtoiles}")
     public List<Hotel> findByNombreEtoiles(@PathVariable int nombreEtoiles) {
         return hotelService.findByNombreEtoiles(nombreEtoiles);
+    }
+    @GetMapping("/hotel/HotelDetails/{hotelId}")
+    public Optional<Hotel> findActiviteWithVilleById(@PathVariable Long hotelId) {
+        return hotelService.findActiviteWithVilleById(hotelId);
     }
     @GetMapping("/ville/{ville}")
     public List<Hotel> findByVille(@PathVariable Ville ville) {
@@ -88,24 +92,19 @@ public class HotelController {
         return hotelService.findByPrixChambresBetween(prixMin, prixMax);
     }
 
-    // Endpoint pour rechercher un hôtel par son identifiant
-    @GetMapping("/{id}")
-    public Hotel getHotelById(@PathVariable Long id) {
-        return hotelService.findById(id).orElse(null);
-    }
-    @GetMapping("/horaire/{horaire}")
-    public List<Hotel> findByHoraire(@PathVariable Date horaire) {
-        return hotelService.findByHoraire(horaire);
+    @GetMapping("/ville/nom/{nomVille}")
+    public List<Hotel> findByNomVille(@PathVariable String nomVille) {
+        return hotelService.findByNomVille(nomVille);
     }
 
-    @GetMapping("/horaireAndVille/{horaire}/{villeId}")
-    public List<Hotel> findByHoraireAndVille(@PathVariable Date horaire, @PathVariable Long villeId) {
-        Ville ville = villeService.findById(villeId).orElse(null);
-        if (ville == null) {
-            // Gérer le cas où la ville n'est pas trouvée
-            return null;
-        }
-        return hotelService.findByHoraireAndVille(horaire, ville);
+
+    @GetMapping("/ville/{nomVille}/date/{dateA}/{dateD}")
+    public List<Hotel> findByNomVilleAndDateAAndDateD(@PathVariable String nomVille, @PathVariable String dateA, @PathVariable String dateD) {
+        return hotelService.rechercherParNomVilleEtDateAetDateD(nomVille, dateA, dateD);
+    }
+    @GetMapping("/date/{dateA}/{dateD}")
+    public List<Hotel> findByDateAAndDateD(@PathVariable String dateA, @PathVariable String dateD) {
+        return hotelService.findByDateAAndDateD(dateA, dateD);
     }
 
 }

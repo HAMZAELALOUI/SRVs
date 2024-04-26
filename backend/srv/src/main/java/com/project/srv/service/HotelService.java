@@ -3,25 +3,37 @@ package com.project.srv.service;
 import com.project.srv.bean.Hotel;
 import com.project.srv.bean.Ville;
 import com.project.srv.dao.HotelDao;
+import com.project.srv.dao.VilleDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class HotelService {
 
+
     @Autowired
     private HotelDao hotelDao;
+    @Autowired
+    private VilleDao villeDao;
 
     public String getImagePath() {
         // Implémentez cette méthode pour récupérer le chemin de l'image depuis la base de données
         // Par exemple, utilisez hotelRepository.findBy...() pour récupérer le chemin
         return "src/images/image1.png"; // Retourne le chemin de l'image
     }
+
+    public Optional<Hotel> findActiviteWithVilleById(Long hotelId) {
+        return hotelDao.findActiviteWithVilleById(hotelId);
+    }
+
     public List<Hotel> findByEmplacement(String emplacement) {
         return hotelDao.findByEmplacement(emplacement);
     }
@@ -33,6 +45,7 @@ public class HotelService {
     public List<Hotel> findHotelByReservationId(Long reservationId) {
         return hotelDao.findHotelByReservationsId(reservationId);
     }
+
 
     public List<Hotel> findByNom(String nom) {
         return hotelDao.findByNom(nom);
@@ -92,7 +105,9 @@ public class HotelService {
         return 1;
     }
 
-
+    public List<Hotel> findByNomVille(String nomVille) {
+        return hotelDao.findByVilleNom(nomVille);
+    }
 
     public int updateHotel(Hotel hotel) {
         Hotel existingHotel = hotelDao.findById(hotel.getId()).orElse(null);
@@ -122,12 +137,29 @@ public class HotelService {
     public Optional<Hotel> findById(Long id) {
         return hotelDao.findById(id);
     }
-    public List<Hotel> findByHoraire(Date horaire) {
-        return hotelDao.findByHoraire(horaire);
+
+
+    public List<Hotel> rechercherParNomVilleEtDateAetDateD(String nomVille, String dateA, String dateD) {
+        Ville ville = trouverVilleParNom(nomVille);
+        if (ville != null) {
+            return hotelDao.findByVilleAndDateAAndDateD( ville, dateA, dateD);
+        } else {
+            return null;
+        }
+    }
+    public List<Hotel> findByDateAAndDateD( String dateA, String dateD) {
+        return hotelDao.findByDateAAndDateD(dateA, dateD);
     }
 
-    public List<Hotel> findByHoraireAndVille(Date horaire, Ville ville) {
-        return hotelDao.findByHoraireAndVille(horaire, ville);
+
+    private Ville trouverVilleParNom(String nomVille) {
+        List<Ville> villes = villeDao.findByNom(nomVille);
+        if (!villes.isEmpty()) {
+            return villes.get(0);
+        } else {
+            // Gérer le cas où la ville n'est pas trouvée
+            return null;
+        }
     }
 
 }
