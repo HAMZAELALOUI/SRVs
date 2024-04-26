@@ -69,6 +69,29 @@ export const loginUser = async (
   }
 };
 
+const updateUser = async (id: number, userData: Utilisateur): Promise<any> => {
+  try {
+    const response = await axios.put(`${BASE_URL}/updateUtilisateur/${id}`, userData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
+  }
+};
+
+const deleteUserByEmail = async (email: string): Promise<void> => {
+  try {
+    await axios.delete(`${BASE_URL}/email/${encodeURIComponent(email)}`);
+  } catch (error) {
+    console.error("Error deleting user by email:", error);
+    throw error;
+  }
+};
+
 export const getUserByEmail = async (
   email: string
 ): Promise<Utilisateur | null> => {
@@ -82,3 +105,25 @@ export const getUserByEmail = async (
     return null;
   }
 };
+
+export const getAllUsers = async (): Promise<Utilisateur[]> => {
+  try {
+    const response = await axios.get(`${BASE_URL}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+    return [];
+  }
+};
+
+
+const UtilisateurServices = {
+  registerUser,
+  loginUser,
+  getUserByEmail,
+  updateUser,
+  deleteUserByEmail,
+  getAllUsers
+};
+
+export default UtilisateurServices;

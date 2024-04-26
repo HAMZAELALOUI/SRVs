@@ -80,8 +80,6 @@ public class VolService {
         volDao.deleteAll();
     }
 
-
-
     @Transactional
     public Vol save(Vol vol) throws InvalidDataException {
         Ville origin = vol.getOrigin();

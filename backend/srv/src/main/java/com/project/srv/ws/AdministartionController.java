@@ -3,6 +3,8 @@ package com.project.srv.ws;
 import com.project.srv.bean.Administration;
 import com.project.srv.service.AdministartionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/srv/admin")
 public class AdministartionController {
+
+
 
     @GetMapping("/name/{name}")
     public Administration findByName(@PathVariable String name) {
@@ -28,36 +32,16 @@ public class AdministartionController {
         administartionService.deleteById(aLong);
     }
 
-    public void seConnecter() {
-        administartionService.seConnecter();
-    }
 
-    public void gererUtilsateurs() {
-        administartionService.gererUtilsateurs();
-    }
 
-    public void gererVoyages() {
-        administartionService.gererVoyages();
-    }
-
-    public void gererReservations() {
-        administartionService.gererReservations();
-    }
-
-    public void gererPaiement() {
-        administartionService.gererPaiement();
-    }
-
-    public void gererActivities() {
-        administartionService.gererActivities();
-    }
-
-    public void gererHotels() {
-        administartionService.gererHotels();
-    }
-
-    public void gererVols() {
-        administartionService.gererVols();
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String name, @RequestParam String password) {
+        boolean isAuthenticated = administartionService.authenticate(name, password);
+        if (isAuthenticated) {
+            return ResponseEntity.ok("Login successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
     }
 
 
