@@ -1,5 +1,6 @@
 package com.project.srv.service;
 
+import com.project.srv.bean.Activite;
 import com.project.srv.bean.Ville;
 import com.project.srv.dao.VilleDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +13,20 @@ import java.util.stream.Collectors;
 @Service
 public class VilleService {
 
+    public Optional<Ville> findById(Long Id) { return villeDao.findById(Id);}
     public List<Ville> findByNom(String nom) {
         return villeDao.findByNom(nom);
     }
 
-
     public  Optional<Ville> findById(Long id) {
         return villeDao.findById(id);
     }
+
+
+    public List<Ville> findAll() {
+        return villeDao.findAll();
+    }
+    
 
 
     public List<Ville> findByPays(String pays) {

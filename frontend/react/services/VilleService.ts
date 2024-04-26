@@ -1,7 +1,14 @@
 import axios from 'axios';
 import { Ville } from './types';
 
-const API_URL = 'http://localhost:8080/srv/villes';
+
+const api = axios.create({
+    baseURL: 'http://localhost:8080/srv/villes',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
+
 
 const getAllVilles = async (): Promise<Ville[]> => {
     const response = await axios.get<Ville[]>(`${API_URL}`);
@@ -17,23 +24,31 @@ const getAllVilleNames = async (): Promise<string[]> => {
     }
 };
 
-const getVilleById = async (id: number): Promise<Ville> => {
-    const response = await axios.get<Ville>(`${API_URL}/${id}`);
-    return response.data;
-};
+const villeService = {
+    getAllVilles: async () => {
+        return api.get<Ville[]>('/');
+    },
 
-const getByNom = async (nom: string): Promise<Ville[]> => {
-    const response = await axios.get<Ville[]>(`${API_URL}/${nom}`);
-    return response.data;
-};
 
-const findByPays = async (pays: string): Promise<Ville[]> => {
-    const response = await axios.get<Ville[]>(`${API_URL}/${pays}`);
-    return response.data;
-};
+    getVilleById: async (id: number) => {
+        return api.get<Ville>(`/${id}`);
+    },
 
-const findByNomContainingIgnoreCase = async (nom: string): Promise<Ville[]> => {
-    const response = await axios.get<Ville[]>(`${API_URL}/nomIg/${nom}`);
+    getByNom: async (nom: string) => {
+        return api.get<Ville[]>(`/${nom}`);
+    },
+
+    findByPays: async (pays: string) => {
+        return api.get<Ville[]>(`/${pays}`);
+    },
+
+    findByNomContainingIgnoreCase: async (nom: string) => {
+        return api.get<Ville[]>(`/nomIg/${nom}`);
+    },
+
+
+const getAllVilleNames = async (): Promise<string[]> => {
+    const response = await axios.get<string[]>(`${API_URL}/noms`);
     return response.data;
 };
 
@@ -42,26 +57,32 @@ const saveVille = async (ville: Ville): Promise<Ville> => {
     return response.data;
 };
 
-const updateVille = async (id: number, villeDetails: Ville): Promise<Ville> => {
-    const response = await axios.put<Ville>(`${API_URL}/${id}`, villeDetails);
-    return response.data;
+    save: async (ville: Ville) => {
+        return api.post<Ville>('/', ville);
+    },
+
+
+    updateVille: async (id: number, villeDetails: Ville) => {
+        return api.put<Ville>(`/${id}`, villeDetails);
+    },
+
+    deleteVille: async (id: number) => {
+        return api.delete(`/${id}`);
+    },
+
+    deleteVilleByNom: async (nom: string) => {
+        return api.delete(`/${nom}`);
+    },
+
+    deleteVilleByPays: async (pays: string) => {
+        return api.delete(`/${pays}`);
+    },
+
+    deleteAllVilles: async () => {
+        return api.delete('/');
+    }
 };
 
-const deleteVille = async (id: number): Promise<void> => {
-    await axios.delete(`${API_URL}/${id}`);
-};
-
-const deleteVilleByNom = async (nom: string): Promise<void> => {
-    await axios.delete(`${API_URL}/${nom}`);
-};
-
-const deleteVilleByPays = async (pays: string): Promise<void> => {
-    await axios.delete(`${API_URL}/${pays}`);
-};
-
-const deleteAllVilles = async (): Promise<void> => {
-    await axios.delete(`${API_URL}/`);
-};
 
 export const villeService = {
     getAllVilles,
@@ -69,6 +90,7 @@ export const villeService = {
     getByNom,
     findByPays,
     findByNomContainingIgnoreCase,
+    getAllVilleNames,
     saveVille,
     updateVille,
     deleteVille,
@@ -77,3 +99,6 @@ export const villeService = {
     deleteAllVilles,
     getAllVilleNames,
 };
+
+export default villeService;
+

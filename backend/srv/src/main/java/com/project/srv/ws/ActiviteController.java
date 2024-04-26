@@ -1,6 +1,7 @@
 package com.project.srv.ws;
 
 import com.project.srv.bean.Activite;
+import com.project.srv.bean.Ville;
 import com.project.srv.service.ActiviteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,11 +11,16 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/Gestion-Vol/Activite")
+@RequestMapping("/GestionVol/Activite")
 public class ActiviteController {
 
     @Autowired
     private ActiviteService activiteService;
+
+    @GetMapping("/activity/ActiviteDetails/{activiteId}")
+    public Optional<Activite> findActiviteWithVilleById(@PathVariable Long activiteId) {
+        return activiteService.findActiviteWithVilleById(activiteId);
+    }
     @PostMapping("/save")
     public int saveActivite(@RequestBody Activite activite) {
        return activiteService.saveActivite(activite);
@@ -24,6 +30,14 @@ public class ActiviteController {
      return  activiteService.updateActivite(activite);
     }
 
+    @GetMapping("/ville/{nomVille}")
+    public List<Activite> findByNomVille(@PathVariable String nomVille) {
+        return activiteService.findByNomVille(nomVille);
+    }
+    @GetMapping("/")
+    public List<Activite> findAll() {
+        return activiteService.findAll();
+    }
     @GetMapping("/prixactivite/between/{prixMin}/{prixMax}")
     public List<Activite> findByPrixActiviteBetween(@PathVariable double prixMin, @PathVariable double prixMax) {
         return activiteService.findByPrixActviteBetween(prixMin,prixMax);
@@ -48,6 +62,7 @@ public class ActiviteController {
         return activiteService.findByDescription(description);
     }
 
+
     @GetMapping("/horaire/{horaire}")
     public List<Activite> findByHoraire(@PathVariable String horaire) {
         return activiteService.findByHoraire(horaire);
@@ -68,7 +83,20 @@ public class ActiviteController {
     public void deleteByNom(@PathVariable String nom) {
         activiteService.deleteByNom(nom);
     }
+    @GetMapping("/jj/{ville}")
+    public List<Activite> findByVille(@PathVariable Ville ville) {
+        return activiteService.findByVille(ville);
+    }
+    @GetMapping("/villeString/{nomVille}/horaire/{horaire}")
+    public List<Activite> findByVilleAndHoraireString(@PathVariable String nomVille, @PathVariable String horaire) {
+        return activiteService.rechercherParNomVilleEtHoraire(nomVille, horaire);
+    }
 
+
+    @GetMapping("/ville/{nomVille}/horaire/{horaire}")
+    public List<Activite> findByVilleAndHoraire(@PathVariable String nomVille, @PathVariable String horaire) {
+        return activiteService.rechercherParNomVilleEtHoraire(nomVille, horaire);
+    }
     @DeleteMapping("/lieu/{lieu}")
     @Transactional
     public void deleteByLieu(@PathVariable String lieu) {
@@ -79,6 +107,11 @@ public class ActiviteController {
     @Transactional
     public void deleteByDescription(@PathVariable String description) {
         activiteService.deleteByDescription(description);
+    }
+    @DeleteMapping("/ville/{ville}")
+    @Transactional
+    public void deleteByVille(@PathVariable Ville ville) {
+        activiteService.deleteByVille(ville);
     }
 
     @DeleteMapping("/horaire/{horaire}")
