@@ -13,11 +13,9 @@ import java.util.stream.Collectors;
 @Service
 public class VilleService {
 
+    public Optional<Ville> findById(Long Id) { return villeDao.findById(Id);}
     public List<Ville> findByNom(String nom) {
         return villeDao.findByNom(nom);
-    }
-    public List<Ville>  findIdByNom(String nom) {
-        return villeDao.findIdByNom(nom);
     }
 
     public List<Ville> findAll() {
@@ -30,6 +28,7 @@ public class VilleService {
                 .map(Ville::getNom)
                 .collect(Collectors.toList());
     }
+
     public List<Ville> findByPays(String pays) {
         return villeDao.findByPays(pays);
     }

@@ -21,7 +21,7 @@ public class VilleController {
     private VilleService villeService;
 
     // Get all cities
-    @GetMapping
+    @GetMapping("/")
     public List<Ville> getAllVilles() {
         return villeDao.findAll();
     }

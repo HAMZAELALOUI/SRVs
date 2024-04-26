@@ -1,3 +1,4 @@
+
 import { Image } from "../atoms/Image"
 import logo from "../../assets/logo2.png"
 import { Text } from "../atoms/Text"
@@ -89,8 +90,8 @@ const Footer = () => {
                     <Image image={app} className="w-28" alt="App Download" as="a" href="/" />
                 </div>
             </section>
-            <Text className="text-center bg-color4 text-white text-xs py-6 font-light">
-                Copyright 2023. Jadoo.com. All rights reserved.
+            <Text className="text-center bg-color1 text-white text-xs py-6 font-light">
+                Copyright 2024. InnovITeers. All rights reserved.
             </Text>
         </footer>
     )
