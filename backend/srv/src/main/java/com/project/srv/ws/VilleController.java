@@ -97,6 +97,10 @@ public class VilleController {
     public void deleteAllVilles() {
         villeService.deleteAllVilles();
     }
+    @GetMapping("/noms")
+    public List<String> getAllVilleNames() {
+        return villeService.getAllVilleNames();
+    }
 
 }
 

@@ -1,5 +1,6 @@
 package com.project.srv.dao;
 
+import com.project.srv.bean.Hotel;
 import com.project.srv.bean.Activite;
 import com.project.srv.bean.Ville;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,12 +21,13 @@ public interface VilleDao extends JpaRepository<Ville, Long> {
     List<Ville> findByNomContainingIgnoreCase(String nom);
 
     Optional<Ville> findByNomAndPays(String nom, String pays);
+    Optional<Ville> findById(Long id);
 
 
     void deleteByNom(String nom);
 
     void deleteByPays(String pays);
-
+    List<Ville> findAll();
     void deleteByNomContainingIgnoreCase(String nom);
 
     void deleteByNomAndPays(String nom, String pays);

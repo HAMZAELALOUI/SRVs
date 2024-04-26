@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { Ville } from './types'; // Assuming you have a Ville type defined for TypeScript
+import { Ville } from './types';
+
 
 const api = axios.create({
     baseURL: 'http://localhost:8080/srv/villes',
@@ -8,10 +9,26 @@ const api = axios.create({
     }
 });
 
+
+const getAllVilles = async (): Promise<Ville[]> => {
+    const response = await axios.get<Ville[]>(`${API_URL}`);
+    return response.data;
+};
+const getAllVilleNames = async (): Promise<string[]> => {
+    try {
+        const response = await axios.get<string[]>(`${API_URL}/noms`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching ville names:", error);
+        throw error; // Renvoyer l'erreur pour la gérer à un niveau supérieur si nécessaire
+    }
+};
+
 const villeService = {
     getAllVilles: async () => {
         return api.get<Ville[]>('/');
     },
+
 
     getVilleById: async (id: number) => {
         return api.get<Ville>(`/${id}`);
@@ -80,6 +97,7 @@ export const villeService = {
     deleteVilleByNom,
     deleteVilleByPays,
     deleteAllVilles,
+    getAllVilleNames,
 };
 
 export default villeService;

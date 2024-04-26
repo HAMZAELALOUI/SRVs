@@ -24,6 +24,7 @@ export interface Utilisateur {
     address?: string;
     profilePicture?: string;
 }
+
 export interface Activite {
     id?: number;
     nom: string;
@@ -33,6 +34,32 @@ export interface Activite {
     description: string;
     horaire: string;
     prix: number;
+
+}
+
+
+export interface Hotel {
+    id?: number;
+    nom: string;
+    emplacement: string;
+    description: string;
+    nombreEtoiles: number;
+    prixChambres: number;
+    image: string;
+    dateD: string; // <- Changement ici
+    dateA: string; // <- Changement ici
+    reservations?: Reservation[];
+    ville?: Ville[];
+}
+
+
+
+export interface Reservation {
+    id?: number;
+    // Définir les autres propriétés de la réservation ici si nécessaire
+}
+
+    
 
 }
 export interface Details {

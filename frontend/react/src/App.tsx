@@ -11,6 +11,11 @@ import Activite from "./components/pages/Activite";
 import ActiviteDetails from "./components/layouts/ActiviteDetails";
 import Home from "./components/pages/Home";
 import { useEffect } from "react";
+
+import Footer from "./components/organs/Footer";
+import Hotel from "./components/pages/Hotel.tsx";
+
+import HotelDetails from "./components/pages/HotelDetails.tsx";
 import SignUp from "./components/organs/SignUp";
 import SignIn from "./components/organs/SignIn";
 import MainLayout from "./components/layouts/MainLayout";
@@ -25,6 +30,7 @@ import FlightDetails from "./components/pages/FlightDetails.tsx";
 import AdminLogin from "./components/pages/AdminLogin.tsx";
 import PrivateRoute from "./components/atoms/PrivateRoute.tsx";
 import AdminUsers from "./components/pages/AdminUsers.tsx";
+
 
 
 function App() {
@@ -56,6 +62,11 @@ function App() {
     <div className="w-full bg-white text-gray-950 font-poppins">
 
       <Routes>
+
+          <Route path="/Hotel" element={<Hotel />}/>
+          <Route path="/hotel/HotelDetails/:id" element={<HotelDetails/>} />
+          {/* Nouvelle route pour afficher les détails de l'hôtel */}
+
         <Route
           path="/"
           element={
@@ -142,6 +153,7 @@ function App() {
         <Route path="/dashboard/login" element={<AdminLogin />} />
 
         <Route path="/dashboard/add-user-form" element={<RegistrationForm />} />
+
       </Routes>
     </div>
   );

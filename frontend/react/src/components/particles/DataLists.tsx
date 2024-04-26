@@ -5,8 +5,8 @@ export const NavLinks = [
         url: "/flight"
     },
     {
-        name: "Hotels",
-        url: "/"
+        name: "Hotel",
+        url: "/Hotel"
     },
     {
         name: "Flights",

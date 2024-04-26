@@ -18,16 +18,16 @@ public class VilleService {
         return villeDao.findByNom(nom);
     }
 
+    public  Optional<Ville> findById(Long id) {
+        return villeDao.findById(id);
+    }
+
+
     public List<Ville> findAll() {
         return villeDao.findAll();
     }
-    public List<String> getAllVilleNames() {
-        List<Ville> villes = villeDao.findAll();
-        // Utilisez Stream API pour mapper les noms des villes
-        return villes.stream()
-                .map(Ville::getNom)
-                .collect(Collectors.toList());
-    }
+    
+
 
     public List<Ville> findByPays(String pays) {
         return villeDao.findByPays(pays);
@@ -64,7 +64,16 @@ public class VilleService {
             return villeDao.save(ville);
         }
     }
+    public List<String> getAllVilleNames() {
+        List<Ville> villes = villeDao.findAll();
+        // Utilisez Stream API pour mapper les noms des villes
+        return villes.stream()
+                .map(Ville::getNom)
+                .collect(Collectors.toList());
+    }
 
     @Autowired
     VilleDao villeDao;
+
+
 }
