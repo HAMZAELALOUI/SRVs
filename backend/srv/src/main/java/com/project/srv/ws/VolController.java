@@ -205,19 +205,38 @@ public class VolController {
     }
 
     // Update a vol
-    @PutMapping("id/{id}")
-    public ResponseEntity<Vol> updateVol(@PathVariable Long id, @RequestBody Vol volDetails) {
-        return volDao.findById(id).map(existingVol -> {
-            existingVol.setDestination(volDetails.getDestination());
-            existingVol.setOrigin(volDetails.getOrigin());
-            existingVol.setPrix(volDetails.getPrix());
-            existingVol.setHeureDepart(volDetails.getHeureDepart());
-            existingVol.setHeureArrivee(volDetails.getHeureArrivee());
-            existingVol.setPlacesDisponibles(volDetails.getPlacesDisponibles());
-            existingVol.setImageUrl(volDetails.getImageUrl());
-            Vol updatedVol = volDao.save(existingVol);
-            return ResponseEntity.ok(updatedVol);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+    @PostMapping("/")
+    public ResponseEntity<?> save(
+            @RequestParam("originId") Long originId,
+            @RequestParam("destinationId") Long destinationId,
+            @RequestParam("heureDepart") LocalDate heureDepart,
+            @RequestParam("heureArrivee") LocalDate heureArrivee,
+            @RequestParam("prix") float prix,
+            @RequestParam("placesDisponibles") int placesDisponibles,
+            @RequestParam(value = "image", required = false) MultipartFile image
+    ) {
+        try {
+            Ville origin = villeService.findById(originId).orElseThrow(() -> new Exception("Origin not found"));
+            Ville destination = villeService.findById(destinationId).orElseThrow(() -> new Exception("Destination not found"));
+
+            Vol vol = new Vol();
+            vol.setOrigin(origin);
+            vol.setDestination(destination);
+            vol.setHeureDepart(heureDepart);
+            vol.setHeureArrivee(heureArrivee);
+            vol.setPrix(prix);
+            vol.setPlacesDisponibles(placesDisponibles);
+
+            if (!image.isEmpty()) {
+                String filePath = volService.storeFile(image);
+                vol.setImageUrl(filePath);
+            }
+
+            Vol savedVol = volService.save(vol);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedVol);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error saving Vol: " + e.getMessage());
+        }
     }
 
     // Delete a vol
