@@ -8,7 +8,7 @@ const FlightDetails: React.FC = () => {
     return (
         <div className="container m-40 p-4 lg:flex lg:items-start lg:space-x-8">
             <div className="lg:flex-shrink-0">
-                <img className="w-full h-96 object-cover lg:w-96 lg:h-auto rounded-lg shadow-md" src={vol.imageUrl} alt="Flight" />
+                <img className="w-full h-96 object-cover lg:w-96 lg:h-auto rounded-lg shadow-md" src={`http://localhost:8080${vol.imageUrl}`} alt="Flight" />
             </div>
             <div className="mt-4 lg:mt-0 lg:flex-grow">
                 <h1 className="text-2xl font-bold text-gray-900">{`Flight from ${vol.origin.nom} to ${vol.destination.nom}`}</h1>

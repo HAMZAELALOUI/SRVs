@@ -4,6 +4,7 @@ import AddFlightForm from "../popups/AddFlightForm.tsx"; // Import your form
 import volService from "../../../services/VolService";
 import { Vol } from "../../../services/types";
 import EditFlightForm from '../popups/EditFlightForm.tsx';
+import Swal from "sweetalert2";
 
 const AdminFlight: React.FC = () => {
     const [vols, setVols] = useState<Vol[]>([]);
@@ -18,13 +19,13 @@ const AdminFlight: React.FC = () => {
         setIsEditPopupVisible(true);
     };
 
-    const handleUpdateVol = async (id: number, volDetails: Vol) => {
+    const handleUpdateVol = async (id: number, formData: FormData) => {
         setIsSubmitting(true); // Disable the form or button to prevent multiple submissions
         try {
             // Call the update API and wait for the response
-            const response = await volService.updateVol(id, volDetails);
+            const response = await volService.updateVol(id, formData);
 
-            // Assuming the server returns the updated Vol object
+            // Check the response status code and handle the data accordingly
             if (response.status === 200) {
                 // Update local state to reflect the change
                 setVols((prevVols) => prevVols.map(vol => {
@@ -37,17 +38,21 @@ const AdminFlight: React.FC = () => {
 
                 setIsEditPopupVisible(false); // Close the edit popup
                 setSelectedVolForEdit(null); // Clear the currently selected vol for edit
+                Swal.fire("Update Successful!", "The flight has been updated successfully.", "success");
             } else {
                 // Handle situations where the server response might not be as expected
+                Swal.fire("Update Failed", "Failed to update the flight due to server error.", "error");
                 console.error('Failed to update the vol, server responded with status:', response.status);
             }
         } catch (error) {
             console.error("Error updating vol:", error);
+            Swal.fire("Error", "An error occurred while updating the flight.", "error");
             // Optionally, handle more user-friendly error reporting here
         } finally {
             setIsSubmitting(false); // Re-enable the form or button
         }
     };
+
 
 
 
@@ -68,13 +73,31 @@ const AdminFlight: React.FC = () => {
     }, [showModal]);
 
     // Function to handle the form submission
-    const handleAddFlight = async (newVol: Vol) => {
+    const handleAddFlight = async (formData: FormData) => {
+        setIsSubmitting(true);
         try {
-            const savedVol = await volService.save(newVol); // Save the vol
-            setVols(prevVols => [...prevVols, savedVol]); // Update the state with the saved vol
-            setShowModal(false); // Close the modal
+            const response = await volService.save(formData); // Adjust the service call if needed
+            if (response.status === 201) {
+                const newVol = response.data;
+                setVols(prevVols => [...prevVols, newVol]); // Update the state with the saved vol
+                setShowModal(false); // Close the modal
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Flight has been added successfully',
+                    icon: 'success'
+                });
+            } else {
+                throw new Error(`Server responded with status: ${response.status}`);
+            }
         } catch (error) {
             console.error("Error adding vol:", error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'Failed to add the flight',
+                icon: 'error'
+            });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
