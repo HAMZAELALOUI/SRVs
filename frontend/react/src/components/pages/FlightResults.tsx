@@ -20,7 +20,7 @@ const FlightResults: React.FC = () => {
                 {searchResults.map(vol => (
                     <div key={vol.idVol} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center text-center">
                         <img
-                            src={vol.imageUrl} // Replace with your actual image URL
+                            src={`http://localhost:8080${vol.imageUrl}`} // Replace with your actual image URL
                             alt="Flight"
                             className="w-full h-48 object-cover rounded-t-lg"
                         />

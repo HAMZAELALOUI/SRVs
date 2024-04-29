@@ -66,12 +66,22 @@ const volService = {
         return api.get<Vol[]>(`/prix/${prix}`);
     },
 
-    save: async (vol: Vol) => {
-        return api.post<number>('/', vol);
+    save: async (formData) => {
+        return api.post('/', formData, {
+            headers: {
+                // Ensure Content-Type is not set manually for FormData
+                'Content-Type': undefined
+            }
+        });
     },
 
-    updateVol: async (id: number, volDetails: Vol) => {
-        return api.put<Vol>(`/id/${id}`, volDetails);
+    updateVol: async (id, formData) => {
+        return api.put(`/id/${id}`, formData, {
+            headers: {
+                // Let the browser set the Content-Type for FormData
+                'Content-Type': undefined
+            }
+        });
     },
 
     deleteVol: async (id: number) => {

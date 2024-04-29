@@ -2,6 +2,7 @@ import React, {useEffect,useState} from "react";
 import { Vol, Ville } from "../../../services/types.ts";
 import villeService from "../../../services/VilleService.ts";
 import Swal from 'sweetalert2';
+import volService from "../../../services/VolService.ts";
 
 
 
@@ -17,7 +18,7 @@ const AddFlightForm: React.FC<AddFlightFormProps> = ({ onSubmit, onCancel }) => 
     const [heureArrivee, setHeureArrivee] = useState('');
     const [prix, setPrix] = useState('');
     const [placesDisponibles, setPlacesDisponibles] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
+    const [imageUrl, setImageUrl] = useState<File | null>(null);
     const [villes, setVilles] = useState<Ville[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false); // State to track form submission status
 
@@ -37,30 +38,63 @@ const AddFlightForm: React.FC<AddFlightFormProps> = ({ onSubmit, onCancel }) => 
     }, []);
 
 
-    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>, setter: React.Dispatch<React.SetStateAction<Ville | null>>) => {
-        const selectedId = parseInt(event.target.value, 10);
-        const selectedVille = villes.find(ville => ville.id === selectedId);
-        setter(selectedVille || null);
+    const handleSelectChange = (event, setter) => {
+        const id = parseInt(event.target.value, 10);
+        const selectedVille = villes.find(ville => ville.id === id);
+        setter(selectedVille);
+    };
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files ? event.target.files[0] : null;
+        setImageUrl(file);  // Make sure this state is used to hold the file, not the URL
     };
 
 
     const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
 
         if (origin && destination && !isSubmitting) {
             setIsSubmitting(true);
-            const volToSubmit: Vol = {
-                origin,
-                destination,
-                heureDepart: new Date(heureDepart),
-                heureArrivee: new Date(heureArrivee),
-                prix: parseFloat(prix),
-                placesDisponibles: parseInt(placesDisponibles, 10),
-                imageUrl
-            };
-            onSubmit(volToSubmit)
+            const formData = new FormData();
+            console.log("Origin ID:", origin?.id);  // Should log a number, not undefined
+            console.log("Destination ID:", destination?.id);
+
+            // Check if `origin` and `destination` have `id` property
+            if (origin.id && destination.id) {
+                formData.append("originId", origin.id.toString()); // Ensure ids are appended as strings
+                formData.append("destinationId", destination.id.toString());
+            }
+
+            formData.append("heureDepart", new Date(heureDepart).toISOString().split('T')[0]); // This will only send the date part
+            formData.append("heureArrivee", new Date(heureArrivee).toISOString().split('T')[0]); // This will only send the date part
+
+            formData.append("prix", parseFloat(prix).toString());
+            formData.append("placesDisponibles", parseInt(placesDisponibles, 10).toString());
+
+            if (imageUrl) {
+                formData.append("image", imageUrl);
+            }
+
+            try {
+                // Use the save function from your service
+                onSubmit(formData);
+                setIsSubmitting(false); // Reset submission state
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Flight has been added successfully',
+                    icon: 'success'
+                });
+            } catch (error) {
+                console.error('Save failed:', error);
+                setIsSubmitting(false); // Reset submission state
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to add the flight',
+                    icon: 'error'
+                });
+            }
         }
     };
-
 
 
     return (
@@ -158,17 +192,15 @@ const AddFlightForm: React.FC<AddFlightFormProps> = ({ onSubmit, onCancel }) => 
                         <div>
                             <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">Image URL</label>
                             <input
-                                type="url"
-                                id="imageUrl"
-                                value={imageUrl}
-                                onChange={(e) => setImageUrl(e.target.value)}
+                                type="file"
+                                id="image"
+                                onChange={handleFileChange}
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
-                                placeholder="http://"
                             />
                         </div>
-                        {/* ... more input fields for each property of Vol */}
-                        <button type="submit"
-                                className="mt-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                    {/* ... more input fields for each property of Vol */}
+                    <button type="submit"
+                            className="mt-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                             Add Flight
                         </button>
                         <button type="button" onClick={onCancel}

@@ -9,7 +9,11 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -78,6 +82,27 @@ public class VolService {
 
     public void deleteAllVols() {
         volDao.deleteAll();
+    }
+
+    private final Path rootLocation = Paths.get("src/main/resources/static/images");
+
+    public String storeFile(MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                throw new RuntimeException("Failed to store empty file.");
+            }
+            Path destinationFile = rootLocation.resolve(
+                            Paths.get(file.getOriginalFilename()))
+                    .normalize().toAbsolutePath();
+            if (!destinationFile.getParent().equals(rootLocation.toAbsolutePath())) {
+                throw new RuntimeException("Cannot store file outside current directory.");
+            }
+            file.transferTo(destinationFile);
+            // Return a URL that can be accessed from the frontend
+            return "/images/" + file.getOriginalFilename();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to store file.", e);
+        }
     }
 
     @Transactional

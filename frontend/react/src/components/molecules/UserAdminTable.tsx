@@ -1,16 +1,14 @@
 // src/components/FlightsTable.tsx
-import React, { ReactNode } from "react";
+import React from "react";
 import { Utilisateur } from "../../../services/types.ts";
 
 interface UsersTableProps {
   users: Utilisateur[];
-  addButton: ReactNode;
   onEditClick: (usr: Utilisateur) => void;
 }
 
 const UsersTable: React.FC<UsersTableProps> = ({
                                                  users,
-                                                 addButton,
                                                  onEditClick,
                                                }) => {
 
@@ -19,7 +17,6 @@ const UsersTable: React.FC<UsersTableProps> = ({
     return (
         <div className="container mx-auto mt-5 p-6 bg-white rounded shadow-md">
             <h1 className="text-xl font-semibold mb-5">User Details</h1>
-            {addButton}
             <table className="min-w-full table-auto">
                 <thead className="bg-gray-800 text-white">
                 <tr>
