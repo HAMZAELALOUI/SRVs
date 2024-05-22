@@ -2,6 +2,8 @@ package com.project.srv.ws;
 
 import com.project.srv.bean.Paiement;
 import com.project.srv.bean.Reservation;
+import com.project.srv.bean.ReservationVol;
+import com.project.srv.bean.Reservationactivite;
 import com.project.srv.service.PaiementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,4 +88,27 @@ public class PaiementController {
     public int savePaiement(@RequestBody Paiement paiement) {
         return paiementService.savePaiement(paiement);
     }
+    @GetMapping("/reservationVol")
+    public Paiement findByReservationVol(@RequestBody ReservationVol reservationVol) { // Changement de nom de la méthode
+        return paiementService.findByReservationVol(reservationVol);
+    }
+    @PostMapping("/savevol")
+    @Transactional
+    public int savePaiementVol(@RequestBody Paiement paiement) {
+        return paiementService.savePaiementVol(paiement);
+    }
+
+
+    @PostMapping("/saveActivite")
+    @Transactional
+    public int savePaiementActivite(@RequestBody Paiement paiement) {
+        return paiementService.savePaiementActivite(paiement);
+    }
+
+
+    @GetMapping("/reservationActivite")
+    public Paiement findByReservationActivite(@RequestBody Reservationactivite reservationactivite) {
+        return paiementService.findByReservationactivite(reservationactivite);
+    }
+
 }

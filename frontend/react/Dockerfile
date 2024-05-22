@@ -13,11 +13,11 @@ RUN yarn install
 # Copy the rest of the application code
 COPY . .
 
-# Build the application
-RUN yarn build
+#  Build the application
+# RUN yarn build
 
-# Expose port 3000
-EXPOSE 3000
+# Expose port 5731
+EXPOSE 5731
 
-# Start the application on port 3000
-CMD ["yarn", "preview", "--host", "--port", "3000"]
+
+CMD ["yarn", "dev"]

@@ -12,7 +12,6 @@ import ActiviteDetails from "./components/layouts/ActiviteDetails";
 import Home from "./components/pages/Home";
 import { useEffect } from "react";
 
-import Footer from "./components/organs/Footer";
 import Hotel from "./components/pages/Hotel.tsx";
 
 import HotelDetails from "./components/pages/HotelDetails.tsx";
@@ -30,6 +29,9 @@ import FlightDetails from "./components/pages/FlightDetails.tsx";
 import AdminLogin from "./components/pages/AdminLogin.tsx";
 import PrivateRoute from "./components/atoms/PrivateRoute.tsx";
 import AdminUsers from "./components/pages/AdminUsers.tsx";
+import AdminHotels from "./components/pages/AdminHotels.tsx";
+import AdminActivites from "./components/pages/AdminActivites.tsx";
+import FlightRes from "./components/pages/FlightRes.tsx";
 
 
 
@@ -59,11 +61,11 @@ function App() {
   };
 
   return (
-    <div className="w-full bg-white text-gray-950 font-poppins">
+      <div className="w-full bg-cover bg-center"
+           style={{backgroundImage: 'url("https://img.freepik.com/vecteurs-libre/fond-ciel-pastel-aquarelle-peint-main_23-2148907305.jpg?t=st=1714593799~exp=1714597399~hmac=a0a19d825ed9f1db2041f5a994a01d08cc418cc4bff8e4b770b445f62c51bef5&w=2000")'}}>
+          <Routes>
 
-      <Routes>
-
-          <Route path="/Hotel" element={<MainLayout> <Hotel /> </MainLayout>}/>
+              <Route path="/Hotel" element={<MainLayout> <Hotel /> </MainLayout>}/>
           <Route path="/hotel/HotelDetails/:id" element={<MainLayout> <HotelDetails/> </MainLayout>} />
           {/* Nouvelle route pour afficher les détails de l'hôtel */}
 
@@ -77,9 +79,6 @@ function App() {
           }
         />
           <Route path="/activity/ActiviteDetails/:id" element={<MainLayout> <ActiviteDetails /> </MainLayout>} />
-
-
-
              <Route
           path="/Activite"
           element={
@@ -103,6 +102,14 @@ function App() {
             <MainLayout>
               {" "}
               <FlightResults />{" "}
+            </MainLayout>
+          }
+        /><Route
+          path="/flight-res"
+          element={
+            <MainLayout>
+              {" "}
+              <FlightRes />{" "}
             </MainLayout>
           }
         />
@@ -140,6 +147,26 @@ function App() {
             </PrivateRoute>
           }
         />
+          <Route
+              path="/dashboard/hotels-crud"
+              element={
+                  <PrivateRoute>
+                      <DashboardLayout>
+                          <AdminHotels />
+                      </DashboardLayout>
+                  </PrivateRoute>
+              }
+          />
+          <Route
+              path="/dashboard/activites-crud"
+              element={
+                  <PrivateRoute>
+                      <DashboardLayout>
+                          <AdminActivites />
+                      </DashboardLayout>
+                  </PrivateRoute>
+              }
+          />
         <Route
           path="/dashboard/user-crud"
           element={
@@ -150,7 +177,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/dashboard/login" element={<AdminLogin />} />
+        <Route path="dashboard/login" element={<AdminLogin />} />
 
         <Route path="/dashboard/add-user-form" element={<RegistrationForm />} />
 

@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { hotelService } from "../../../services/HotelService";
 import { Hotel } from "../../../services/types";
-import villeService  from "../../../services/VilleService";
+import villeService from "../../../services/VilleService";
+import {FiSearch} from "react-icons/fi";
 
 const HotelList: React.FC = () => {
     const [villes, setVilles] = useState<string[]>([]);
@@ -13,6 +14,8 @@ const HotelList: React.FC = () => {
     const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(null);
     const [hotels, setHotels] = useState<Hotel[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const [prixMin, setPrixMin] = useState<number | null>(null);
+    const [prixMax, setPrixMax] = useState<number | null>(null);
 
     useEffect(() => {
         fetchVilleNames();
@@ -50,6 +53,15 @@ const HotelList: React.FC = () => {
         setSelectedEndDate(date);
     };
 
+    const handleSearchByName = async () => {
+        try {
+            const hotelsData = await hotelService.findByNom(searchTerm);
+            setHotels(hotelsData);
+        } catch (error) {
+            console.error("Error searching by name for hotels:", error);
+        }
+    };
+
     const handleSearch = async () => {
         try {
             let hotelsData: Hotel[] = [];
@@ -62,8 +74,8 @@ const HotelList: React.FC = () => {
                 hotelsData = await hotelService.findByDateAAndDateD(formattedStartDate, formattedEndDate);
             } else if (selectedVille) {
                 hotelsData = await hotelService.findByVille(selectedVille);
-            } else if (searchTerm) {
-                hotelsData = await hotelService.findByNom(searchTerm);
+            } else if (prixMin !== null && prixMax !== null) {
+                hotelsData = await hotelService.findByPrixChambresBetween(prixMin, prixMax);
             } else {
                 console.error("Invalid selection");
             }
@@ -81,80 +93,111 @@ const HotelList: React.FC = () => {
     };
 
     return (
-        <div className="rounded-t-lg p-4 mt-40 w-full">
-            <div className="rounded-lg mx-60 p-4 flex items-center border-yellow">
-                <div className="mr-4">
-                    <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </div>
-                <select
-                    value={selectedVille}
-                    onChange={(e) => setSelectedVille(e.target.value)}
-                    className="flex-grow bg-transparent border-0 focus:outline-none w-1/2"
-                >
-                    <option value="">Select a city</option>
-                    {villes.map((ville, index) => (
-                        <option key={index} value={ville}>{ville}</option>
-                    ))}
-                </select>
+        <div className="container mx-auto mt-20 px-4"> {/* Ajout de la marge supérieure */}
 
-                <div className="ml-4 mr-2">
-                    <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
+            <div className="flex justify-between items-center mb-8">
+                <div className="flex items-center">
+                    <div className="relative">
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            placeholder="Rechercher par nom d'hôtel"
+                            className="bg-white border border-gray-300 focus:outline-none focus:border-orange-500 px-4 py-2 rounded-full shadow-md pl-10" // Ajustement de la marge à gauche
+                        />
+                        <FiSearch className="absolute left-3 top-3 text-gray-400" /> {/* Ajout de l'icône de recherche */}
+                    </div>
+                    <button
+                        onClick={handleSearchByName}
+                        className="ml-4 bg-gradient-to-r from-orange-300 to-orange-500 text-white font-medium px-6 py-2 rounded-full shadow-md hover:from-orange-500 hover:to-orange-700 transition duration-300 focus:outline-none"
+                    >
+                        Rechercher
+                    </button>
                 </div>
-                <DatePicker
-                    selected={selectedStartDate}
-                    onChange={handleStartDateChange}
-                    className="flex-grow bg-transparent border-0 focus:outline-none"
-                    placeholderText="Select start date"
-                    dateFormat="yyyy-MM-dd"
-                />
-                <DatePicker
-                    selected={selectedEndDate}
-                    onChange={handleEndDateChange}
-                    className="flex-grow bg-transparent border-0 focus:outline-none"
-                    placeholderText="Select end date"
-                    dateFormat="yyyy-MM-dd"
-                />
-                <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search by hotel name"
-                    className="flex-grow bg-transparent border-0 focus:outline-none w-1/2"
-                />
+                <div className="flex items-center">
+                    <select
+                        value={selectedVille}
+                        onChange={(e) => setSelectedVille(e.target.value)}
+                        className="bg-white border border-gray-300 focus:outline-none focus:border-orange-500 px-4 py-2 rounded-full shadow-md mr-4"
+                    >
+                        <option value="">Sélectionnez une ville</option>
+                        {villes.map((ville, index) => (
+                            <option key={index} value={ville}>{ville}</option>
+                        ))}
+                    </select>
+
+                    <DatePicker
+                        selected={selectedStartDate}
+                        onChange={handleStartDateChange}
+                        className="bg-white border border-gray-300 focus:outline-none focus:border-orange-500 px-4 py-2 rounded-full shadow-md mr-4"
+                        placeholderText="Sélectionnez la date de début"
+                        dateFormat="yyyy-MM-dd"
+                    />
+                    <DatePicker
+                        selected={selectedEndDate}
+                        onChange={handleEndDateChange}
+                        className="bg-white border border-gray-300 focus:outline-none focus:border-orange-500 px-4 py-2 rounded-full shadow-md mr-4"
+                        placeholderText="Sélectionnez la date de fin"
+                        dateFormat="yyyy-MM-dd"
+                    />
+                    <button
+                        onClick={handleSearch}
+                        className="bg-gradient-to-r from-orange-300 to-orange-500 text-white font-medium px-6 py-2 rounded-full shadow-md hover:from-orange-500 hover:to-orange-700 transition duration-300 focus:outline-none"
+                    >
+                        Rechercher
+                    </button>
+                </div>
+            </div>
+            <div className="flex justify-center mb-8">
+                <div className="relative">
+                    <input
+                        type="text"
+                        value={prixMin}
+                        onChange={(e) => setPrixMin(parseFloat(e.target.value))}
+                        placeholder="Prix minimum"
+                        className="bg-white border border-gray-300 focus:outline-none focus:border-orange-500 px-4 py-2 rounded-full shadow-md pl-10" // Ajustement de la marge à gauche
+                    />
+                    <FiSearch className="absolute left-3 top-3 text-gray-400" /> {/* Ajout de l'icône de recherche */}
+                </div>
+                <div className="relative">
+                    <input
+                        type="text"
+                        value={prixMax}
+                        onChange={(e) => setPrixMax(parseFloat(e.target.value))}
+                        placeholder="Prix maximum"
+                        className="bg-white border border-gray-300 focus:outline-none focus:border-orange-500 px-4 py-2 rounded-full shadow-md pl-10" // Ajustement de la marge à gauche
+                    />
+                    <FiSearch className="absolute left-3 top-3 text-gray-400" /> {/* Ajout de l'icône de recherche */}
+                </div>
                 <button
                     onClick={handleSearch}
-                    className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg ml-4"
+                    className="bg-gradient-to-r from-orange-300 to-orange-500 text-white font-medium px-6 py-2 rounded-full shadow-md hover:from-orange-500 hover:to-orange-700 transition duration-300 focus:outline-none"
                 >
-                    Search
+                    Rechercher par gamme de prix
                 </button>
             </div>
-            <div className="mt-8 mx-10 sm:mx-20 md:mx-40 lg:mx-60">
-                <h2 className="text-4xl font-extrabold mb-12 text-center">Liste des Hôtels</h2>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+
+
+            <div className="container mx-auto mt-20 px-4 mb-20">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {hotels.map((hotel) => (
-                        <li key={hotel.id}
-                            className="border border-gray-300 rounded-lg shadow-xl overflow-hidden transform hover:scale-105 transition duration-300">
-                            <div className="relative">
-                                <img src={hotel.image} alt="Hotel" className="w-full h-64 object-cover"/>
-                            </div>
+                        <div key={hotel.id}
+                             className="bg-orange-100 rounded-full overflow-hidden text-center shadow-orange-200 shadow-lg transition-colors duration-200 hover:bg-orange-200 hover:text-orange-900">
+                            <img src={hotel.image} alt="Hotel" className="w-full h-64 object-cover rounded-full"/>
                             <div className="p-6">
-                                <h3 className="text-2xl font-semibold mb-2">{hotel.nom}</h3>
-                                <p className="text-gray-600 mb-4">{hotel.emplacement}</p>
-                                <p className="text-yellow-500 font-semibold">{hotel.nombreEtoiles} étoiles</p>
-                                <Link to={`/hotel/HotelDetails/${hotel.id}`} className="text-blue-600 hover:underline">
+                                <h3 className="text-xl font-semibold text-orange-900 mb-2">{hotel.nom}</h3>
+                                <p className="text-gray-600 mb-2">{hotel.emplacement}</p>
+                                <p className="text-yellow-600 font-semibold">{hotel.nombreEtoiles} étoiles</p>
+                                <Link to={`/hotel/HotelDetails/${hotel.id}`}
+                                      className="inline-block bg-orange-300 hover:bg-orange-700 text-white font-bold py-3 px-2 rounded-full transition-colors">
                                     Voir les détails
                                 </Link>
                             </div>
-                        </li>
+                        </div>
                     ))}
-                </ul>
+                </div>
             </div>
+
         </div>
     );
 };

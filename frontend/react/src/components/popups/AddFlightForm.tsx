@@ -77,7 +77,8 @@ const AddFlightForm: React.FC<AddFlightFormProps> = ({ onSubmit, onCancel }) => 
 
             try {
                 // Use the save function from your service
-                onSubmit(formData);
+                const response = await volService.save(formData); // Assuming volService is where your `save` method resides
+                console.log('Save successful:', response);
                 setIsSubmitting(false); // Reset submission state
                 Swal.fire({
                     title: 'Success!',

@@ -2,6 +2,8 @@ package com.project.srv.dao;
 
 import com.project.srv.bean.Paiement;
 import com.project.srv.bean.Reservation;
+import com.project.srv.bean.ReservationVol;
+import com.project.srv.bean.Reservationactivite;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +15,7 @@ import java.util.Optional;
 public interface PaiementDao extends JpaRepository<Paiement, Long> {
     List<Paiement> findByModePaiement(String modePaiement);
     Paiement findByRef(String ref);
+    Paiement findByReservationactivite(Reservationactivite reservationActivite);
 
     List<Paiement> findByDatePaiement(LocalDateTime datePaiement);
 
@@ -32,6 +35,8 @@ public interface PaiementDao extends JpaRepository<Paiement, Long> {
 
     // Méthode pour rechercher des paiements par réservation
     Paiement findByReservation(Reservation reservation);
+    Paiement findByReservationVol(ReservationVol reservationVol); // Nouvelle méthode de recherche
+
 
     // Méthode pour supprimer des paiements par mode de paiement
     void deleteByModePaiement(String modePaiement);
@@ -53,4 +58,5 @@ public interface PaiementDao extends JpaRepository<Paiement, Long> {
 
     // Méthode pour supprimer un paiement par son identifiant
     void deleteById(Long id);
+
 }

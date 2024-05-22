@@ -18,9 +18,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   function HandleUserClick() {
     navigate("/dashboard/user-crud");
   }
-  function HandleBookingClick() {}
-  function HandleReservationsClick() {}
-  function HandleActivitiesClick() {}
+  function HandleHotelClick() {
+    navigate("/dashboard/hotels-crud");
+  }
+
+  function HandleActivitiesClick() {
+    navigate("/dashboard/activites-crud");
+  }
+
+  
 
   function handleLogout() {
     sessionStorage.removeItem("isAuthenticated"); // Remove the authentication flag
@@ -56,15 +62,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           </li>
           <li className="p-2 hover:bg-gray-700 cursor-pointer">
             <button
-              onClick={HandleBookingClick}
-              className="p-2 hover:bg-gray-700 cursor-pointer"
-            >
-              {" "}
-              Booking
-            </button>
-          </li>
-          <li className="p-2 hover:bg-gray-700 cursor-pointer">
-            <button
               onClick={HandleFlightClick}
               className="p-2 hover:bg-gray-700 cursor-pointer"
             >
@@ -74,6 +71,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           </li>
           <li className="p-2 hover:bg-gray-700 cursor-pointer">
             <button
+              onClick={HandleHotelClick}
+              className="p-2 hover:bg-gray-700 cursor-pointer"
+            >
+              {" "}
+              Hotels
+            </button>
+          </li>
+          
+          <li className="p-2 hover:bg-gray-700 cursor-pointer">
+            <button
               onClick={HandleActivitiesClick}
               className="p-2 hover:bg-gray-700 cursor-pointer"
             >
@@ -81,15 +88,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               Activities
             </button>
           </li>
-          <li className="p-2 hover:bg-gray-700 cursor-pointer">
-            <button
-              onClick={HandleReservationsClick}
-              className="p-2 hover:bg-gray-700 cursor-pointer"
-            >
-              {" "}
-              Reservations
-            </button>
-          </li>
+          
 
           {/* Add more menu items here */}
         </ul>

@@ -21,6 +21,10 @@ public class Paiement {
 
     @OneToOne
     private Reservation reservation;
+    @OneToOne
+    private ReservationVol reservationVol; // Ajout de la relation avec ReservationVol
+    @OneToOne
+    private Reservationactivite reservationactivite;
 
     // Getter et setter pour le champ ref
     public String getRef() {
@@ -84,6 +88,13 @@ public class Paiement {
         return reservation;
     }
 
+    public void setReservationVol(ReservationVol reservationVol) {
+        this.reservationVol = reservationVol;
+    }
+    public ReservationVol getReservationVol() {
+        return reservationVol;
+    }
+
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
@@ -94,5 +105,11 @@ public class Paiement {
 
     public void setDatePaiement(LocalDateTime datePaiement) {
         this.datePaiement = datePaiement;
+    }
+    public Reservationactivite getReservationactivite() {
+        return reservationactivite;
+    }
+    public void setReservationactivite(Reservationactivite reservationactivite){
+        this.reservationactivite = reservationactivite;
     }
 }

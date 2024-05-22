@@ -8,8 +8,8 @@ const saveActivite = async (activite: Activite): Promise<number> => {
     return response.data;
 };
 
-const updateActivite = async (activite: Activite): Promise<number> => {
-    const response = await axios.put<number>(`${API_URL}/update`, activite);
+const updateActivite = async (id: number, activite: Activite): Promise<number> => {
+    const response = await axios.put<number>(`${API_URL}/update/${id}`, activite);
     return response.data;
 };
 

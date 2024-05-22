@@ -1,6 +1,7 @@
 package com.project.srv.bean;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -51,6 +52,7 @@ public class Hotel {
 
 
     @OneToMany(mappedBy = "hotel")
+    @JsonIgnore // Add this annotation
     private List<Reservation> reservations;
 
     @ManyToOne

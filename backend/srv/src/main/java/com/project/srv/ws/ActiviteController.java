@@ -25,9 +25,9 @@ public class ActiviteController {
     public int saveActivite(@RequestBody Activite activite) {
        return activiteService.saveActivite(activite);
     }
-    @PutMapping("/update")
-    public int updateActivite(@RequestBody Activite activite) {
-     return  activiteService.updateActivite(activite);
+    @PutMapping("/update/{id}")
+    public int updateActivite(@PathVariable Long id,@RequestBody Activite activite) {
+     return  activiteService.updateActivite(id, activite);
     }
 
     @GetMapping("/ville/{nomVille}")

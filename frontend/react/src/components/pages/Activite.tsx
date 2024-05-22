@@ -73,73 +73,74 @@ const App: React.FC = () => {
       console.error("Error searching for activites:", error);
     }
   };
-  
+
 
   return (
-    <div className="rounded-t-lg p-4 mt-40 w-full">
-      <div className="rounded-lg mx-60 p-4 flex items-center border-yellow">
-        <div className="mr-4">
-          <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            {/* Replace with your desired SVG icon */}
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+      <div className="rounded-t-lg p-4 mt-40 w-full">
+        <div className="rounded-lg mx-60 p-4 flex items-center border-gray-300">
+          <div className="mr-4">
+            <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {/* Replace with your desired SVG icon */}
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+          <select
+              value={selectedVille}
+              onChange={(e) => setSelectedVille(e.target.value)}
+              className="flex-grow bg-transparent border-0 focus:outline-none w-1/2"
+          >
+            <option value="">Select a city</option>
+            {villes.map((ville) => (
+                <option key={ville} value={ville}>{ville}</option>
+            ))}
+          </select>
+          <div className="ml-4 mr-2">
+            <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {/* Replace with your desired SVG icon */}
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <DatePicker
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              className="flex-grow bg-transparent border-0 focus:outline-none"
+              placeholderText="Select your dates"
+              dateFormat="yyyy-MM-dd" // Format de date souhaité
+          />
+          <button
+              onClick={handleSearch}
+              className="bg-orange-500 text-white font-medium px-4 py-2 rounded-lg ml-4"
+          >
+            Search
+          </button>
         </div>
-        <select
-          value={selectedVille}
-          onChange={(e) => setSelectedVille(e.target.value)}
-          className="flex-grow bg-transparent border-0 focus:outline-none w-1/2"
-        >
-          <option value="">Select a city</option>
-          {villes.map((ville) => (
-            <option key={ville} value={ville}>{ville}</option>
-          ))}
-        </select>
-        <div className="ml-4 mr-2">
-          <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            {/* Replace with your desired SVG icon */}
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-        </div>
-        <DatePicker
-          selected={selectedDate}
-          onChange={(date) => setSelectedDate(date)}
-          className="flex-grow bg-transparent border-0 focus:outline-none"
-          placeholderText="Select your dates"
-          dateFormat="yyyy-MM-dd" // Format de date souhaité
-        />
-        <button
-          onClick={handleSearch}
-          className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg ml-4"
-        >
-          Search
-        </button>
-      </div>
-      {/* Affiche la liste des activités */}
-      <div className="mt-8 mx-10 sm:mx-20 md:mx-40 lg:mx-60">
-                <h2 className="text-4xl font-extrabold mb-12 text-center">Liste des Activités</h2>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-                    {activites.map((activite) => (
-                        <li key={activite.id}
-                            className="border border-gray-300 rounded-lg shadow-xl overflow-hidden transform hover:scale-105 transition duration-300">
-                            <div className="relative">
-                                <img src={activite.image} alt="Hotel" className="w-full h-64 object-cover"/>
-                                <div className="absolute inset-0 bg-black opacity-50"></div>
-                            </div>
-                            <div className="p-6">
-    <h3 className="text-2xl font-semibold mb-2">{activite.nom}</h3>
-    <p className="text-gray-600 mb-4">{activite.lieu}</p>
-    <p className="text-yellow-500 font-semibold">{activite.prix} DH</p>
-    <Link to={`/activity/ActiviteDetails/${activite.id}`} className="text-blue-600 hover:underline">
-    Voir les détails
-</Link>
+
+
+  {/* Affiche la liste des activités */
+  }
+  <div className="container mx-auto mt-20 px-4 mb-20">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {activites.map((activite) => (
+          <div key={activite.id}
+               className="bg-orange-100 rounded-full overflow-hidden text-center shadow-orange-200 shadow-lg transition-colors duration-200 hover:bg-orange-200 hover:text-orange-900">
+            <img src={activite.image} alt="Hotel" className="w-full h-64 object-cover rounded-full"/>
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-orange-900 mb-2">{activite.nom}</h3>
+              <p className="text-gray-600 mb-2">{activite.lieu}</p>
+              <Link to={`/activity/ActiviteDetails/${activite.id}`} className="text-blue-600 hover:underline">
+                Voir les détails
+              </Link>
+            </div>
+          </div>
+      ))}
+    </div>
+  </div>
 
 </div>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            </div>
-  );
+)
+  ;
 };
 
 export default App;

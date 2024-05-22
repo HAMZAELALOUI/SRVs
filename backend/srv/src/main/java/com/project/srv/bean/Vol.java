@@ -1,9 +1,11 @@
     package com.project.srv.bean;
 
+    import com.fasterxml.jackson.annotation.JsonIgnore;
     import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
     import jakarta.persistence.*;
 
     import java.time.LocalDate;
+    import java.util.List;
 
     @Entity
     @JsonIgnoreProperties
@@ -21,6 +23,10 @@
         private float prix;
         private int placesDisponibles;
         private String imageUrl;
+
+        @OneToMany(mappedBy = "vol")
+        @JsonIgnore // Assurez-vous que cette annotation est toujours appropriée selon vos besoins
+        private List<ReservationVol> reservationVol;
 
         public Vol(int idVol, Ville origin, Ville destination, LocalDate heureDepart, LocalDate heureArrivee, float prix, int placesDisponibles, String imageUrl) {
             this.idVol = idVol;

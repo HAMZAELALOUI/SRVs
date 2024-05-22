@@ -93,8 +93,8 @@ public class ActiviteService {
         activiteDao.save(activite);
         return 1; // Succès
     }
-    public int updateActivite(Activite activite) {
-        Activite existingActivite = activiteDao.findById(activite.getId()).orElse(null);
+    public int updateActivite(Long id, Activite activite) {
+        Activite existingActivite = activiteDao.findById(id).orElse(null);
         if (existingActivite != null) {
             existingActivite.setNom(activite.getNom());
             existingActivite.setLieu(activite.getLieu());

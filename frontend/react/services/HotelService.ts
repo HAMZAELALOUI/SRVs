@@ -24,17 +24,25 @@ const findByDateAAndDateD = async (dateA: string | null, dateD: string | null): 
 };
 
 const saveHotel = async (hotel: Hotel): Promise<Hotel> => {
-    const response = await axios.post<Hotel>(`${API_URL}/save`, hotel);
+    const response = await axios.post<Hotel>(`${API_URL}/save`, hotel, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
     return response.data;
 };
 
 const updateHotel = async (id: number, hotelDetails: Hotel): Promise<Hotel> => {
-    const response = await axios.put<Hotel>(`${API_URL}/update/${id}`, hotelDetails);
+    const response = await axios.put<Hotel>(`${API_URL}/update/${id}`, hotelDetails, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
     return response.data;
 };
 
 const deleteHotel = async (id: number): Promise<void> => {
-    await axios.delete(`${API_URL}/${id}`);
+    await axios.delete(`${API_URL}/id/${id}`);
 };
 
 const findByReservationId = async (reservationId: number): Promise<Hotel[]> => {
@@ -78,14 +86,10 @@ const findByNomVilleAndDateAAndDateD = async (nomVille: string, dateA: string, d
     const response = await axios.get<Hotel[]>(`${API_URL}/ville/${nomVille}/date/${dateA}/${dateD}`);
     return response.data;
 };
-const findActiviteWithVilleById = async (hotelid:number) => {
-    try {
-        const response = await axios.get(`${API_URL}/hotel/HotelDetails/${hotelid}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching hotel details:', error);
-        throw error;
-    }
+
+const findActiviteWithVilleById = async (hotelid: number) => {
+    const response = await axios.get(`${API_URL}/hotel/HotelDetails/${hotelid}`);
+    return response.data;
 };
 
 const getAllHotels = async (): Promise<Hotel[]> => {
@@ -112,4 +116,5 @@ export const hotelService = {
     findByPrixChambresLessThan,
     findByPrixChambresBetween,
     findActiviteWithVilleById,
+
 };

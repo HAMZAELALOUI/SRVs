@@ -138,7 +138,7 @@ public class UtilisateurSevice {
 
     @Transactional
     public void deleteByEmail(String email) {
-        utilisateurDao.findByEmail(email);
+        utilisateurDao.deleteByEmail(email);
     }
 
     @Transactional

@@ -2,6 +2,7 @@ package com.project.srv.ws;
 
 import com.project.srv.bean.Hotel;
 import com.project.srv.bean.Ville;
+import com.project.srv.exeption.InvalidDataException;
 import com.project.srv.service.HotelService;
 import com.project.srv.service.VilleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/Gestion-Vol/Hotel")
 public class HotelController {
@@ -54,6 +55,13 @@ public class HotelController {
         return hotelService.findByNom(nom);
     }
 
+
+    @DeleteMapping("/id/{id}")
+    @Transactional
+    public void deleteById(@PathVariable Long id) {
+        hotelService.deleteById(id);
+    }
+
     @DeleteMapping("/emplacement/{emplacement}")
     @Transactional
     public void deleteByEmplacement(@PathVariable String emplacement) {
@@ -73,15 +81,19 @@ public class HotelController {
     }
 
     @PostMapping("/save")
-    public int saveHotel(@RequestBody Hotel hotel) {
-        return hotelService.saveHotel(hotel);
+    public void saveHotel(@RequestBody Hotel hotel) {
+        try {
+            hotelService.saveHotel(hotel);
+        } catch (InvalidDataException e) {
+            System.out.printf(e.getMessage());
+        }
     }
 
-    @PutMapping("/update")
-    public int updateHotel(@RequestBody Hotel hotel) {
-        return hotelService.updateHotel(hotel);
+    @PutMapping("/update/{id}")
+    public int updateHotel(@PathVariable Long id, @RequestBody Hotel hotel) {
+        // Update the hotel with the provided ID
+        return hotelService.updateHotel(id, hotel);
     }
-
     @GetMapping("/prixChambres/lessThan/{prixMax}")
     public List<Hotel> findByPrixChambresLessThan(@PathVariable double prixMax) {
         return hotelService.findByPrixChambresLessThan(prixMax);

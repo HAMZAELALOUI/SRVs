@@ -4,6 +4,7 @@ import com.project.srv.bean.Hotel;
 import com.project.srv.bean.Ville;
 import com.project.srv.dao.HotelDao;
 import com.project.srv.dao.VilleDao;
+import com.project.srv.exeption.InvalidDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,6 +24,11 @@ public class HotelService {
     private HotelDao hotelDao;
     @Autowired
     private VilleDao villeDao;
+
+    public Optional<Hotel> getHotelById(Long id) {
+        return hotelDao.findById(id);
+    }
+
 
     public String getImagePath() {
         // Implémentez cette méthode pour récupérer le chemin de l'image depuis la base de données
@@ -59,6 +65,9 @@ public class HotelService {
     }
 
     @Transactional
+    public void deleteById(Long id) { hotelDao.deleteById(id);}
+
+    @Transactional
     public void deleteByEmplacement(String emplacement) {
         hotelDao.deleteByEmplacement(emplacement);
     }
@@ -75,54 +84,57 @@ public class HotelService {
 
 
     @Transactional
-    public int saveHotel(Hotel hotel) {
+    public void saveHotel(Hotel hotel) throws InvalidDataException {
+        // Check if the hotel ID is not null and it already exists in the database
         if (hotel.getId() != null && hotelDao.existsById(hotel.getId())) {
-            return -1;
+            throw new InvalidDataException("Hotel with the same ID already exists");
         }
+
+        // Check if the hotel name is null or empty
         if (hotel.getNom() == null || hotel.getNom().isEmpty()) {
-            // Handle cases where the hotel name is empty or null
-            return -2;
+            throw new InvalidDataException("Hotel name is empty or null");
         }
 
         // Ensure the Ville object is set for the hotel
         Ville ville = hotel.getVille();
         if (ville == null || ville.getId() == null) {
-            // Handle cases where the Ville is not set or not valid
-            return -3;
+            throw new InvalidDataException("Ville object or its ID is null");
         }
 
+        // Check if the number of stars is within the valid range (1 to 5)
         int nombreEtoiles = hotel.getNombreEtoiles();
         if (nombreEtoiles < 1 || nombreEtoiles > 5) {
-            return -4;
+            throw new InvalidDataException("Invalid number of stars");
         }
+
+        // Check if the price of rooms is non-negative
         if (hotel.getPrixChambres() <= 0) {
-            return -5;
+            throw new InvalidDataException("Invalid room price");
         }
 
         // Save the hotel along with its associated Ville
         hotelDao.save(hotel);
-
-        return 1;
     }
 
     public List<Hotel> findByNomVille(String nomVille) {
         return hotelDao.findByVilleNom(nomVille);
     }
 
-    public int updateHotel(Hotel hotel) {
-        Hotel existingHotel = hotelDao.findById(hotel.getId()).orElse(null);
+    public int updateHotel(Long id, Hotel hotel) {
+        Hotel existingHotel = hotelDao.findById(id).orElse(null);
         if (existingHotel != null) {
             existingHotel.setNom(hotel.getNom());
             existingHotel.setEmplacement(hotel.getEmplacement());
             existingHotel.setDescription(hotel.getDescription());
             existingHotel.setNombreEtoiles(hotel.getNombreEtoiles());
             existingHotel.setPrixChambres(hotel.getPrixChambres());
+            existingHotel.setImage(hotel.getImage());
+            existingHotel.setVille(hotel.getVille());
 
             hotelDao.save(existingHotel);
-            return 1;
+            return 1; // Updated existing hotel successfully
         } else {
-            hotelDao.save(hotel);
-            return 2;
+            return -1; // Hotel with the given ID not found
         }
     }
 

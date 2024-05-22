@@ -26,7 +26,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
                     <th className="py-3 px-4 uppercase font-semibold text-sm text-left">Phone</th>
                     <th className="py-3 px-4 uppercase font-semibold text-sm text-left">Age</th>
                     <th className="py-3 px-4 uppercase font-semibold text-sm text-left">Address</th>
-                    <th className="py-3 px-4 uppercase font-semibold text-sm">Actions</th>
+                    
                 </tr>
                 </thead>
                 <tbody className="text-gray-700">
@@ -40,9 +40,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
                         <td className="py-3 px-4">{user.phone}</td>
                         <td className="py-3 px-4">{user.age}</td>
                         <td className="py-3 px-4">{user.address}</td>
-                        <td className="py-3 px-4 text-center">
-                            <button onClick={() => onEditClick(user)} className="text-indigo-600 hover:text-indigo-900">Edit</button>
-                        </td>
+                        
                     </tr>
                 ))}
                 </tbody>

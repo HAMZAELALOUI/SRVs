@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-@CrossOrigin(origins = "http://localhost:5173")
+
 @RestController
 @RequestMapping("/srv/vols")
 public class VolController {
@@ -204,40 +204,41 @@ public class VolController {
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Update a vol
-    @PostMapping("/")
-    public ResponseEntity<?> save(
+
+    @PostMapping(value = "/", consumes = "multipart/form-data")
+    public ResponseEntity<?> createVol(
             @RequestParam("originId") Long originId,
             @RequestParam("destinationId") Long destinationId,
-            @RequestParam("heureDepart") LocalDate heureDepart,
-            @RequestParam("heureArrivee") LocalDate heureArrivee,
+            @RequestParam("heureDepart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate heureDepart,
+            @RequestParam("heureArrivee") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate heureArrivee,
             @RequestParam("prix") float prix,
             @RequestParam("placesDisponibles") int placesDisponibles,
-            @RequestParam(value = "image", required = false) MultipartFile image
+            @RequestPart(value = "image", required = false) MultipartFile image
     ) {
-        try {
-            Ville origin = villeService.findById(originId).orElseThrow(() -> new Exception("Origin not found"));
-            Ville destination = villeService.findById(destinationId).orElseThrow(() -> new Exception("Destination not found"));
+        Ville origin = villeService.findById(originId)
+                .orElseThrow(() -> new RuntimeException("Origin not found"));
+        Ville destination = villeService.findById(destinationId)
+                .orElseThrow(() -> new RuntimeException("Destination not found"));
 
-            Vol vol = new Vol();
-            vol.setOrigin(origin);
-            vol.setDestination(destination);
-            vol.setHeureDepart(heureDepart);
-            vol.setHeureArrivee(heureArrivee);
-            vol.setPrix(prix);
-            vol.setPlacesDisponibles(placesDisponibles);
+        Vol newVol = new Vol();
+        newVol.setOrigin(origin);
+        newVol.setDestination(destination);
+        newVol.setHeureDepart(heureDepart);
+        newVol.setHeureArrivee(heureArrivee);
+        newVol.setPrix(prix);
+        newVol.setPlacesDisponibles(placesDisponibles);
 
-            if (!image.isEmpty()) {
-                String filePath = volService.storeFile(image);
-                vol.setImageUrl(filePath);
-            }
-
-            Vol savedVol = volService.save(vol);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedVol);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error saving Vol: " + e.getMessage());
+        // Handle image upload
+        if (image != null && !image.isEmpty()) {
+            String filePath = volService.storeFile(image);
+            newVol.setImageUrl(filePath);
         }
+
+        Vol savedVol = volDao.save(newVol);
+        return ResponseEntity.ok(savedVol);
+
     }
+    // Update a vol
 
     // Delete a vol
     @DeleteMapping("/{id}")

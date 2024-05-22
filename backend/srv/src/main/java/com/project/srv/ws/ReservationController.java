@@ -1,5 +1,6 @@
 package com.project.srv.ws;
 
+import com.project.srv.bean.Hotel;
 import com.project.srv.bean.Reservation;
 import com.project.srv.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,10 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @GetMapping("/hotel/{hotelId}")
-    public List<Reservation> findByHotelId(@PathVariable Long hotelId) {
+    public Reservation findByHotelId(@PathVariable Long hotelId) {
         return reservationService.findByHotelId(hotelId);
     }
+
 
     @GetMapping("/{id}")
     public Reservation getReservationById(@PathVariable Long id) {
@@ -29,6 +31,18 @@ public class ReservationController {
     public void deleteByHotelId(@PathVariable Long hotelId) {
         reservationService.deleteByHotelId(hotelId);
     }
+    @GetMapping("/hotel")
+    public Reservation findByHotel(@RequestBody Hotel hotel) {
+        return reservationService.findByHotel(hotel);
+    }
 
-    // Vous pouvez ajouter d'autres méthodes de web service personnalisées ici si nécessaire
+    @PutMapping("/update")
+    public Reservation updateReservation(@RequestBody Reservation reservation) {
+        return reservationService.updateReservation(reservation);
+    }
+    @PostMapping("/save")
+    public Reservation saveReservation(@RequestBody Reservation reservation) {
+        return reservationService.saveReservation(reservation);
+    }
+
 }
